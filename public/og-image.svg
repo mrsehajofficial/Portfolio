@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#09090f"/>
+      <stop offset="50%" stop-color="#12131f"/>
+      <stop offset="100%" stop-color="#09090f"/>
+    </linearGradient>
+    <linearGradient id="primary-glow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="50%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+    <linearGradient id="accent-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <filter id="blur-orb" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="90"/>
+    </filter>
+  </defs>
+
+  <!-- Background Layer -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Glowing Background Orbs -->
+  <circle cx="200" cy="150" r="250" fill="#6366f1" opacity="0.25" filter="url(#blur-orb)"/>
+  <circle cx="1000" cy="500" r="300" fill="#a855f7" opacity="0.2" filter="url(#blur-orb)"/>
+
+  <!-- Subtle Grid Lines -->
+  <g opacity="0.05" stroke="#ffffff" stroke-width="1">
+    <path d="M 0 100 L 1200 100 M 0 200 L 1200 200 M 0 300 L 1200 300 M 0 400 L 1200 400 M 0 500 L 1200 500"/>
+    <path d="M 200 0 L 200 630 M 400 0 L 400 630 M 600 0 L 600 630 M 800 0 L 800 630 M 1000 0 L 1000 630"/>
+  </g>
+
+  <!-- Main Card Container -->
+  <rect x="60" y="60" width="1080" height="510" rx="24" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1.5"/>
+
+  <!-- Top Badge -->
+  <g transform="translate(100, 120)">
+    <rect width="240" height="40" rx="20" fill="url(#primary-glow)" opacity="0.2"/>
+    <rect width="240" height="40" rx="20" stroke="url(#primary-glow)" stroke-width="1.5" fill="none"/>
+    <circle cx="25" cy="20" r="5" fill="#10b981"/>
+    <text x="42" y="25" font-family="'Inter', sans-serif" font-size="14" font-weight="600" fill="#34d399" letter-spacing="0.5">OPEN TO WORK</text>
+  </g>
+
+  <!-- Name Title -->
+  <text x="100" y="240" font-family="'Manrope', 'Inter', sans-serif" font-size="64" font-weight="800" fill="#ffffff" letter-spacing="-1">
+    Sehaj Varma
+  </text>
+
+  <!-- Subtitle -->
+  <text x="100" y="300" font-family="'Inter', sans-serif" font-size="32" font-weight="700" fill="url(#primary-glow)">
+    AI Automation Engineer &amp; Backend Developer
+  </text>
+
+  <!-- Tagline / Description -->
+  <text x="100" y="360" font-family="'Inter', sans-serif" font-size="20" font-weight="400" fill="#94a3b8" width="800">
+    Building intelligent agents, Python automation suites, RAG pipelines, and scalable APIs.
+  </text>
+
+  <!-- Skill Badges -->
+  <g transform="translate(100, 420)">
+    <!-- Skill 1 -->
+    <g transform="translate(0, 0)">
+      <rect width="150" height="44" rx="12" fill="#1e1b4b" stroke="#6366f1" stroke-width="1"/>
+      <text x="75" y="27" font-family="'Inter', sans-serif" font-size="16" font-weight="600" fill="#a5b4fc" text-anchor="middle">AI &amp; LLMs</text>
+    </g>
+    <!-- Skill 2 -->
+    <g transform="translate(165, 0)">
+      <rect width="140" height="44" rx="12" fill="#1e1b4b" stroke="#6366f1" stroke-width="1"/>
+      <text x="70" y="27" font-family="'Inter', sans-serif" font-size="16" font-weight="600" fill="#a5b4fc" text-anchor="middle">Python</text>
+    </g>
+    <!-- Skill 3 -->
+    <g transform="translate(320, 0)">
+      <rect width="210" height="44" rx="12" fill="#1e1b4b" stroke="#6366f1" stroke-width="1"/>
+      <text x="105" y="27" font-family="'Inter', sans-serif" font-size="16" font-weight="600" fill="#a5b4fc" text-anchor="middle">Backend Architecture</text>
+    </g>
+    <!-- Skill 4 -->
+    <g transform="translate(545, 0)">
+      <rect width="180" height="44" rx="12" fill="#1e1b4b" stroke="#6366f1" stroke-width="1"/>
+      <text x="90" y="27" font-family="'Inter', sans-serif" font-size="16" font-weight="600" fill="#a5b4fc" text-anchor="middle">RAG Pipelines</text>
+    </g>
+  </g>
+
+  <!-- Bottom Brand / Link -->
+  <g transform="translate(100, 520)">
+    <text x="0" y="0" font-family="'Inter', sans-serif" font-size="16" font-weight="500" fill="#64748b">
+      https://www.bitbridge.work.gd/
+    </text>
+  </g>
+</svg>

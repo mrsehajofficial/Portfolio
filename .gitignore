@@ -1,0 +1,28 @@
+# ── Dependencies ────────────────────────────────────────────────
+# NEVER committed / uploaded: platforms install these themselves
+# from package.json + package-lock.json on their own servers.
+/node_modules
+
+# ── Build output ────────────────────────────────────────────────
+# Regenerated from source on every deploy (`npm run build`).
+/.next
+/out
+
+# TypeScript incremental-build cache
+*.tsbuildinfo
+
+# ── Environment & secrets ───────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── OS junk ─────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Logs & misc ─────────────────────────────────────────────────
+npm-debug.log*
+*.log
+
+# Host-specific
+.vercel

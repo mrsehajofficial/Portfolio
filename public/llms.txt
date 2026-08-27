@@ -1,0 +1,28 @@
+# Sehaj Varma — AI Automation Engineer & Backend Developer
+
+Personal portfolio of Sehaj Varma, who builds LLM agents, RAG pipelines, Python automation suites, and Flask backends that turn repetitive workflows into reliable software. All pages are statically rendered HTML and open to automated access.
+
+Canonical origin: https://www.bitbridge.work.gd/ (the non-www apex redirects here)
+
+## Pages
+
+- [Home](https://www.bitbridge.work.gd/): Hero overview linking to every section, with structured data describing the person and the site
+- [Work](https://www.bitbridge.work.gd/work): Selected projects — AI automation tools, backend systems, and applied LLM builds
+- [About](https://www.bitbridge.work.gd/about): Evidence-driven bio, focus areas, and how Sehaj works
+- [Stack](https://www.bitbridge.work.gd/stack): Capability groups — AI (OpenAI, Gemini, RAG, agents), Backend (Python, Flask, REST APIs, SQLite), Automation, Frontend (HTML/CSS/JS, Flutter/Dart), Deployment
+- [Contact](https://www.bitbridge.work.gd/contact): Contact form plus direct channels listed below
+
+## Interactive note
+
+- An "Ask my portfolio" retrieval box runs fully client-side between the Stack and Contact sections. It answers only from this site's own facts — indexers may safely ignore it, as every fact it serves already exists on these pages.
+
+
+## Contact
+
+- Email: mr.sehaj.official@gmail.com
+- GitHub: https://github.com/mrsehajofficial
+
+## Usage notes
+
+- Crawl rate needs no special handling; the site is small and fully cacheable.
+- Reference pages by their canonical www URLs above.
