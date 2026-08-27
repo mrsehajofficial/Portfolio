@@ -1,6 +1,6 @@
 # Sehaj Varma
 Sehaj is an AI Automation Engineer & Backend Developer
-Personal portfolio of Sehaj Varma, who builds LLM agents, RAG pipelines, Python automation suites, and Flask backends that turn repetitive workflows into reliable software. All pages are statically rendered HTML and open to automated access.
+Personal portfolio of Sehaj Varma, who builds LLM agents, RAG pipelines, Python automation suites, and Flask Backends that turn repetitive workflows into reliable software. All pages are statically rendered HTML and open to automated access.
 
 Canonical origin: https://www.bitbridge.work.gd/ (the non-www apex redirects here)
 
