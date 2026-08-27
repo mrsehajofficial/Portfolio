@@ -1,8 +1,22 @@
-# Sehaj Varma — AI Automation Engineer & Backend Developer
-
+# Sehaj Varma
+Sehaj is an AI Automation Engineer & Backend Developer
 Personal portfolio of Sehaj Varma, who builds LLM agents, RAG pipelines, Python automation suites, and Flask backends that turn repetitive workflows into reliable software. All pages are statically rendered HTML and open to automated access.
 
 Canonical origin: https://www.bitbridge.work.gd/ (the non-www apex redirects here)
+
+## Key facts
+
+- Role: AI Automation Engineer & Backend Developer
+- Location: India — open to remote work worldwide
+- Flagship project: Amai Yuki, a cross-platform real-time messaging application with direct & group chats, a custom in-app camera module, and Provider-based state architecture
+- Amai Yuki stack: Python/Flask REST backend with SQLite persistence + Flutter/Dart frontend
+- Amai Yuki availability: open-source frontend testable today at https://github.com/mrsehajofficial/Amai-Yuki ; backend private but fully functional
+- Automation: 10+ private Python scripts spanning scheduled jobs, file processing pipelines, and API-to-API integrations
+- AI experience: OpenAI & Gemini API integrations, prompt orchestration engineering, RAG (Retrieval-Augmented Generation) architecture study, conversational agents connecting LLMs to external APIs
+- Backend focus: structured Flask REST APIs, clean SQLite schemas, input validation, modular documented codebases
+- Frontend focus: responsive accessible HTML/CSS/JavaScript interfaces; Flutter/Dart mobile development
+- Deployment platforms shipped to: Vercel, Netlify, Render, Wasmer
+- Currently available for: AI automation · Python backends · API integration · freelance projects
 
 ## Pages
 
