@@ -1,91 +1,266 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#09090f"/>
-      <stop offset="50%" stop-color="#12131f"/>
-      <stop offset="100%" stop-color="#09090f"/>
+    <!-- Core palette from favicon -->
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#080809"/>
+      <stop offset="55%" stop-color="#0a0a0b"/>
+      <stop offset="100%" stop-color="#0d0f0e"/>
     </linearGradient>
-    <linearGradient id="primary-glow" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#6366f1"/>
-      <stop offset="50%" stop-color="#a855f7"/>
-      <stop offset="100%" stop-color="#ec4899"/>
+
+    <linearGradient id="greenLine" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3ecf8e" stop-opacity="0"/>
+      <stop offset="35%" stop-color="#3ecf8e" stop-opacity=".9"/>
+      <stop offset="100%" stop-color="#3ecf8e" stop-opacity="0"/>
     </linearGradient>
-    <linearGradient id="accent-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#06b6d4"/>
-      <stop offset="100%" stop-color="#3b82f6"/>
-    </linearGradient>
-    <filter id="blur-orb" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="90"/>
+
+    <radialGradient id="greenGlow">
+      <stop offset="0%" stop-color="#3ecf8e" stop-opacity=".14"/>
+      <stop offset="100%" stop-color="#3ecf8e" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="35"/>
+    </filter>
+
+    <filter id="tinyGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="8"/>
     </filter>
   </defs>
 
-  <!-- Background Layer -->
+  <!-- =====================================================
+       BACKGROUND
+       ===================================================== -->
+
   <rect width="1200" height="630" fill="url(#bg)"/>
 
-  <!-- Glowing Background Orbs -->
-  <circle cx="200" cy="150" r="250" fill="#6366f1" opacity="0.25" filter="url(#blur-orb)"/>
-  <circle cx="1000" cy="500" r="300" fill="#a855f7" opacity="0.2" filter="url(#blur-orb)"/>
+  <!-- Extremely subtle cinematic light -->
+  <ellipse
+    cx="1040"
+    cy="80"
+    rx="420"
+    ry="300"
+    fill="url(#greenGlow)"
+  />
 
-  <!-- Subtle Grid Lines -->
-  <g opacity="0.05" stroke="#ffffff" stroke-width="1">
-    <path d="M 0 100 L 1200 100 M 0 200 L 1200 200 M 0 300 L 1200 300 M 0 400 L 1200 400 M 0 500 L 1200 500"/>
-    <path d="M 200 0 L 200 630 M 400 0 L 400 630 M 600 0 L 600 630 M 800 0 L 800 630 M 1000 0 L 1000 630"/>
+  <ellipse
+    cx="1060"
+    cy="90"
+    rx="150"
+    ry="120"
+    fill="#3ecf8e"
+    opacity=".035"
+    filter="url(#softGlow)"
+  />
+
+  <!-- Subtle vignette -->
+  <rect
+    width="1200"
+    height="630"
+    fill="none"
+    stroke="#000000"
+    stroke-width="80"
+    opacity=".18"
+  />
+
+  <!-- =====================================================
+       SIGNATURE MOTIF
+       A restrained interpretation of </> rather than
+       simply displaying the favicon.
+       ===================================================== -->
+
+  <g transform="translate(1010 72)">
+
+    <!-- tiny green point -->
+    <circle
+      cx="0"
+      cy="0"
+      r="3"
+      fill="#3ecf8e"
+    />
+
+    <!-- signature line -->
+    <path
+      d="M 0 0
+         C 42 0, 70 10, 92 30
+         C 112 48, 130 58, 164 58"
+      fill="none"
+      stroke="#3ecf8e"
+      stroke-width="1"
+      opacity=".55"
+    />
+
+    <!-- subtle code-inspired marks -->
+    <path
+      d="M 112 38 L 128 58 L 112 78"
+      fill="none"
+      stroke="#3ecf8e"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      opacity=".8"
+    />
+
+    <path
+      d="M 145 38 L 129 78"
+      fill="none"
+      stroke="#3ecf8e"
+      stroke-width="2"
+      stroke-linecap="round"
+      opacity=".55"
+    />
+
   </g>
 
-  <!-- Main Card Container -->
-  <rect x="60" y="60" width="1080" height="510" rx="24" fill="#ffffff" fill-opacity="0.03" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1.5"/>
+  <!-- =====================================================
+       TOP MICRO IDENTITY
+       ===================================================== -->
 
-  <!-- Top Badge -->
-  <g transform="translate(100, 120)">
-    <rect width="240" height="40" rx="20" fill="url(#primary-glow)" opacity="0.2"/>
-    <rect width="240" height="40" rx="20" stroke="url(#primary-glow)" stroke-width="1.5" fill="none"/>
-    <circle cx="25" cy="20" r="5" fill="#10b981"/>
-    <text x="42" y="25" font-family="'Inter', sans-serif" font-size="14" font-weight="600" fill="#34d399" letter-spacing="0.5">OPEN TO WORK</text>
-  </g>
+  <text
+    x="82"
+    y="78"
+    font-family="Inter, Helvetica, Arial, sans-serif"
+    font-size="15"
+    font-weight="600"
+    letter-spacing="4"
+    fill="#3ecf8e"
+  >
+    &lt;/&gt;
+  </text>
 
-  <!-- Name Title -->
-  <text x="100" y="240" font-family="'Manrope', 'Inter', sans-serif" font-size="64" font-weight="800" fill="#ffffff" letter-spacing="-1">
+  <text
+    x="125"
+    y="78"
+    font-family="Inter, Helvetica, Arial, sans-serif"
+    font-size="13"
+    font-weight="500"
+    letter-spacing="2"
+    fill="#666968"
+  >
+    PERSONAL PORTFOLIO
+  </text>
+
+  <!-- =====================================================
+       MAIN IDENTITY
+       ===================================================== -->
+
+  <text
+    x="82"
+    y="280"
+    font-family="Inter, Helvetica, Arial, sans-serif"
+    font-size="72"
+    font-weight="700"
+    letter-spacing="-3"
+    fill="#f4f5f4"
+  >
     Sehaj Varma
   </text>
 
-  <!-- Subtitle -->
-  <text x="100" y="300" font-family="'Inter', sans-serif" font-size="32" font-weight="700" fill="url(#primary-glow)">
-    AI Automation Engineer &amp; Backend Developer
+  <!-- Accent underline / signature stroke -->
+  <path
+    d="M 84 306
+       C 150 314, 235 313, 340 307
+       C 405 303, 450 303, 495 305"
+    fill="none"
+    stroke="#3ecf8e"
+    stroke-width="2"
+    stroke-linecap="round"
+    opacity=".9"
+  />
+
+  <!-- =====================================================
+       ROLE
+       ===================================================== -->
+
+  <text
+    x="84"
+    y="365"
+    font-family="Inter, Helvetica, Arial, sans-serif"
+    font-size="24"
+    font-weight="500"
+    letter-spacing=".2"
+    fill="#a7aaa8"
+  >
+    AI Automation Engineer
   </text>
 
-  <!-- Tagline / Description -->
-  <text x="100" y="360" font-family="'Inter', sans-serif" font-size="20" font-weight="400" fill="#94a3b8" width="800">
-    Building intelligent agents, Python automation suites, RAG pipelines, and scalable APIs.
+  <text
+    x="84"
+    y="400"
+    font-family="Inter, Helvetica, Arial, sans-serif"
+    font-size="24"
+    font-weight="500"
+    letter-spacing=".2"
+    fill="#a7aaa8"
+  >
+    &amp; Backend Developer
   </text>
 
-  <!-- Skill Badges -->
-  <g transform="translate(100, 420)">
-    <!-- Skill 1 -->
-    <g transform="translate(0, 0)">
-      <rect width="150" height="44" rx="12" fill="#1e1b4b" stroke="#6366f1" stroke-width="1"/>
-      <text x="75" y="27" font-family="'Inter', sans-serif" font-size="16" font-weight="600" fill="#a5b4fc" text-anchor="middle">AI &amp; LLMs</text>
-    </g>
-    <!-- Skill 2 -->
-    <g transform="translate(165, 0)">
-      <rect width="140" height="44" rx="12" fill="#1e1b4b" stroke="#6366f1" stroke-width="1"/>
-      <text x="70" y="27" font-family="'Inter', sans-serif" font-size="16" font-weight="600" fill="#a5b4fc" text-anchor="middle">Python</text>
-    </g>
-    <!-- Skill 3 -->
-    <g transform="translate(320, 0)">
-      <rect width="210" height="44" rx="12" fill="#1e1b4b" stroke="#6366f1" stroke-width="1"/>
-      <text x="105" y="27" font-family="'Inter', sans-serif" font-size="16" font-weight="600" fill="#a5b4fc" text-anchor="middle">Backend Architecture</text>
-    </g>
-    <!-- Skill 4 -->
-    <g transform="translate(545, 0)">
-      <rect width="180" height="44" rx="12" fill="#1e1b4b" stroke="#6366f1" stroke-width="1"/>
-      <text x="90" y="27" font-family="'Inter', sans-serif" font-size="16" font-weight="600" fill="#a5b4fc" text-anchor="middle">RAG Pipelines</text>
-    </g>
-  </g>
+  <!-- =====================================================
+       CINEMATIC DIVIDER
+       ===================================================== -->
 
-  <!-- Bottom Brand / Link -->
-  <g transform="translate(100, 520)">
-    <text x="0" y="0" font-family="'Inter', sans-serif" font-size="16" font-weight="500" fill="#64748b">
-      https://www.bitbridge.work.gd/
-    </text>
-  </g>
+  <rect
+    x="84"
+    y="452"
+    width="1032"
+    height="1"
+    fill="url(#greenLine)"
+  />
+
+  <!-- tiny accent -->
+  <circle
+    cx="84"
+    cy="452"
+    r="2"
+    fill="#3ecf8e"
+  />
+
+  <!-- =====================================================
+       FOOTER
+       ===================================================== -->
+
+  <text
+    x="84"
+    y="505"
+    font-family="Inter, Helvetica, Arial, sans-serif"
+    font-size="14"
+    font-weight="500"
+    letter-spacing="1.5"
+    fill="#5f6361"
+  >
+    BUILDING SYSTEMS • AUTOMATION • INTELLIGENT SOFTWARE
+  </text>
+
+  <text
+    x="1116"
+    y="505"
+    text-anchor="end"
+    font-family="Inter, Helvetica, Arial, sans-serif"
+    font-size="14"
+    font-weight="500"
+    fill="#3ecf8e"
+  >
+    bitbridge.work.gd
+  </text>
+
+  <!-- =====================================================
+       SIGNATURE DOT
+       ===================================================== -->
+
+  <circle
+    cx="1116"
+    cy="552"
+    r="3"
+    fill="#3ecf8e"
+  />
+
+  <circle
+    cx="1116"
+    cy="552"
+    r="3"
+    fill="#3ecf8e"
+    opacity=".25"
+    filter="url(#tinyGlow)"
+  />
+
 </svg>

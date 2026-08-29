@@ -140,29 +140,7 @@ export default function Hero() {
       }}
     >
       <div className="container">
-        <p
-          className="hero-eyebrow mono"
-          style={{
-            fontSize: 13,
-            color: "var(--signal)",
-            marginBottom: 28,
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-          }}
-        >
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              background: "var(--signal)",
-              display: "inline-block",
-              boxShadow: "0 0 0 4px var(--signal-dim)",
-            }}
-          />
-          available for automation &amp; backend work — open to new projects
-        </p>
+        
 
         <h1
           style={{
