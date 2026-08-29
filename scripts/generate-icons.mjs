@@ -28,8 +28,8 @@ const faviconSvg = await readFile(path.join(publicDir, "favicon.svg"));
 // it) and shrink the glyph ~30% so it stays fully visible inside the maskable
 // safe zone (a circle of radius 40% of the icon size, centered mid-tile).
 const fullBleedSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" fill="#09090f"/>
-  <text x="16" y="20" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#818CF8">&lt;/&gt;</text>
+  <rect width="32" height="32" fill="#0a0a0b"/>
+  <text x="16" y="22" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="700" fill="#3ecf8e">&lt;/&gt;</text>
 </svg>`;
 
 // An SVG's intrinsic size here is 32px @ 72dpi; raising density up-renders a
