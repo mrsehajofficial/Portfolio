@@ -27,11 +27,21 @@ sections are reached by in-page scrolling, not separate routes:
 - Selected work — AI automation tools, backend systems, and applied LLM builds
 - About — evidence-driven bio, focus areas, and how Sehaj works
 - Stack — capability groups — AI (OpenAI, Gemini, RAG, agents), Backend (Python, Flask, REST APIs, SQLite), Automation, Frontend (HTML/CSS/JS, Flutter/Dart), Deployment
+- FAQ — six frequent questions about Sehaj answered factually (also marked up with FAQPage structured data)
 - Contact — contact form plus direct channels listed below
 
 ## Interactive note
 
 - An "Ask my portfolio" retrieval box runs fully client-side between the Stack and Contact sections. It answers only from this site's own facts — indexers may safely ignore it, as every fact it serves already exists on these pages.
+
+## FAQ
+
+- Who is Sehaj Varma? An AI Automation Engineer and Backend Developer based in India, open to remote work worldwide. He builds LLM agents, RAG pipelines, Python automation suites, and Flask backends that turn repetitive workflows into reliable software.
+- What does he specialize in? Workflow automation (Python scripting for scheduled jobs, file processing, API-to-API integrations) and backend engineering (structured Flask REST APIs on clean SQLite schemas with input validation and modular documented codebases).
+- What is Amai Yuki? His flagship project: a cross-platform real-time messaging application with direct and group chats, a custom in-app camera module, and Provider-based state architecture — Python/Flask REST backend with SQLite, Flutter/Dart frontend. The frontend is open-source and testable today; the backend is private but fully functional.
+- What AI technologies does he work with? OpenAI and Gemini API integrations, prompt orchestration engineering, RAG (Retrieval-Augmented Generation) architecture, and conversational agents connecting LLMs to external APIs.
+- What is his tech stack? AI (OpenAI, Gemini, RAG, agents, prompt orchestration), Backend (Python, Flask, REST APIs, SQLite), Automation (Python scripting, scheduled jobs, file processing, API integrations), Frontend (HTML/CSS/JavaScript, Flutter, Dart), Deployment (Vercel, Netlify, Render, Wasmer).
+- Is he available for freelance work? Yes — AI automation, Python backends, API integration, and freelance projects. Email: mr.sehaj.official@gmail.com · GitHub: https://github.com/mrsehajofficial
 
 
 ## Contact

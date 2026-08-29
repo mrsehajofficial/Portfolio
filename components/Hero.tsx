@@ -222,9 +222,9 @@ export default function Hero() {
             lineHeight: 1.7,
           }}
         >
-          AI Automation Engineer &amp; Backend Developer — building LLM agents,
-          RAG pipelines, automation scripts, and Flask backends that turn
-          repetitive workflows into reliable software.
+          Sehaj Varma is an AI Automation Engineer &amp; Backend Developer who
+          builds LLM agents, RAG pipelines, automation scripts, and Flask
+          backends that turn repetitive workflows into reliable software.
         </p>
 
         <div

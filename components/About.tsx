@@ -109,6 +109,10 @@ export default function About() {
               }}
             >
               <p style={{ marginBottom: 20 }}>
+                Sehaj Varma is an AI Automation Engineer and Backend Developer
+                based in India, open to remote work worldwide.
+              </p>
+              <p style={{ marginBottom: 20 }}>
                 I build Python automation scripts that turn repetitive file,
                 API, and data-processing workflows into repeatable processes.
                 Software clicked for me because I enjoy logic puzzles — and

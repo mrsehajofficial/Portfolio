@@ -4,6 +4,7 @@ import Work from "@/components/Work";
 import About from "@/components/About";
 import Stack from "@/components/Stack";
 import AskPortfolio from "@/components/AskPortfolio";
+import Faq from "@/components/Faq";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
@@ -15,7 +16,8 @@ import Footer from "@/components/Footer";
  *
  * AskPortfolio is deliberately optional garnish between Stack and Contact:
  * every essential section remains reachable through plain navigation without
- * touching the assistant.
+ * touching the assistant. Faq carries the FAQPage structured data that answer
+ * engines (Google AI Overviews, AI Mode) cite most easily.
  */
 export default function PortfolioSections() {
   return (
@@ -26,6 +28,7 @@ export default function PortfolioSections() {
       <About />
       <Stack />
       <AskPortfolio />
+      <Faq />
       <Contact />
       <Footer />
     </>
