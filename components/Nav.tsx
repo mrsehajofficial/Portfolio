@@ -2,12 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { scrollToSection } from "@/lib/scrollToSection";
 
+// In-page section targets. The portfolio is a single page: these buttons
+// scroll to the matching <section id="..."> instead of routing to
+// separate pages, so the URL stays on the clean root path.
 const LINKS = [
-  { href: "/work", label: "work" },
-  { href: "/about", label: "about" },
-  { href: "/stack", label: "stack" },
-  { href: "/contact", label: "contact" },
+  { id: "work", label: "work" },
+  { id: "about", label: "about" },
+  { id: "stack", label: "stack" },
+  { id: "contact", label: "contact" },
 ];
 
 export default function Nav() {
@@ -139,20 +143,20 @@ export default function Nav() {
           style={{ display: "flex", gap: 40, fontSize: 13 }}
         >
           {LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
+            <button
+              key={link.id}
+              onClick={() => scrollToSection(link.id)}
               data-cursor-hover
-              style={{ color: "var(--ink-dim)" }}
-              className="nav-link-desktop"
+              style={{ color: "var(--ink-dim)", fontSize: 13 }}
+              className="nav-link-desktop mono"
             >
               {link.label}
-            </a>
+            </button>
           ))}
         </div>
 
-        <a
-          href="/contact"
+        <button
+          onClick={() => scrollToSection("contact")}
           data-cursor-hover
           className="mono nav-cta-desktop"
           style={{
@@ -164,7 +168,7 @@ export default function Nav() {
           }}
         >
           let&rsquo;s talk
-        </a>
+        </button>
 
         <button
           onClick={() => setMenuOpen((v) => !v)}
@@ -212,12 +216,18 @@ export default function Nav() {
         style={{ display: "flex", flexDirection: "column", gap: 8 }}
       >
         {LINKS.map((link) => (
-          <a
-            key={link.href}
-            href={link.href}
-            onClick={() => setMenuOpen(false)}
+          <button
+            key={link.id}
+            onClick={() => {
+              setMenuOpen(false);
+              // Give the drawer a beat to restore body scrolling (its close
+              // effect clears overflow:hidden) before gliding to the section.
+              window.setTimeout(() => scrollToSection(link.id), 60);
+            }}
             className="drawer-link mono"
             style={{
+              width: "100%",
+              textAlign: "left",
               fontSize: 28,
               color: "var(--ink)",
               padding: "16px 0",
@@ -225,7 +235,7 @@ export default function Nav() {
             }}
           >
             {link.label}
-          </a>
+          </button>
         ))}
       </div>
     </div>

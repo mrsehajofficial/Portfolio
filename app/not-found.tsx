@@ -7,16 +7,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
-// Same nav targets as app/sitemap.ts — kept as literals here so this page
-// stays independently prerenderable without importing sitemap config.
-const ROUTES = [
-  { href: "/", label: "home" },
-  { href: "/work", label: "work" },
-  { href: "/about", label: "about" },
-  { href: "/stack", label: "stack" },
-  { href: "/contact", label: "contact" },
-] as const;
-
 export default function NotFound() {
   return (
     <section
@@ -54,33 +44,8 @@ export default function NotFound() {
           }}
         >
           The page you&rsquo;re after was moved, renamed, or never existed.
-          Everything that does exist is one click away.
+          The whole portfolio lives on a single page — one click away.
         </p>
-
-        <nav aria-label="Valid pages" style={{ marginBottom: 56 }}>
-          <ul style={{ display: "flex", flexWrap: "wrap", gap: 12, listStyle: "none" }}>
-            {ROUTES.map(({ href, label }) => (
-              <li key={href}>
-                <Link
-                  href={href}
-                  data-cursor-hover
-                  className="mono"
-                  style={{
-                    display: "inline-block",
-                    padding: "10px 20px",
-                    border: "1px solid var(--hairline-strong)",
-                    borderRadius: 8,
-                    fontSize: 14,
-                    color: "var(--ink)",
-                    transition: "border-color 0.2s ease",
-                  }}
-                >
-                  /{label === "home" ? "" : label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
 
         <Link
           href="/"

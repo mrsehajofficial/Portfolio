@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Reveal from "./Reveal";
+import { scrollToSection } from "@/lib/scrollToSection";
 import { answerFor, type KnowledgeCard } from "@/lib/portfolio-knowledge";
 
 const SUGGESTIONS = [
@@ -229,13 +230,13 @@ export default function AskPortfolio() {
               >
                 I couldn&rsquo;t confidently match that. Try one of the topics
                 above — or skip straight to{" "}
-                <a
-                  href="/contact"
+                <button
+                  onClick={() => scrollToSection("contact")}
                   data-cursor-hover
-                  style={{ color: "var(--signal)" }}
+                  style={{ color: "var(--signal)", fontSize: "inherit" }}
                 >
                   contacting Sehaj directly
-                </a>
+                </button>
                 .
               </p>
             )}

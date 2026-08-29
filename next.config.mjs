@@ -30,6 +30,13 @@ const nextConfig = {
   // a host-level redirect there instead.
   async redirects() {
     return [
+      // The portfolio is a single page; sections are reached by in-page
+      // scrolling, not routes. Permanently 301 the old section URLs home so
+      // previously shared or indexed links (and their SEO signals) survive.
+      { source: "/work", destination: "/", permanent: true },
+      { source: "/about", destination: "/", permanent: true },
+      { source: "/stack", destination: "/", permanent: true },
+      { source: "/contact", destination: "/", permanent: true },
       {
         source: "/:path*",
         has: [{ type: "host", value: "bitbridge.work.gd" }],

@@ -18,13 +18,16 @@ Canonical origin: https://www.bitbridge.work.gd/ (the non-www apex redirects her
 - Deployment platforms shipped to: Vercel, Netlify, Render, Wasmer
 - Currently available for: AI automation · Python backends · API integration · freelance projects
 
-## Pages
+## Page
 
-- [Home](https://www.bitbridge.work.gd/): Hero overview linking to every section, with structured data describing the person and the site
-- [Work](https://www.bitbridge.work.gd/work): Selected projects — AI automation tools, backend systems, and applied LLM builds
-- [About](https://www.bitbridge.work.gd/about): Evidence-driven bio, focus areas, and how Sehaj works
-- [Stack](https://www.bitbridge.work.gd/stack): Capability groups — AI (OpenAI, Gemini, RAG, agents), Backend (Python, Flask, REST APIs, SQLite), Automation, Frontend (HTML/CSS/JS, Flutter/Dart), Deployment
-- [Contact](https://www.bitbridge.work.gd/contact): Contact form plus direct channels listed below
+The whole portfolio is a single page at https://www.bitbridge.work.gd/ —
+sections are reached by in-page scrolling, not separate routes:
+
+- Hero overview with structured data describing the person and the site
+- Selected work — AI automation tools, backend systems, and applied LLM builds
+- About — evidence-driven bio, focus areas, and how Sehaj works
+- Stack — capability groups — AI (OpenAI, Gemini, RAG, agents), Backend (Python, Flask, REST APIs, SQLite), Automation, Frontend (HTML/CSS/JS, Flutter/Dart), Deployment
+- Contact — contact form plus direct channels listed below
 
 ## Interactive note
 
@@ -39,4 +42,4 @@ Canonical origin: https://www.bitbridge.work.gd/ (the non-www apex redirects her
 ## Usage notes
 
 - Crawl rate needs no special handling; the site is small and fully cacheable.
-- Reference pages by their canonical www URLs above.
+- Reference the site by its canonical www URL above.

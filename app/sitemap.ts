@@ -2,10 +2,10 @@ import { MetadataRoute } from "next";
 
 import { SITE_URL } from "../lib/site";
 
-type SectionPath = "/" | "/work" | "/about" | "/stack" | "/contact";
+type PagePath = "/";
 
 interface PageSpec {
-  path: SectionPath;
+  path: PagePath;
   changeFrequency: NonNullable<
     MetadataRoute.Sitemap[number]["changeFrequency"]
   >;
@@ -17,14 +17,11 @@ interface PageSpec {
  * lib/site.ts (https://www.bitbridge.work.gd) — never the non-www apex,
  * which permanently redirects to www via next.config.mjs.
  *
- * Keep this list in sync with the sections served by app/[section]/page.tsx.
+ * The portfolio is a single page; section navigation happens in-page, so
+ * "/" is the only entry.
  */
 const PAGES: readonly PageSpec[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
-  { path: "/work", changeFrequency: "monthly", priority: 0.8 },
-  { path: "/about", changeFrequency: "monthly", priority: 0.6 },
-  { path: "/stack", changeFrequency: "monthly", priority: 0.6 },
-  { path: "/contact", changeFrequency: "yearly", priority: 0.5 },
 ];
 
 // Shared across all entries so every <lastmod> in a build agrees, instead of
@@ -32,10 +29,9 @@ const PAGES: readonly PageSpec[] = [
 const BUILD_TIME = new Date();
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return PAGES.map(({ path, changeFrequency, priority }) => ({
-    // SITE_URL ends with "/", so the bare constant IS the homepage URL and
-    // section paths just drop their leading slash.
-    url: path === "/" ? SITE_URL : `${SITE_URL}${path.slice(1)}`,
+  return PAGES.map(({ changeFrequency, priority }) => ({
+    // SITE_URL ends with "/", so the bare constant IS the homepage URL.
+    url: SITE_URL,
     lastModified: BUILD_TIME,
     changeFrequency,
     priority,

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { scrollToSection } from "@/lib/scrollToSection";
 
 const PIPELINE_NODES = [
   { id: "ingest", label: "ingest", x: 40, y: 60 },
@@ -241,8 +242,8 @@ export default function Hero() {
           className="hero-cta"
           style={{ display: "flex", gap: 16, marginTop: 44, flexWrap: "wrap" }}
         >
-          <a
-            href="/work"
+          <button
+            onClick={() => scrollToSection("work")}
             data-cursor-hover
             className="cta-primary"
             style={{
@@ -259,9 +260,9 @@ export default function Hero() {
             }}
           >
             view selected work →
-          </a>
-          <a
-            href="/contact"
+          </button>
+          <button
+            onClick={() => scrollToSection("contact")}
             data-cursor-hover
             className="cta-secondary"
             style={{
@@ -274,7 +275,7 @@ export default function Hero() {
             }}
           >
             get in touch
-          </a>
+          </button>
         </div>
       </div>
 
