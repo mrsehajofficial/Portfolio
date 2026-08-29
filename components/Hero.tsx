@@ -41,13 +41,7 @@ export default function Hero() {
 
       if (prefersReducedMotion) {
         gsap.set(
-          [
-            ".hero-eyebrow",
-            ".hero-line",
-            ".hero-sub",
-            ".hero-cta",
-            ".hero-scroll-hint",
-          ],
+          [".hero-line", ".hero-sub", ".hero-cta", ".hero-scroll-hint"],
           { opacity: 1, y: 0 }
         );
         gsap.set(".pipeline-edge", { strokeDashoffset: 0 });
@@ -56,24 +50,19 @@ export default function Hero() {
       }
 
       gsap.set(".hero-line span", { yPercent: 110 });
-      gsap.set(
-        [".hero-eyebrow", ".hero-sub", ".hero-cta", ".hero-scroll-hint"],
-        { opacity: 0, y: 16 }
-      );
+      gsap.set([".hero-sub", ".hero-cta", ".hero-scroll-hint"], {
+        opacity: 0,
+        y: 16,
+      });
       gsap.set(".pipeline-edge", { strokeDashoffset: 1 });
       gsap.set(".pipeline-node", { opacity: 0, scale: 0.6 });
 
-      tl.to(".hero-eyebrow", { opacity: 1, y: 0, duration: 0.7 })
-        .to(
-          ".hero-line span",
-          {
-            yPercent: 0,
-            duration: 1.1,
-            stagger: 0.1,
-            ease: "power4.out",
-          },
-          "-=0.3"
-        )
+      tl.to(".hero-line span", {
+        yPercent: 0,
+        duration: 1.1,
+        stagger: 0.1,
+        ease: "power4.out",
+      })
         .to(".hero-sub", { opacity: 1, y: 0, duration: 0.8 }, "-=0.5")
         .to(".hero-cta", { opacity: 1, y: 0, duration: 0.8 }, "-=0.6")
         .to(
