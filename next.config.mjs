@@ -16,20 +16,29 @@ const nextConfig = {
       },
     ],
   },
-  // Canonicalize the site to https://www.bitbridge.work.gd/.
+  // Canonicalize the site to https://sehaj.wasmer.app/.
   //
-  // Both the apex (bitbridge.work.gd) and www hosts currently serve the same
-  // content, which is a duplicate-content risk for SEO. Rather than duplicating
-  // the non-www URLs in robots.txt / sitemap.xml (which would *worsen* the
-  // duplicate-content problem), we permanently 301 the non-www host to the www
-  // host. Google then collapses all signals onto the single canonical origin,
-  // and robots.txt / sitemap.xml correctly reference only that canonical host.
+  // The previous domain (bitbridge.work.gd) is retired. Both of its hosts —
+  // the apex and www — permanently 301 to the new origin, preserving the path
+  // so any shared or indexed deep link still lands on the right content and
+  // Google collapses all signals onto the single new canonical origin.
   //
-  // Works only when this Next.js server receives traffic for both hosts (as it
-  // does now — both return 200). If you later move behind a CDN/proxy, prefer
-  // a host-level redirect there instead.
+  // These host redirects are listed FIRST so old-domain requests move to the
+  // new origin in one hop before any other rule applies.
   async redirects() {
     return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "bitbridge.work.gd" }],
+        destination: "https://sehaj.wasmer.app/:path*",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.bitbridge.work.gd" }],
+        destination: "https://sehaj.wasmer.app/:path*",
+        permanent: true,
+      },
       // The portfolio is a single page; sections are reached by in-page
       // scrolling, not routes. Permanently 301 the old section URLs home so
       // previously shared or indexed links (and their SEO signals) survive.
@@ -37,12 +46,6 @@ const nextConfig = {
       { source: "/about", destination: "/", permanent: true },
       { source: "/stack", destination: "/", permanent: true },
       { source: "/contact", destination: "/", permanent: true },
-      {
-        source: "/:path*",
-        has: [{ type: "host", value: "bitbridge.work.gd" }],
-        destination: "https://www.bitbridge.work.gd/:path*",
-        permanent: true,
-      },
     ];
   },
   async headers() {

@@ -2,7 +2,7 @@
 Sehaj is an AI Automation Engineer & Backend Developer
 Personal portfolio of Sehaj Varma, who builds LLM agents, RAG pipelines, Python automation suites, and Flask Backends that turn repetitive workflows into reliable software. All pages are statically rendered HTML and open to automated access.
 
-Canonical origin: https://www.bitbridge.work.gd/ (the non-www apex redirects here)
+Canonical origin: https://sehaj.wasmer.app/ (the retired bitbridge.work.gd domain permanently redirects here)
 
 ## Key facts
 
@@ -20,7 +20,7 @@ Canonical origin: https://www.bitbridge.work.gd/ (the non-www apex redirects her
 
 ## Page
 
-The whole portfolio is a single page at https://www.bitbridge.work.gd/ —
+The whole portfolio is a single page at https://sehaj.wasmer.app/ —
 sections are reached by in-page scrolling, not separate routes:
 
 - Hero overview with structured data describing the person and the site
@@ -52,4 +52,4 @@ sections are reached by in-page scrolling, not separate routes:
 ## Usage notes
 
 - Crawl rate needs no special handling; the site is small and fully cacheable.
-- Reference the site by its canonical www URL above.
+- Reference the site by its canonical URL above.

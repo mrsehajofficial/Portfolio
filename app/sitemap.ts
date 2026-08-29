@@ -14,8 +14,8 @@ interface PageSpec {
 
 /**
  * Every URL here is built from the one canonical-origin constant in
- * lib/site.ts (https://www.bitbridge.work.gd) — never the non-www apex,
- * which permanently redirects to www via next.config.mjs.
+ * lib/site.ts (https://sehaj.wasmer.app) — never the retired
+ * bitbridge.work.gd domain, which permanently redirects via next.config.mjs.
  *
  * The portfolio is a single page; section navigation happens in-page, so
  * "/" is the only entry.

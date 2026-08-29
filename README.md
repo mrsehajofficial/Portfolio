@@ -4,7 +4,7 @@ The personal portfolio of **Sehaj Varma — AI Automation Engineer & Backend Dev
 A cinematic Next.js portfolio: server-rendered for SEO, GSAP + Lenis for
 scroll-driven motion, zero external UI kit — every component is hand-built.
 
-Live at **https://www.bitbridge.work.gd/**
+Live at **https://sehaj.wasmer.app/**
 
 ## Stack
 

@@ -5,7 +5,7 @@
  *
  * The scroll itself is performed with Lenis (falling back to native smooth
  * scrolling) and the URL is rewritten to the clean root path afterwards, so
- * the browser always shows https://www.bitbridge.work.gd/ — no "/work",
+ * the browser always shows https://sehaj.wasmer.app/ — no "/work",
  * no "/about", and no "#about"-style fragments.
  */
 export const SCROLL_TO_SECTION_EVENT = "portfolio:scroll-to";

@@ -45,7 +45,7 @@ export default function SmoothScrollProvider({
 
     // Smooth-scroll to a section (or the very top when id is null), then
     // rewrite the URL to the clean root path — the browser always shows
-    // https://www.bitbridge.work.gd/, never "/work", "/about" or "#work".
+    // https://sehaj.wasmer.app/, never "/work", "/about" or "#work".
     const scrollToSection = (id: string | null, smooth = true) => {
       const el = id ? document.getElementById(id) : null;
 
