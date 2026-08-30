@@ -158,6 +158,7 @@ const jsonLd = {
       mainEntity: { "@id": `${SITE_URL}#sehaj-varma` },
       // First public commit (truthful, from git history).
       datePublished: "2026-08-27",
+      dateCreated: "2026-08-27",
       // Evaluated at prerender — same freshness pattern as sitemap.ts.
       dateModified: new Date().toISOString().slice(0, 10),
     },
@@ -167,6 +168,21 @@ const jsonLd = {
       name: "Sehaj Varma",
       givenName: "Sehaj",
       familyName: "Varma",
+      // Shorter nickname — recommended on the ProfilePage mainEntity in
+      // Google's docs/example.
+      alternateName: "Sehaj",
+      // Platform identifier, mirroring Google's ProfilePage example.
+      identifier: "mrsehajofficial", // GitHub username
+      // Real public interaction metrics — the creator-popularity signal the
+      // ProfilePage docs recommend (InteractionCounter → FollowAction).
+      // Counts are true as of Aug 2026; bump them on future deploys.
+      interactionStatistic: [
+        {
+          "@type": "InteractionCounter",
+          interactionType: "https://schema.org/FollowAction",
+          userInteractionCount: 1, // GitHub followers
+        },
+      ],
       url: SITE_URL,
       image: `${SITE_URL}og-image.png`,
       jobTitle: "AI Automation Engineer & Backend Developer",
