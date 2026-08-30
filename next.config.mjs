@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  compress: true,
+  // Compression is handled by the custom server (server.js) via the
+  // `compression` middleware — see the comment there. Disabling Next's own
+  // layer prevents double-encoding.
+  compress: false,
   poweredByHeader: false,
   // Allow the dev server to serve JS chunks / HMR to devices on your local
   // network (e.g. testing the site on your phone). Update this with your
