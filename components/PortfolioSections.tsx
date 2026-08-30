@@ -3,7 +3,7 @@ import Hero from "@/components/Hero";
 import Work from "@/components/Work";
 import About from "@/components/About";
 import Stack from "@/components/Stack";
-import AskPortfolio from "@/components/AskPortfolio";
+import AskPortfolioLazy from "@/components/AskPortfolioLazy";
 import Faq from "@/components/Faq";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -27,7 +27,7 @@ export default function PortfolioSections() {
       <Work />
       <About />
       <Stack />
-      <AskPortfolio />
+      <AskPortfolioLazy />
       <Faq />
       <Contact />
       <Footer />

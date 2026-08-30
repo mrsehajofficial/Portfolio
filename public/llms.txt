@@ -1,16 +1,20 @@
 # Sehaj Varma
-Sehaj is an AI Automation Engineer & Backend Developer
-Personal portfolio of Sehaj Varma, who builds LLM agents, RAG pipelines, Python automation suites, and Flask Backends that turn repetitive workflows into reliable software. All pages are statically rendered HTML and open to automated access.
 
-Canonical origin: https://sehaj.wasmer.app/ (the retired bitbridge.work.gd domain permanently redirects here)
+Sehaj is an AI Automation Engineer and Backend Developer based in India, open to remote work worldwide. He builds LLM agents, RAG pipelines, Python automation suites, and Flask backends that turn repetitive workflows into reliable software. This index describes the personal portfolio at sehaj.wasmer.app — all pages are statically rendered HTML and open to automated access. A full markdown version of every page is available at [llms-full.txt](/llms-full.txt).
 
-## Key facts
+## About
 
 - Role: AI Automation Engineer & Backend Developer
 - Location: India — open to remote work worldwide
+- Email: [mr.sehaj.official@gmail.com](mailto:mr.sehaj.official@gmail.com)
+- GitHub: [github.com/mrsehajofficial](https://github.com/mrsehajofficial)
+- Canonical origin: <https://sehaj.wasmer.app/> (the retired bitbridge.work.gd domain permanently redirects here)
+
+## Key facts
+
 - Flagship project: Amai Yuki, a cross-platform real-time messaging application with direct & group chats, a custom in-app camera module, and Provider-based state architecture
 - Amai Yuki stack: Python/Flask REST backend with SQLite persistence + Flutter/Dart frontend
-- Amai Yuki availability: open-source frontend testable today at https://github.com/mrsehajofficial/Amai-Yuki ; backend private but fully functional
+- Amai Yuki availability: open-source frontend testable today at [github.com/mrsehajofficial/Amai-Yuki](https://github.com/mrsehajofficial/Amai-Yuki); the backend stays private but is fully functional and documented
 - Automation: 10+ private Python scripts spanning scheduled jobs, file processing pipelines, and API-to-API integrations
 - AI experience: OpenAI & Gemini API integrations, prompt orchestration engineering, RAG (Retrieval-Augmented Generation) architecture study, conversational agents connecting LLMs to external APIs
 - Backend focus: structured Flask REST APIs, clean SQLite schemas, input validation, modular documented codebases
@@ -18,29 +22,14 @@ Canonical origin: https://sehaj.wasmer.app/ (the retired bitbridge.work.gd domai
 - Deployment platforms shipped to: Vercel, Netlify, Render, Wasmer
 - Currently available for: AI automation · Python backends · API integration · freelance projects
 
-## Page
+## Pages
 
-The site has a hub-and-spoke structure: the homepage at
-https://sehaj.wasmer.app/ is the cinematic overview, and every content
-section also has its own detailed, crawlable page:
-
-- https://sehaj.wasmer.app/work — full Amai Yuki case study plus automation / AI-RAG evidence
-- https://sehaj.wasmer.app/about — expanded bio, focus areas, availability
-- https://sehaj.wasmer.app/stack — capability groups with where each tool ships
-- https://sehaj.wasmer.app/faq — the complete, plain-answered FAQ
-
-Homepage sections (reached by in-page scrolling):
-
-- Hero overview with structured data describing the person and the site
-- Selected work — AI automation tools, backend systems, and applied LLM builds
-- About — evidence-driven bio, focus areas, and how Sehaj works
-- Stack — capability groups — AI (OpenAI, Gemini, RAG, agents), Backend (Python, Flask, REST APIs, SQLite), Automation, Frontend (HTML/CSS/JS, Flutter/Dart), Deployment
-- FAQ — six frequent questions about Sehaj answered factually (also marked up with FAQPage structured data)
-- Contact — contact form plus direct channels listed below
-
-## Interactive note
-
-- An "Ask my portfolio" retrieval box runs fully client-side between the Stack and Contact sections. It answers only from this site's own facts — indexers may safely ignore it, as every fact it serves already exists on these pages.
+- [Home](https://sehaj.wasmer.app/) — cinematic overview with ProfilePage / Person / WebSite structured data, selected work, stack, FAQ, and contact
+- [Work](https://sehaj.wasmer.app/work) — the full Amai Yuki case study plus the automation and AI/RAG evidence
+- [About](https://sehaj.wasmer.app/about) — expanded bio, focus areas, stats, and current availability
+- [Stack](https://sehaj.wasmer.app/stack) — capability groups with where each tool actually ships
+- [FAQ](https://sehaj.wasmer.app/faq) — the complete, plainly answered FAQ with FAQPage structured data
+- [Contact form](https://sehaj.wasmer.app/#contact) — message form plus direct channels
 
 ## FAQ
 
@@ -49,15 +38,9 @@ Homepage sections (reached by in-page scrolling):
 - What is Amai Yuki? His flagship project: a cross-platform real-time messaging application with direct and group chats, a custom in-app camera module, and Provider-based state architecture — Python/Flask REST backend with SQLite, Flutter/Dart frontend. The frontend is open-source and testable today; the backend is private but fully functional.
 - What AI technologies does he work with? OpenAI and Gemini API integrations, prompt orchestration engineering, RAG (Retrieval-Augmented Generation) architecture, and conversational agents connecting LLMs to external APIs.
 - What is his tech stack? AI (OpenAI, Gemini, RAG, agents, prompt orchestration), Backend (Python, Flask, REST APIs, SQLite), Automation (Python scripting, scheduled jobs, file processing, API integrations), Frontend (HTML/CSS/JavaScript, Flutter, Dart), Deployment (Vercel, Netlify, Render, Wasmer).
-- Is he available for freelance work? Yes — AI automation, Python backends, API integration, and freelance projects. Email: mr.sehaj.official@gmail.com · GitHub: https://github.com/mrsehajofficial
-
-
-## Contact
-
-- Email: mr.sehaj.official@gmail.com
-- GitHub: https://github.com/mrsehajofficial
+- Is he available for freelance work? Yes — AI automation, Python backends, API integration, and freelance projects. Reach him at [mr.sehaj.official@gmail.com](mailto:mr.sehaj.official@gmail.com) or via [GitHub](https://github.com/mrsehajofficial).
 
 ## Usage notes
 
 - Crawl rate needs no special handling; the site is small and fully cacheable.
-- Reference the site by its canonical URL above.
+- Reference the site by its canonical URL: https://sehaj.wasmer.app/
