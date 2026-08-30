@@ -1,12 +1,12 @@
 import { MetadataRoute } from "next";
 
-import { SITE_URL } from "../lib/site";
+import { SITE_HOST, SITE_URL } from "../lib/site";
 
 /**
  * Computed once from the single canonical-origin constant in lib/site.ts,
  * so the crawler-facing host can never drift from what pages declare.
  */
-const HOST = SITE_URL.replace(/^https?:\/\//, "").replace(/\/$/, "");
+const HOST = SITE_HOST;
 
 export default function robots(): MetadataRoute.Robots {
   return {

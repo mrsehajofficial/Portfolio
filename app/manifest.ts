@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 // Same canonical-origin constant consumed by robots.ts / sitemap.ts / layout.tsx.
-import { SITE_URL } from "../lib/site";
+import { SITE_NAME, SITE_URL } from "../lib/site";
 
 /**
  * PWA / identity manifest, served by Next at /manifest.webmanifest.
@@ -15,7 +15,9 @@ import { SITE_URL } from "../lib/site";
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Sehaj Varma — AI Automation Engineer & Backend Developer",
+    // Aligned with lib/site.ts SITE_NAME so every identity surface (head,
+    // JSON-LD, manifest) tells indexers the same concise name.
+    name: SITE_NAME,
     short_name: "Sehaj Varma",
     description:
       "Portfolio of Sehaj Varma: LLM agents, RAG pipelines, Python automation, and Flask backends that turn repetitive workflows into reliable software.",

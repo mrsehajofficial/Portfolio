@@ -11,7 +11,7 @@
  * Run once whenever the brand mark changes:
  *   node scripts/generate-icons.mjs      (requires the `sharp` devDependency)
  */
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
@@ -53,5 +53,49 @@ for (const { src, name, size } of targets) {
     .toFile(out);
   console.log(`✔ ${name} (${size}×${size})`);
 }
+
+// Classic favicon.ico: a real multi-resolution ICO container (16/32/48) with
+// PNG-compressed entries, packed by hand — sharp has no ICO writer. ICO is on
+// Google Search's list of supported search-favicon formats (SVG is not), and
+// legacy clients / some crawlers fetch /favicon.ico directly. Referenced
+// first in app/layout.tsx's icons metadata.
+const icoSizes = [16, 32, 48];
+const icoPngs = await Promise.all(
+  icoSizes.map((size) =>
+    sharp(faviconSvg, { density: densityFor(size) })
+      .resize(size, size)
+      .png({ compressionLevel: 9 })
+      .toBuffer(),
+  ),
+);
+
+// ICO container: 6-byte header, one 16-byte directory entry per image, then
+// the raw PNG payloads back to back.
+const header = Buffer.alloc(6);
+header.writeUInt16LE(0, 0); // reserved, must be 0
+header.writeUInt16LE(1, 2); // type: 1 = icon
+header.writeUInt16LE(icoPngs.length, 4); // number of images
+
+const directory = Buffer.alloc(16 * icoPngs.length);
+let offset = header.length + directory.length;
+icoPngs.forEach((png, i) => {
+  const size = icoSizes[i];
+  const entry = i * 16;
+  directory.writeUInt8(size, entry); // width (0 would mean 256)
+  directory.writeUInt8(size, entry + 1); // height
+  directory.writeUInt8(0, entry + 2); // palette color count (0 = truecolor)
+  directory.writeUInt8(0, entry + 3); // reserved
+  directory.writeUInt16LE(1, entry + 4); // color planes
+  directory.writeUInt16LE(32, entry + 6); // bits per pixel
+  directory.writeUInt32LE(png.length, entry + 8); // image data size
+  directory.writeUInt32LE(offset, entry + 12); // image data offset
+  offset += png.length;
+});
+
+await writeFile(
+  path.join(publicDir, "favicon.ico"),
+  Buffer.concat([header, directory, ...icoPngs]),
+);
+console.log(`✔ favicon.ico (${icoSizes.join("/")})`);
 
 console.log("\nAll icons written to public/.");

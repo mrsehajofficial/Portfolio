@@ -10,7 +10,7 @@ import Cursor from "@/components/Cursor";
 import Noise from "@/components/Noise";
 import BackToTop from "@/components/BackToTop";
 // Single canonical-origin source of truth shared with robots.ts / sitemap.ts.
-import { SITE_URL } from "@/lib/site";
+import { SITE_HOST, SITE_NAME, SITE_URL } from "@/lib/site";
 
 // Self-hosted fonts via next/font. They replace the render-blocking Google
 // Fonts @import that was previously in globals.css, remove the third-party
@@ -37,16 +37,20 @@ const fontMono = Geist_Mono({
   display: "swap",
 });
 
-const SITE_NAME = "Sehaj Varma — AI Automation Engineer & Backend Developer";
+// Descriptive page title for <title> / og:title / twitter:title. The SHORT
+// site name used for og:site_name and the WebSite JSON-LD lives in lib/site.ts
+// as SITE_NAME — Google's site-name picker wants a concise name there, not a
+// title-length string (which is why Google previously fell back to "Wasmer").
+const SITE_TITLE = "Sehaj Varma — AI Automation Engineer & Backend Developer";
 const SITE_DESCRIPTION =
   "AI Automation Engineer and Python Backend Developer building LLM agents, RAG systems, API integrations, automation workflows, and Flask backends that turn repetitive workflows into reliable software.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   generator: "Next.js",
-  applicationName: "Sehaj Varma Portfolio",
+  applicationName: SITE_NAME,
   title: {
-    default: SITE_NAME,
+    default: SITE_TITLE,
     template: "%s — Sehaj Varma",
   },
   description: SITE_DESCRIPTION,
@@ -83,6 +87,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: SITE_URL,
+    // Concise site name from lib/site.ts — NOT the page title. Google reads
+    // this and the WebSite JSON-LD below to label the whole site in results.
     siteName: SITE_NAME,
     title: "Sehaj Varma — AI Automation Engineer & Backend Developer",
     description:
@@ -98,7 +104,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: SITE_NAME,
+    title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     images: ["/og-image.png"],
   },
@@ -111,14 +117,18 @@ export const metadata: Metadata = {
   // name/description metadata.
   manifest: "/manifest.webmanifest",
   icons: {
-    // SVG is the crisp master; PNGs below back platforms that skip SVG icons
-    // (notably Apple, plus several crawlers' preview pipelines).
+    // Google Search's favicon picker only accepts BMP / GIF / ICO / PNG /
+    // JPEG / PPM / TIFF — SVG is NOT a supported search-favicon format, so the
+    // classic multi-resolution favicon.ico is listed first. The SVG remains
+    // the crisp master for modern browsers; PNGs back platforms that skip SVG
+    // icons (notably Apple, plus several crawlers' preview pipelines).
     icon: [
+      { url: "/favicon.ico", sizes: "48x48", type: "image/x-icon" },
       { url: "/favicon.svg", type: "image/svg+xml" },
       { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
       { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
-    shortcut: ["/favicon.svg"],
+    shortcut: ["/favicon.ico"],
     // Safari/iOS cannot render SVG apple-touch-icons — must be a real PNG.
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
@@ -135,9 +145,28 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
+      // This homepage IS Sehaj's public profile. ProfilePage is Google's
+      // documented type for "a page whose primary purpose is to describe a
+      // person" — it binds the whole document to the Person entity below,
+      // reinforcing the same identity the WebSite site-name preference and
+      // the favicon hang off. mainEntity references the Person by @id, so
+      // all three nodes resolve as one connected entity graph.
+      "@type": "ProfilePage",
+      "@id": `${SITE_URL}#profilepage`,
+      url: SITE_URL,
+      inLanguage: "en",
+      mainEntity: { "@id": `${SITE_URL}#sehaj-varma` },
+      // First public commit (truthful, from git history).
+      datePublished: "2026-08-27",
+      // Evaluated at prerender — same freshness pattern as sitemap.ts.
+      dateModified: new Date().toISOString().slice(0, 10),
+    },
+    {
       "@type": "Person",
       "@id": `${SITE_URL}#sehaj-varma`,
       name: "Sehaj Varma",
+      givenName: "Sehaj",
+      familyName: "Varma",
       url: SITE_URL,
       image: `${SITE_URL}og-image.png`,
       jobTitle: "AI Automation Engineer & Backend Developer",
@@ -159,16 +188,22 @@ const jsonLd = {
         "Flutter",
         "REST APIs",
       ],
-      sameAs: [
-        "https://github.com/mrsehajofficial",
-        "https://discord.com/channels/@me/1504410390791065631",
-      ],
+      sameAs: ["https://github.com/mrsehajofficial"],
     },
     {
       "@type": "WebSite",
       "@id": `${SITE_URL}#website`,
       url: SITE_URL,
-      name: "Sehaj Varma — AI Automation Engineer & Backend Developer",
+      // Concise site name per Google's site-names doc — this is the strongest
+      // lever for the "site name" line in search results.
+      name: SITE_NAME,
+      // Preference ladder per Google's troubleshooting guidance: the bare
+      // person name and its shorter nickname (both strong identity signals
+      // tied to the Person entity in this same @graph), then the bare
+      // subdomain in all lowercase as the documented final preference before
+      // Google falls back to the hosting domain's own brand ("Wasmer" for
+      // *.wasmer.app).
+      alternateName: ["Sehaj Varma", "Sehaj", SITE_HOST],
       description: SITE_DESCRIPTION,
       inLanguage: "en",
       publisher: {

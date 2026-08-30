@@ -7,6 +7,7 @@ Static files under `public/` and identity routes generated from `app/`, all refe
 | File | Purpose |
 | --- | --- |
 | `favicon.svg` | Master vector mark (tab/bookmark icon; Sehaj Varma logo) |
+| `favicon.ico` | Multi-resolution 16/32/48 ICO for Google Search's favicon picker (SVG is not a supported search-favicon format) and legacy clients fetching `/favicon.ico` directly |
 | `icon-192.png` / `icon-512.png` | Raster renditions for platforms/crawlers that skip SVG icons |
 | `icon-maskable-192.png` / `icon-maskable-512.png` | Full-bleed art padded for Android's circular launcher masks |
 | `apple-touch-icon.png` | iOS/Safari home-screen icon (Safari does not support SVG touch icons) |
@@ -34,4 +35,4 @@ node scripts/generate-icons.mjs
 
 ## Verification
 
-- `google1088e161c042d899.html` — Google Search Console verification file
+- `google417300d46f28f819.html` — Google Search Console verification file
