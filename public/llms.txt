@@ -20,8 +20,16 @@ Canonical origin: https://sehaj.wasmer.app/ (the retired bitbridge.work.gd domai
 
 ## Page
 
-The whole portfolio is a single page at https://sehaj.wasmer.app/ —
-sections are reached by in-page scrolling, not separate routes:
+The site has a hub-and-spoke structure: the homepage at
+https://sehaj.wasmer.app/ is the cinematic overview, and every content
+section also has its own detailed, crawlable page:
+
+- https://sehaj.wasmer.app/work — full Amai Yuki case study plus automation / AI-RAG evidence
+- https://sehaj.wasmer.app/about — expanded bio, focus areas, availability
+- https://sehaj.wasmer.app/stack — capability groups with where each tool ships
+- https://sehaj.wasmer.app/faq — the complete, plain-answered FAQ
+
+Homepage sections (reached by in-page scrolling):
 
 - Hero overview with structured data describing the person and the site
 - Selected work — AI automation tools, backend systems, and applied LLM builds

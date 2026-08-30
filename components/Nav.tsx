@@ -1,25 +1,36 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { gsap } from "gsap";
 import { scrollToSection } from "@/lib/scrollToSection";
 
-// In-page section targets. The portfolio is a single page: these buttons
-// scroll to the matching <section id="..."> instead of routing to
-// separate pages, so the URL stays on the clean root path.
+// Every nav target, with the route it lives on. On the homepage these
+// buttons smooth-scroll to the matching <section id="...">; on the detail
+// pages (/work, /about, /stack, /faq) they become real page links with an
+// active state. Contact always resolves to the homepage's #contact section.
 const LINKS = [
-  { id: "work", label: "work" },
-  { id: "about", label: "about" },
-  { id: "stack", label: "stack" },
-  { id: "faq", label: "faq" },
-  { id: "contact", label: "contact" },
+  { id: "work", label: "work", href: "/work" },
+  { id: "about", label: "about", href: "/about" },
+  { id: "stack", label: "stack", href: "/stack" },
+  { id: "faq", label: "faq", href: "/faq" },
+  { id: "contact", label: "contact", href: "/#contact" },
 ];
+
+// Routes that have their own dedicated page (i.e. anything but the homepage).
+const DETAIL_PATHS = new Set(["/work", "/about", "/stack", "/faq"]);
 
 export default function Nav() {
   const navRef = useRef<HTMLElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
+
+  const pathname = usePathname();
+  // Homepage = section scroll. Every other route = one of these detail pages.
+  const isHome = pathname === "/";
+  const activePath = isHome ? null : pathname;
 
   useEffect(() => {
     const nav = navRef.current;
@@ -143,33 +154,66 @@ export default function Nav() {
           className="mono"
           style={{ display: "flex", gap: 40, fontSize: 13 }}
         >
-          {LINKS.map((link) => (
-            <button
-              key={link.id}
-              onClick={() => scrollToSection(link.id)}
-              data-cursor-hover
-              style={{ color: "var(--ink-dim)", fontSize: 13 }}
-              className="nav-link-desktop mono"
-            >
-              {link.label}
-            </button>
-          ))}
+          {LINKS.map((link) => {
+            const isActive = activePath === link.href;
+            return isHome ? (
+              <button
+                key={link.id}
+                onClick={() => scrollToSection(link.id)}
+                data-cursor-hover
+                style={{ color: "var(--ink-dim)", fontSize: 13 }}
+                className="nav-link-desktop mono"
+              >
+                {link.label}
+              </button>
+            ) : (
+              <Link
+                key={link.id}
+                href={link.href}
+                data-cursor-hover
+                style={{
+                  color: isActive ? "var(--ink)" : "var(--ink-dim)",
+                  fontSize: 13,
+                }}
+                className="nav-link-desktop mono"
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </div>
 
-        <button
-          onClick={() => scrollToSection("contact")}
-          data-cursor-hover
-          className="mono nav-cta-desktop"
-          style={{
-            fontSize: 13,
-            color: "var(--bg)",
-            background: "var(--ink)",
-            padding: "10px 20px",
-            borderRadius: 6,
-          }}
-        >
-          let&rsquo;s talk
-        </button>
+        {isHome ? (
+          <button
+            onClick={() => scrollToSection("contact")}
+            data-cursor-hover
+            className="mono nav-cta-desktop"
+            style={{
+              fontSize: 13,
+              color: "var(--bg)",
+              background: "var(--ink)",
+              padding: "10px 20px",
+              borderRadius: 6,
+            }}
+          >
+            let&rsquo;s talk
+          </button>
+        ) : (
+          <Link
+            href="/#contact"
+            data-cursor-hover
+            className="mono nav-cta-desktop"
+            style={{
+              fontSize: 13,
+              color: "var(--bg)",
+              background: "var(--ink)",
+              padding: "10px 20px",
+              borderRadius: 6,
+            }}
+          >
+            let&rsquo;s talk
+          </Link>
+        )}
 
         <button
           onClick={() => setMenuOpen((v) => !v)}
@@ -216,28 +260,48 @@ export default function Nav() {
         className="container"
         style={{ display: "flex", flexDirection: "column", gap: 8 }}
       >
-        {LINKS.map((link) => (
-          <button
-            key={link.id}
-            onClick={() => {
-              setMenuOpen(false);
-              // Give the drawer a beat to restore body scrolling (its close
-              // effect clears overflow:hidden) before gliding to the section.
-              window.setTimeout(() => scrollToSection(link.id), 60);
-            }}
-            className="drawer-link mono"
-            style={{
-              width: "100%",
-              textAlign: "left",
-              fontSize: 28,
-              color: "var(--ink)",
-              padding: "16px 0",
-              borderBottom: "1px solid var(--hairline)",
-            }}
-          >
-            {link.label}
-          </button>
-        ))}
+        {LINKS.map((link) =>
+          isHome ? (
+            <button
+              key={link.id}
+              onClick={() => {
+                setMenuOpen(false);
+                // Give the drawer a beat to restore body scrolling (its close
+                // effect clears overflow:hidden) before gliding to the section.
+                window.setTimeout(() => scrollToSection(link.id), 60);
+              }}
+              className="drawer-link mono"
+              style={{
+                width: "100%",
+                textAlign: "left",
+                fontSize: 28,
+                color: "var(--ink)",
+                padding: "16px 0",
+                borderBottom: "1px solid var(--hairline)",
+              }}
+            >
+              {link.label}
+            </button>
+          ) : (
+            <Link
+              key={link.id}
+              href={link.href}
+              onClick={() => setMenuOpen(false)}
+              className="drawer-link mono"
+              style={{
+                width: "100%",
+                textAlign: "left",
+                fontSize: 28,
+                color:
+                  activePath === link.href ? "var(--signal)" : "var(--ink)",
+                padding: "16px 0",
+                borderBottom: "1px solid var(--hairline)",
+              }}
+            >
+              {link.label}
+            </Link>
+          ),
+        )}
       </div>
     </div>
   </>

@@ -44,7 +44,8 @@ export default function NotFound() {
           }}
         >
           The page you&rsquo;re after was moved, renamed, or never existed.
-          The whole portfolio lives on a single page — one click away.
+          Browse the sections below or head back to the homepage — one click
+          away.
         </p>
 
         <Link

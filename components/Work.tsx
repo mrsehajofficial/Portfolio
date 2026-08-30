@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "./Reveal";
+import Link from "next/link";
 import { SITE_URL } from "@/lib/site";
 
 if (typeof window !== "undefined") {
@@ -116,6 +117,19 @@ export default function Work() {
               >
                 A project built from scratch, end-to-end.
               </h2>
+              <Link
+                href="/work"
+                data-cursor-hover
+                className="mono"
+                style={{
+                  fontSize: 13,
+                  color: "var(--signal)",
+                  display: "inline-block",
+                  marginTop: 20,
+                }}
+              >
+                the full work page with the long version →
+              </Link>
             </div>
             <p
               style={{

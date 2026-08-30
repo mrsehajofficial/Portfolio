@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
 import Reveal from "./Reveal";
 
 if (typeof window !== "undefined") {
@@ -163,6 +164,19 @@ export default function About() {
                 </span>
               ))}
             </div>
+            <Link
+              href="/about"
+              data-cursor-hover
+              className="mono"
+              style={{
+                fontSize: 13,
+                color: "var(--signal)",
+                display: "inline-block",
+                marginTop: 24,
+              }}
+            >
+              the full about page →
+            </Link>
           </Reveal>
 
           <Reveal delay={0.1}>

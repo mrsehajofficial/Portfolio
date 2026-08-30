@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 
 import { SITE_URL } from "../lib/site";
 
-type PagePath = "/";
+type PagePath = "/" | "/work" | "/about" | "/stack" | "/faq";
 
 interface PageSpec {
   path: PagePath;
@@ -17,11 +17,16 @@ interface PageSpec {
  * lib/site.ts (https://sehaj.wasmer.app) — never the retired
  * bitbridge.work.gd domain, which permanently redirects via next.config.mjs.
  *
- * The portfolio is a single page; section navigation happens in-page, so
- * "/" is the only entry.
+ * The homepage is the hub; /work, /about, /stack and /faq are the detailed
+ * section pages. Contact lives on the homepage only (no /contact route), so
+ * it is deliberately absent here.
  */
 const PAGES: readonly PageSpec[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
+  { path: "/work", changeFrequency: "monthly", priority: 0.9 },
+  { path: "/about", changeFrequency: "monthly", priority: 0.9 },
+  { path: "/stack", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/faq", changeFrequency: "monthly", priority: 0.7 },
 ];
 
 // Shared across all entries so every <lastmod> in a build agrees, instead of
@@ -29,9 +34,10 @@ const PAGES: readonly PageSpec[] = [
 const BUILD_TIME = new Date();
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return PAGES.map(({ changeFrequency, priority }) => ({
-    // SITE_URL ends with "/", so the bare constant IS the homepage URL.
-    url: SITE_URL,
+  return PAGES.map(({ path, changeFrequency, priority }) => ({
+    // SITE_URL ends with "/", so the homepage is the bare constant and every
+    // other route appends its path.
+    url: path === "/" ? SITE_URL : `${SITE_URL}${path.slice(1)}`,
     lastModified: BUILD_TIME,
     changeFrequency,
     priority,

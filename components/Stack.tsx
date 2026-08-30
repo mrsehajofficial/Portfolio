@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Reveal from "./Reveal";
 
 /**
@@ -76,6 +77,19 @@ export default function Stack() {
             Grouped by what I deliver, not by logo wall — everything below is
             something I&rsquo;ve shipped or used in real projects.
           </p>
+          <Link
+            href="/stack"
+            data-cursor-hover
+            className="mono"
+            style={{
+              fontSize: 13,
+              color: "var(--signal)",
+              display: "inline-block",
+              marginTop: 8,
+            }}
+          >
+            the full stack page with the receipts →
+          </Link>
         </Reveal>
 
         <div>

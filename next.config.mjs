@@ -39,12 +39,11 @@ const nextConfig = {
         destination: "https://sehaj.wasmer.app/:path*",
         permanent: true,
       },
-      // The portfolio is a single page; sections are reached by in-page
-      // scrolling, not routes. Permanently 301 the old section URLs home so
-      // previously shared or indexed links (and their SEO signals) survive.
-      { source: "/work", destination: "/", permanent: true },
-      { source: "/about", destination: "/", permanent: true },
-      { source: "/stack", destination: "/", permanent: true },
+      // The detail sections now live on their own routes (/work, /about,
+      // /stack, /faq) with the same section IDs, so navigating the homepage
+      // and clicking through pages stays consistent. Contact remains a
+      // homepage-only section: permanently 301 old /contact URLs home so any
+      // previously shared links (and their SEO signals) survive.
       { source: "/contact", destination: "/", permanent: true },
     ];
   },

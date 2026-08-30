@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Reveal from "./Reveal";
 import { SITE_URL } from "@/lib/site";
 
@@ -96,6 +97,19 @@ export default function Faq() {
             Short, factual answers about who Sehaj is, what he builds, and how
             to work with him — no fluff.
           </p>
+          <Link
+            href="/faq"
+            data-cursor-hover
+            className="mono"
+            style={{
+              fontSize: 13,
+              color: "var(--signal)",
+              display: "inline-block",
+              marginTop: 8,
+            }}
+          >
+            the full faq page with the expanded answers →
+          </Link>
         </Reveal>
 
         <Reveal delay={0.05}>
