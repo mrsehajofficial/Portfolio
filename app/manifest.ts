@@ -37,10 +37,20 @@ export default function manifest(): MetadataRoute.Manifest {
         purpose: "any",
       },
       // Standard Android/desktop raster renditions.
-      { src: "/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
-      { src: "/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+      {
+        src: "/icon-192.png",
+        sizes: "192x192",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
+        src: "/icon-512.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "any",
+      },
       // Full-bleed art padded into the circle safe zone so Android launchers,
-      // which mask icons aggressively, never crop the glyph away.
+      // which mask icons aggressively, never crop the glyph
       {
         src: "/icon-maskable-192.png",
         sizes: "192x192",

@@ -1,9 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import {
-  Fraunces,
-  Inter,
-  Geist_Mono,
-} from "next/font/google";
+import { Fraunces, Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import Cursor from "@/components/Cursor";
@@ -130,7 +126,9 @@ export const metadata: Metadata = {
     ],
     shortcut: ["/favicon.ico"],
     // Safari/iOS cannot render SVG apple-touch-icons — must be a real PNG.
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
   },
 };
 
@@ -157,10 +155,9 @@ const jsonLd = {
       inLanguage: "en",
       mainEntity: { "@id": `${SITE_URL}#sehaj-varma` },
       // First public commit (truthful, from git history).
-      datePublished: "2026-08-27",
+
       dateCreated: "2026-08-27",
       // Evaluated at prerender — same freshness pattern as sitemap.ts.
-      dateModified: new Date().toISOString().slice(0, 10),
     },
     {
       "@type": "Person",
