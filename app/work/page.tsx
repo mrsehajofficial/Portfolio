@@ -114,9 +114,9 @@ export default function WorkPage() {
                 maxWidth: 640,
               }}
             >
-              Proof over promises. This is the long version: what was built,
-              why it exists, and what it runs on — followed by the automation
-              and AI work behind the numbers.
+              Proof over promises. This is the long version: what was built, why
+              it exists, and what it runs on — followed by the automation and AI
+              work behind the numbers.
             </p>
           </Reveal>
         </div>
@@ -174,8 +174,8 @@ export default function WorkPage() {
                   marginBottom: 40,
                 }}
               >
-                A cross-platform real-time messaging application with direct
-                and group chats, a custom in-app camera module, and a clean
+                A cross-platform real-time messaging application with direct and
+                group chats, a custom in-app camera module, and a clean
                 Provider-based architecture — designed and shipped end-to-end
                 across a Python/Flask backend and a Flutter frontend.
               </p>
@@ -442,7 +442,3 @@ export default function WorkPage() {
     </>
   );
 }
-
-
-
-

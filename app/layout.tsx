@@ -156,7 +156,6 @@ const jsonLd = {
       mainEntity: { "@id": `${SITE_URL}#sehaj-varma` },
       // First public commit (truthful, from git history).
 
-      dateCreated: "2026-08-27",
       // Evaluated at prerender — same freshness pattern as sitemap.ts.
     },
     {
