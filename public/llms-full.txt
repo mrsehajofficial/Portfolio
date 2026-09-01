@@ -34,7 +34,7 @@ Tags: Python, Flask, Provider, LLM, Flutter. Year: 2026.
 
 - Automation scripts: private Python tooling across scheduled jobs, file processing pipelines, and API-to-API integrations — the work behind the 10+ scripts counter.
 - AI / RAG experiments: OpenAI & Gemini API integrations, prompt orchestration systems, and RAG architecture studies feeding Amai Yuki's LLM-assisted features.
-- This portfolio itself: static Next.js build with truthful SSR counters, structured data, an anti-spam contact pipeline, and a client-side retrieval assistant — zero external calls.
+- This portfolio itself: static Next.js build with truthful SSR counters, structured data, direct verified contact channels, and a client-side retrieval assistant — zero external calls.
 
 ### About
 

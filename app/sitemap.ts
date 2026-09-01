@@ -14,8 +14,7 @@ interface PageSpec {
 
 /**
  * Every URL here is built from the one canonical-origin constant in
- * lib/site.ts (https://sehaj.wasmer.app) — never the retired
- * bitbridge.work.gd domain, which permanently redirects via next.config.mjs.
+ * lib/site.ts (https://sehaj.wasmer.app).
  *
  * The homepage is the hub; /work, /about, /stack and /faq are the detailed
  * section pages. Contact lives on the homepage only (no /contact route), so

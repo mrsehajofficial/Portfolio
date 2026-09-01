@@ -8,7 +8,7 @@ Sehaj is an AI Automation Engineer and Backend Developer based in India, open to
 - Location: India — open to remote work worldwide
 - Email: [mr.sehaj.official@gmail.com](mailto:mr.sehaj.official@gmail.com)
 - GitHub: [github.com/mrsehajofficial](https://github.com/mrsehajofficial)
-- Canonical origin: <https://sehaj.wasmer.app/> (the retired bitbridge.work.gd domain permanently redirects here)
+- Canonical origin: <https://sehaj.wasmer.app/>
 
 ## Key facts
 
@@ -29,7 +29,7 @@ Sehaj is an AI Automation Engineer and Backend Developer based in India, open to
 - [About](https://sehaj.wasmer.app/about) — expanded bio, focus areas, stats, and current availability
 - [Stack](https://sehaj.wasmer.app/stack) — capability groups with where each tool actually ships
 - [FAQ](https://sehaj.wasmer.app/faq) — the complete, plainly answered FAQ with FAQPage structured data
-- [Contact form](https://sehaj.wasmer.app/#contact) — message form plus direct channels
+- [Contact](https://sehaj.wasmer.app/#contact) — direct email and GitHub channels
 
 ## FAQ
 

@@ -370,7 +370,7 @@ export default function Work() {
               {
                 id: "this-site",
                 title: "This portfolio itself",
-                body: "Static Next.js build with truthful SSR counters, structured data, an anti-spam contact pipeline, and a client-side retrieval assistant — zero external calls.",
+                body: "Static Next.js build with truthful SSR counters, structured data, direct verified contact channels, and a client-side retrieval assistant — zero external calls.",
               },
             ].map((card) => (
               <div

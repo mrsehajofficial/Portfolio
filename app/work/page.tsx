@@ -78,7 +78,7 @@ const EVIDENCE: { title: string; body: string }[] = [
   },
   {
     title: "This portfolio itself",
-    body: "A static Next.js build with truthful server-rendered counters, structured data (ProfilePage, Person, WebSite, FAQPage), an anti-spam contact pipeline, and a fully client-side retrieval assistant — zero external calls.",
+    body: "A static Next.js build with truthful server-rendered counters, structured data (ProfilePage, Person, WebSite, FAQPage), direct verified contact channels, and a fully client-side retrieval assistant — zero external calls.",
   },
 ];
 

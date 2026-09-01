@@ -19,35 +19,10 @@ const nextConfig = {
       },
     ],
   },
-  // Canonicalize the site to https://sehaj.wasmer.app/.
-  //
-  // The previous domain (bitbridge.work.gd) is retired. Both of its hosts —
-  // the apex and www — permanently 301 to the new origin, preserving the path
-  // so any shared or indexed deep link still lands on the right content and
-  // Google collapses all signals onto the single new canonical origin.
-  //
-  // These host redirects are listed FIRST so old-domain requests move to the
-  // new origin in one hop before any other rule applies.
+  // Redirect legacy /contact to homepage section
   async redirects() {
     return [
-      {
-        source: "/:path*",
-        has: [{ type: "host", value: "bitbridge.work.gd" }],
-        destination: "https://sehaj.wasmer.app/:path*",
-        permanent: true,
-      },
-      {
-        source: "/:path*",
-        has: [{ type: "host", value: "www.bitbridge.work.gd" }],
-        destination: "https://sehaj.wasmer.app/:path*",
-        permanent: true,
-      },
-      // The detail sections now live on their own routes (/work, /about,
-      // /stack, /faq) with the same section IDs, so navigating the homepage
-      // and clicking through pages stays consistent. Contact remains a
-      // homepage-only section: permanently 301 old /contact URLs home so any
-      // previously shared links (and their SEO signals) survive.
-      { source: "/contact", destination: "/", permanent: true },
+      { source: "/contact", destination: "/#contact", permanent: true },
     ];
   },
   async headers() {
@@ -57,8 +32,18 @@ const nextConfig = {
         headers: [
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "X-Frame-Options", value: "DENY" },
+          { key: "X-XSS-Protection", value: "1; mode=block" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(self)" },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
+          {
+            key: "Content-Security-Policy",
+            value:
+              "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'none';",
+          },
         ],
       },
       // Content-addressable static assets: cache hard for repeat visits so the

@@ -56,12 +56,9 @@ The site uses **real, honest content only**:
 - [x] `google1088e161c042d899.html` verification file in `public/`
 - [x] Semantic HTML, one `<h1>` per page, alt/ARIA labels on the hero SVG
 
-## Contact form
-
-The form posts to `/api/contact`, which forwards the submission to FormSubmit
-(`formsubmit.co/ajax/...`) addressed to `mr.sehaj.official@gmail.com`. The
-first time someone submits, FormSubmit asks you to confirm the email address —
-open the confirmation link it sends, and deliveries start immediately.
+## Contact
+- Direct Email: `mr.sehaj.official@gmail.com`
+- GitHub: `https://github.com/mrsehajofficial`
 
 ## Accessibility notes
 
