@@ -20,7 +20,7 @@ export default function SmoothScrollProvider({
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    // scrollToSection is needed immediately; Lenis/GSAP can load lazily on idle.
+    // scrollToSection is needed immediately; Lenis can load lazily on idle.
     const scrollToSection = (id: string | null, smooth = true) => {
       const el = id ? document.getElementById(id) : null;
 
@@ -52,21 +52,14 @@ export default function SmoothScrollProvider({
 
     window.addEventListener(SCROLL_TO_SECTION_EVENT, onScrollTo);
 
-    // Load Lenis + GSAP ScrollTrigger lazily on idle to avoid blocking LCP.
-    let tickerFn: ((time: number) => void) | null = null;
+    // Load Lenis lazily on idle to avoid competing with LCP.
+    let rafId = 0;
     let cleanupLenis: (() => void) | null = null;
 
     const initLenis = async () => {
       if (prefersReducedMotion) return;
 
-      const [{ default: LenisClass }, { gsap }, { ScrollTrigger }] =
-        await Promise.all([
-          import("lenis"),
-          import("gsap"),
-          import("gsap/ScrollTrigger"),
-        ]);
-
-      gsap.registerPlugin(ScrollTrigger);
+      const { default: LenisClass } = await import("lenis");
 
       const lenis = new LenisClass({
         duration: 1.2,
@@ -77,14 +70,20 @@ export default function SmoothScrollProvider({
       });
 
       lenisRef.current = lenis;
-      lenis.on("scroll", ScrollTrigger.update);
 
-      tickerFn = (time: number) => lenis.raf(time * 1000);
-      gsap.ticker.add(tickerFn);
-      gsap.ticker.lagSmoothing(0);
+      // A native rAF loop drives Lenis. This replaces the previous GSAP
+      // ticker + ScrollTrigger.update wiring, which shipped ~116 KB of extra
+      // JS (parsed and executed during the load window) for zero functional
+      // gain — the site has no GSAP animations, so ScrollTrigger.update was
+      // a no-op and gsap.ticker was only ever calling lenis.raf.
+      const raf = (time: number) => {
+        lenis.raf(time);
+        rafId = requestAnimationFrame(raf);
+      };
+      rafId = requestAnimationFrame(raf);
 
       cleanupLenis = () => {
-        if (tickerFn) gsap.ticker.remove(tickerFn);
+        cancelAnimationFrame(rafId);
         lenis.destroy();
         lenisRef.current = null;
       };

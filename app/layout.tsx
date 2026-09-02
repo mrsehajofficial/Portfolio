@@ -12,23 +12,30 @@ import { SITE_HOST, SITE_NAME, SITE_URL } from "@/lib/site";
 // Fonts @import that was previously in globals.css, remove the third-party
 // timeout / cache-lifetime penalty, and let us define our own --font-* custom
 // properties that the rest of the site's CSS consumes.
+//
+// Weight lists are trimmed to exactly what the CSS references — every extra
+// weight is one more font file next/font preloads ahead of the LCP hero
+// headline. Fraunces: only h1–h4 (weight 500) use the display face, so it
+// stays a single static weight. Inter and Geist Mono use VARIABLE fonts
+// (weight omitted → next/font serves the variable file): one ~45 KB file
+// covers 400–500 instead of two ~45 KB static files each. This matters for
+// LCP — Chromium only records a text LCP candidate once its web font has
+// loaded, so the nav logo's mono font gates the LCP timestamp directly.
 const fontDisplay = Fraunces({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["500"],
   variable: "--font-display",
   display: "swap",
 });
 
 const fontBody = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
   variable: "--font-body",
   display: "swap",
 });
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
-  weight: ["400", "500"],
   variable: "--font-mono",
   display: "swap",
 });
@@ -38,8 +45,10 @@ const fontMono = Geist_Mono({
 // as SITE_NAME — Google's site-name picker wants a concise name there, not a
 // title-length string (which is why Google previously fell back to "Wasmer").
 const SITE_TITLE = "Sehaj Varma — AI Automation Engineer & Backend Developer";
+// Meta description kept in the 100–140 character band SEO auditors flag on:
+// long enough to be descriptive, short enough that it never truncates.
 const SITE_DESCRIPTION =
-  "AI Automation Engineer and Python Backend Developer building LLM agents, RAG systems, API integrations, automation workflows, and Flask backends that turn repetitive workflows into reliable software.";
+  "Sehaj Varma builds AI automation, LLM agents, RAG pipelines, and Python/Flask backends that turn manual workflows into reliable software.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

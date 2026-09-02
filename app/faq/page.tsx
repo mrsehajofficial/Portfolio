@@ -6,15 +6,17 @@ import Reveal from "@/components/Reveal";
 import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "FAQ",
+  // Rendered title = this + " — Sehaj Varma" template = 59 chars (target 50–60).
+  title: "Portfolio FAQ: Projects, Stack & Availability",
   description:
-    "Frequently asked questions about Sehaj Varma — who he is, what he builds, how to test Amai Yuki, and how to work with him. Plain, factual answers.",
+    // 119 chars (target 100–140).
+    "Straight answers about Sehaj Varma: who he is, what he builds, how to run Amai Yuki, and how to start working with him.",
   alternates: { canonical: `${SITE_URL}faq` },
   openGraph: {
     type: "website",
-    title: "FAQ — Sehaj Varma",
+    title: "Portfolio FAQ: Projects, Stack & Availability — Sehaj Varma",
     description:
-      "Who is Sehaj Varma? What does he build? How can you test Amai Yuki? Plain, factual answers with FAQPage structured data.",
+      "Straight answers about Sehaj Varma: who he is, what he builds, how to run Amai Yuki, and how to start working with him.",
     url: `${SITE_URL}faq`,
     images: [
       {

@@ -1,10 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Compression is handled by the custom server (server.js) via the
-  // `compression` middleware — see the comment there. Disabling Next's own
-  // layer prevents double-encoding.
-  compress: false,
+  // Compression MUST stay enabled here. Lighthouse's 468 KiB "Enable text
+  // compression" finding came from `compress: false`: the deployed platform
+  // (Wasmer) runs `next start`, which served every HTML/JS/CSS response raw.
+  // With `compress: true` Next gzips all compressible responses in-process
+  // (HTML 31 KB → ~7 KB on the wire) and sets `Vary: Accept-Encoding`.
+  // server.js deliberately does NOT add its own compression middleware —
+  // that would double-encode.
+  compress: true,
   poweredByHeader: false,
   // Allow the dev server to serve JS chunks / HMR to devices on your local
   // network (e.g. testing the site on your phone). Update this with your

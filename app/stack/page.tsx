@@ -6,15 +6,17 @@ import Reveal from "@/components/Reveal";
 import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Stack",
+  // Rendered title = this + " — Sehaj Varma" template = 59 chars (target 50–60).
+  title: "Tech Stack: AI, Python, Flask, Flutter & More",
   description:
-    "Sehaj Varma's tools of the trade, grouped by what he delivers: AI (OpenAI, Gemini, RAG, agents), Backend (Python, Flask, REST APIs, SQLite), Automation, Frontend (Flutter, Dart), Deployment.",
+    // 138 chars (target 100–140).
+    "Tools behind the work, grouped by delivery: AI (OpenAI, Gemini, RAG), Python/Flask backends, automation scripts, Flutter, and deployment.",
   alternates: { canonical: `${SITE_URL}stack` },
   openGraph: {
     type: "website",
-    title: "Stack — Sehaj Varma",
+    title: "Tech Stack: AI, Python, Flask, Flutter & More — Sehaj Varma",
     description:
-      "Five capability groups with the receipts for where each tool actually ships — from Amai Yuki's Flask backend to this portfolio's Next.js build.",
+      "Tools behind the work, grouped by delivery: AI (OpenAI, Gemini, RAG), Python/Flask backends, automation scripts, Flutter, and deployment.",
     url: `${SITE_URL}stack`,
     images: [
       {

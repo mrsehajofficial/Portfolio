@@ -1,7 +1,7 @@
 # Sehaj Varma — Portfolio
 
 The personal portfolio of **Sehaj Varma — AI Automation Engineer & Backend Developer**.
-A cinematic Next.js portfolio: server-rendered for SEO, GSAP + Lenis for
+A cinematic Next.js portfolio: server-rendered for SEO, Lenis for
 scroll-driven motion, zero external UI kit — every component is hand-built.
 
 Live at **https://sehaj.wasmer.app/**
@@ -9,8 +9,7 @@ Live at **https://sehaj.wasmer.app/**
 ## Stack
 
 - **Next.js** (App Router) — server-rendered HTML for SEO, file-based routing
-- **GSAP + ScrollTrigger** — scroll-triggered reveals, hero pipeline animation, counters
-- **Lenis** — smooth scroll
+- **Lenis** — smooth scroll (driven by a native rAF loop)
 - **TypeScript**, strict mode
 - No component library, no Tailwind — plain CSS variables + inline styles
 
@@ -62,7 +61,7 @@ The site uses **real, honest content only**:
 
 ## Accessibility notes
 
-- `prefers-reduced-motion` respected globally — every GSAP animation has a
+- `prefers-reduced-motion` respected globally — every animation has a
   reduced-motion branch
 - Custom cursor and film-grain overlay disabled on touch devices and under
   reduced-motion

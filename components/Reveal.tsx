@@ -21,7 +21,12 @@ export default function Reveal({
   className = "",
 }: RevealProps) {
   const ref = useRef<HTMLDivElement & HTMLSpanElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  // Start VISIBLE: the server HTML (and no-JS rendering) always contains the
+  // content fully shown, so crawlers and "low content" audits see everything.
+  // The effect below re-hides only the elements that are currently OFFSCREEN
+  // so their entrance animation still plays when scrolled into view — the
+  // swap happens before the user can see those elements, so there is no flash.
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     const el = ref.current;
@@ -31,10 +36,19 @@ export default function Reveal({
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    if (prefersReducedMotion || typeof IntersectionObserver === "undefined") {
-      setIsVisible(true);
-      return;
+    if (
+      prefersReducedMotion ||
+      typeof IntersectionObserver === "undefined"
+    ) {
+      return; // stays visible — no scroll animation
     }
+
+    // Elements already on screen at load keep their content visible
+    // immediately; only below-the-fold elements get the entrance animation.
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.9) return;
+
+    setIsVisible(false);
 
     const observer = new IntersectionObserver(
       ([entry]) => {

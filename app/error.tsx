@@ -12,8 +12,8 @@ type ErrorPageProps = {
  * Route-level error boundary. Catches exceptions thrown while rendering any
  * page/segment beneath the root layout and offers recovery without a reload.
  *
- * Deliberately free of GSAP/Reveal/etc.: boundaries must render even if some
- * other client dependency is what crashed.
+ * Deliberately free of app-level components (Reveal/etc.): boundaries must
+ * render even if some other client dependency is what crashed.
  */
 export default function Error({ error, reset }: ErrorPageProps) {
   useEffect(() => {

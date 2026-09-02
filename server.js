@@ -1,18 +1,15 @@
 /**
- * Custom Next.js server with in-process gzip compression.
+ * Custom Next.js server entry.
  *
- * Why: the deployed origin (Wasmer) proxies `next start` responses WITHOUT
- * content-encoding, so visitors download the fully uncompressed HTML (~70 KB)
- * and JS/CSS chunks. Compressing inside this process — before the platform
- * proxy — restores gzip for every compressible response and pulls it onto the
- * LCP critical path.
- *
- * `compress: false` is set in next.config.mjs because all compression happens
- * here via the `compression` middleware (prevents double-encoding).
+ * Compression: handled natively by Next itself (`compress: true` in
+ * next.config.mjs). Next gzips every compressible response (HTML, JS, CSS,
+ * SVG, JSON) inside this same process and sets `Vary: Accept-Encoding`, so
+ * the platform proxy (Wasmer) passes the encoded response through untouched.
+ * No separate `compression` middleware here — that previously caused
+ * double-encoding risk and duplicated what Next already does.
  */
 const { createServer } = require("node:http");
 const next = require("next");
-const compression = require("compression");
 
 const port = Number(process.env.PORT) || 3000;
 const app = next({ dev: false });
@@ -20,9 +17,7 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = createServer((req, res) => {
-    // compression() negotiates Accept-Encoding: clients that don't accept
-    // gzip/br get the plain response, so nothing breaks.
-    compression()(req, res, () => handle(req, res));
+    handle(req, res);
   });
 
   server.listen(port, (err) => {

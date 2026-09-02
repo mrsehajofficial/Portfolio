@@ -6,15 +6,17 @@ import Reveal from "@/components/Reveal";
 import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Work",
+  // Rendered title = this + " — Sehaj Varma" template = 58 chars (target 50–60).
+  title: "AI, Python & Backend Projects — Case Studies",
   description:
-    "Selected work by Sehaj Varma — the full Amai Yuki real-time messaging case study (Python/Flask backend, Flutter frontend, LLM integrations), plus the automation scripts and AI/RAG experiments behind the numbers.",
+    // 139 chars (target 100–140).
+    "The full Amai Yuki case study — Python/Flask backend, Flutter frontend, LLM features — plus the automation and RAG work behind the numbers.",
   alternates: { canonical: `${SITE_URL}work` },
   openGraph: {
     type: "website",
-    title: "Work — Sehaj Varma",
+    title: "AI, Python & Backend Projects — Case Studies — Sehaj Varma",
     description:
-      "The full Amai Yuki case study — a real-time messaging app shipped end-to-end on a Python/Flask backend and a Flutter frontend — plus the automation and AI/RAG evidence.",
+      "The full Amai Yuki case study — Python/Flask backend, Flutter frontend, LLM features — plus the automation and RAG work behind the numbers.",
     url: `${SITE_URL}work`,
     images: [
       {

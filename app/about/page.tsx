@@ -6,15 +6,17 @@ import Reveal from "@/components/Reveal";
 import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "About",
+  // Rendered title = this + " — Sehaj Varma" template = 56 chars (target 50–60).
+  title: "About: AI Automation Engineer & Python Dev",
   description:
-    "Who Sehaj Varma is: an AI Automation Engineer and Backend Developer based in India, open to remote work worldwide — building LLM agents, RAG pipelines, Python automation suites, and Flask backends.",
+    // 140 chars (target 100–140).
+    "How Sehaj works: AI automation, LLM integrations, Python backends — and what he's available for, from freelance projects to full-time roles.",
   alternates: { canonical: `${SITE_URL}about` },
   openGraph: {
     type: "website",
-    title: "About — Sehaj Varma",
+    title: "About: AI Automation Engineer & Python Dev — Sehaj Varma",
     description:
-      "The expanded bio: how Sehaj works, what he's deep-diving into, and what he's available for — AI automation, Python backends, API integration, freelance projects.",
+      "How Sehaj works: AI automation, LLM integrations, Python backends — and what he's available for, from freelance projects to full-time roles.",
     url: `${SITE_URL}about`,
     images: [
       {
@@ -66,7 +68,7 @@ const jsonLd = {
       image: `${SITE_URL}og-image.png`,
       jobTitle: "AI Automation Engineer & Backend Developer",
       description:
-        "AI Automation Engineer and Python Backend Developer building LLM agents, RAG systems, API integrations, automation workflows, and Flask backends that turn repetitive workflows into reliable software.",
+        "Sehaj Varma builds AI automation, LLM agents, RAG pipelines, and Python/Flask backends that turn manual workflows into reliable software.",
       email: "mailto:mr.sehaj.official@gmail.com",
       address: {
         "@type": "PostalAddress",

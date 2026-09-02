@@ -80,9 +80,8 @@ export default function Nav() {
           left: 0,
           right: 0,
           zIndex: 100,
-          background: "rgba(10, 10, 11, 0.8)",
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
+          background: "rgba(10, 10, 11, 0.92)",
+          // backdropFilter temporarily disabled for LCP experiment
           borderBottom: "1px solid var(--hairline)",
           transform: navHidden ? "translateY(-100%)" : "translateY(0)",
           transition: "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)",

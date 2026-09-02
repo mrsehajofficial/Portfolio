@@ -20,7 +20,8 @@ export default function manifest(): MetadataRoute.Manifest {
     name: SITE_NAME,
     short_name: "Sehaj Varma",
     description:
-      "Portfolio of Sehaj Varma: LLM agents, RAG pipelines, Python automation, and Flask backends that turn repetitive workflows into reliable software.",
+      // 137 chars — kept in the same 100–140 band as the page meta descriptions.
+      "Portfolio of Sehaj Varma: LLM agents, RAG pipelines, Python automation, and Flask backends that turn manual work into reliable software.",
     start_url: SITE_URL,
     scope: "/",
     display: "standalone",

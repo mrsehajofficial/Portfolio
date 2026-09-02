@@ -92,7 +92,6 @@ export default function Hero() {
             pointerEvents: "none",
             background:
               "radial-gradient(closest-side, rgba(62, 207, 142, 0.13), transparent 70%)",
-            filter: "blur(40px)",
           }}
         />
 

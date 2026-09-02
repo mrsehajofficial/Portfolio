@@ -1,4 +1,43 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+/**
+ * Film-grain texture overlay.
+ *
+ * Deferred until AFTER the page load window: this full-viewport
+ * mix-blend-mode overlay is expensive to composite and previously rendered on
+ * the very first frames, competing with the LCP element's paint (and forcing
+ * extra raster work under it). Mounting it on window load + idle keeps the
+ * visual identical for humans while keeping it out of the LCP critical path.
+ */
 export default function Noise() {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const mount = () => {
+      if (cancelled) return;
+      const idle = (
+        window as unknown as {
+          requestIdleCallback?: (cb: () => void) => number;
+        }
+      ).requestIdleCallback;
+      if (idle) idle(() => !cancelled && setReady(true));
+      else setTimeout(() => !cancelled && setReady(true), 300);
+    };
+
+    if (document.readyState === "complete") mount();
+    else window.addEventListener("load", mount, { once: true });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (!ready) return null;
+
   return (
     <div
       aria-hidden="true"

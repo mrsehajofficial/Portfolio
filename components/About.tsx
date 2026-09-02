@@ -212,8 +212,8 @@ export default function About() {
                     >
                       {/* Final value in the SERVER HTML, not a placeholder:
                           non-JS crawlers, AI agents and no-JS visitors must
-                          read the real number. The GSAP tween below is the one
-                          that rewrites text (to 0, then back up) purely as a
+                          read the real number. The rAF counter effect below
+                          rewrites text (to 0, then back up) purely as a
                           visual flourish AFTER a human scrolls here. */}
                       {stat.value}
                     </span>
