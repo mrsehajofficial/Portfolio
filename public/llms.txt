@@ -1,44 +1,53 @@
 # Sehaj Varma
 
-Sehaj is an AI Automation Engineer and Backend Developer based in India, open to remote work worldwide. He builds LLM agents, RAG pipelines, Python automation suites, and Flask backends that turn repetitive workflows into reliable software. This index describes the personal portfolio at sehaj.wasmer.app — all pages are statically rendered HTML and open to automated access. A full markdown version of every page is available at [llms-full.txt](/llms-full.txt).
+Sehaj Varma is an AI Automation Engineer and Backend Developer based in India, open to remote work worldwide. He builds LLM agents, RAG pipelines, Python automation suites, and Flask backends that turn manual workflows into reliable software. This index describes his personal portfolio at https://sehaj.wasmer.app/ — all pages are statically rendered HTML and open to automated access. A full markdown version of every page is available at [llms-full.txt](/llms-full.txt).
 
-## About
+## Identity
 
+- Name: Sehaj Varma
+- Also known as: Sehaj
 - Role: AI Automation Engineer & Backend Developer
 - Location: India — open to remote work worldwide
-- Email: [mr.sehaj.official@gmail.com](mailto:mr.sehaj.official@gmail.com)
-- GitHub: [github.com/mrsehajofficial](https://github.com/mrsehajofficial)
-- Canonical origin: <https://sehaj.wasmer.app/>
+- Email: mr.sehaj.official@gmail.com
+- GitHub: github.com/mrsehajofficial
+- Flagship open-source project: https://github.com/mrsehajofficial/Amai-Yuki
+- Canonical origin: https://sehaj.wasmer.app/
 
-## Key facts
+## What Sehaj builds
 
-- Flagship project: Amai Yuki, a cross-platform real-time messaging application with direct & group chats, a custom in-app camera module, and Provider-based state architecture
-- Amai Yuki stack: Python/Flask REST backend with SQLite persistence + Flutter/Dart frontend
-- Amai Yuki availability: open-source frontend testable today at [github.com/mrsehajofficial/Amai-Yuki](https://github.com/mrsehajofficial/Amai-Yuki); the backend stays private but is fully functional and documented
-- Automation: 10+ private Python scripts spanning scheduled jobs, file processing pipelines, and API-to-API integrations
-- AI experience: OpenAI & Gemini API integrations, prompt orchestration engineering, RAG (Retrieval-Augmented Generation) architecture study, conversational agents connecting LLMs to external APIs
-- Backend focus: structured Flask REST APIs, clean SQLite schemas, input validation, modular documented codebases
-- Frontend focus: responsive accessible HTML/CSS/JavaScript interfaces; Flutter/Dart mobile development
-- Deployment platforms shipped to: Vercel, Netlify, Render, Wasmer
-- Currently available for: AI automation · Python backends · API integration · freelance projects
+- **LLM agents & RAG pipelines**: OpenAI and Gemini API integrations, prompt orchestration, Retrieval-Augmented Generation architecture, conversational agents that call external APIs for real data instead of hallucinating.
+- **Python automation**: private scripts for scheduled jobs, file processing, and API-to-API integrations — 10+ shipped, each turning a repeated manual step into a repeatable process.
+- **Flask backends**: modular REST APIs on clean SQLite schemas, with input validation on every route and documentation good enough to read without asking questions.
+- **Frontend & mobile**: accessible HTML/CSS/JS, plus Flutter/Dart (Provider-based state) — see Amai Yuki.
+
+## Flagship project: Amai Yuki
+
+- Cross-platform real-time messaging app: direct & group chats, a custom in-app camera module, Provider-based state architecture.
+- Stack: Python/Flask REST backend on SQLite + Flutter/Dart frontend.
+- The frontend is open-source and testable today; the backend is private but fully functional and documented.
+- LLM features are layered into chat via prompt orchestration.
+
+## Availability
+
+- Currently available for: AI automation, Python backends, API integration, freelance projects, remote work worldwide.
+- Response time: replies within a day, usually faster.
 
 ## Pages
 
-- [Home](https://sehaj.wasmer.app/) — cinematic overview with ProfilePage / Person / WebSite structured data, selected work, stack, FAQ, and contact
-- [Work](https://sehaj.wasmer.app/work) — the full Amai Yuki case study plus the automation and AI/RAG evidence
-- [About](https://sehaj.wasmer.app/about) — expanded bio, focus areas, stats, and current availability
-- [Stack](https://sehaj.wasmer.app/stack) — capability groups with where each tool actually ships
-- [FAQ](https://sehaj.wasmer.app/faq) — the complete, plainly answered FAQ with FAQPage structured data
-- [Contact](https://sehaj.wasmer.app/#contact) — direct email and GitHub channels
+- [Home](https://sehaj.wasmer.app/) — portfolio overview: work, about, stack, FAQ, contact, and structured data.
+- [Work](https://sehaj.wasmer.app/work) — the full Amai Yuki case study plus automation and AI/RAG evidence.
+- [About](https://sehaj.wasmer.app/about) — expanded bio, how Sehaj works, and current availability.
+- [Stack](https://sehaj.wasmer.app/stack) — capability groups with where each tool ships.
+- [FAQ](https://sehaj.wasmer.app/faq) — plain answers with FAQPage structured data.
 
 ## FAQ
 
-- Who is Sehaj Varma? An AI Automation Engineer and Backend Developer based in India, open to remote work worldwide. He builds LLM agents, RAG pipelines, Python automation suites, and Flask backends that turn repetitive workflows into reliable software.
-- What does he specialize in? Workflow automation (Python scripting for scheduled jobs, file processing, API-to-API integrations) and backend engineering (structured Flask REST APIs on clean SQLite schemas with input validation and modular documented codebases).
-- What is Amai Yuki? His flagship project: a cross-platform real-time messaging application with direct and group chats, a custom in-app camera module, and Provider-based state architecture — Python/Flask REST backend with SQLite, Flutter/Dart frontend. The frontend is open-source and testable today; the backend is private but fully functional.
-- What AI technologies does he work with? OpenAI and Gemini API integrations, prompt orchestration engineering, RAG (Retrieval-Augmented Generation) architecture, and conversational agents connecting LLMs to external APIs.
-- What is his tech stack? AI (OpenAI, Gemini, RAG, agents, prompt orchestration), Backend (Python, Flask, REST APIs, SQLite), Automation (Python scripting, scheduled jobs, file processing, API integrations), Frontend (HTML/CSS/JavaScript, Flutter, Dart), Deployment (Vercel, Netlify, Render, Wasmer).
-- Is he available for freelance work? Yes — AI automation, Python backends, API integration, and freelance projects. Reach him at [mr.sehaj.official@gmail.com](mailto:mr.sehaj.official@gmail.com) or via [GitHub](https://github.com/mrsehajofficial).
+- Who is Sehaj Varma? An AI Automation Engineer and Backend Developer from India, open to remote work worldwide. He builds LLM agents, RAG pipelines, Python automation suites, and Flask backends.
+- What does he specialize in? Workflow automation (Python scripts for scheduled jobs, file processing, API integration) and backend engineering (Flask REST APIs on clean SQLite schemas).
+- What is Amai Yuki? His flagship project: a cross-platform real-time messaging app with direct and group chats, a custom camera module, and Provider-based state — Python/Flask backend with SQLite, Flutter/Dart frontend.
+- What AI technologies does he work with? OpenAI and Gemini integrations, prompt orchestration, RAG architecture, and agents wired to external APIs.
+- What is his tech stack? AI (OpenAI, Gemini, RAG, agents, prompt orchestration), Backend (Python, Flask, REST, SQLite), Automation (scripting, scheduled jobs, file processing, API integrations), Frontend (HTML/CSS/JS, Flutter, Dart), Deployment (Vercel, Netlify, Render, Wasmer).
+- Is he available for freelance work? Yes — AI automation, Python backends, API integration, freelance projects. Contact mr.sehaj.official@gmail.com or github.com/mrsehajofficial.
 
 ## Usage notes
 

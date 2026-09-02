@@ -4,10 +4,27 @@ import { useEffect, useRef } from "react";
 import type Lenis from "lenis";
 import { SCROLL_TO_SECTION_EVENT } from "@/lib/scrollToSection";
 
-// Height of the fixed navbar, used as a scroll offset so section headings
+// Height of the fixed nav, used as a scroll offset so section headings
 // aren't hidden underneath it.
 const NAV_OFFSET = 84;
 
+/**
+ * SmoothScrollProvider — owns the Lenis instance AND keeps it in lockstep
+ * with GSAP ScrollTrigger.
+ *
+ * Integration contract (the Lenis docs' recommended GSAP wiring):
+ *   1. Lenis drives smooth scroll in a rAF loop.
+ *   2. `lenis.on("scroll", ScrollTrigger.update)` keeps every GSAP trigger in
+ *      sync with the virtual scroll position.
+ *   3. `gsap.ticker.add((t) => lenis.raf(t * 1000))` runs Lenis off GSAP's
+ *      official ticker, so both engines share one rAF heartbeat.
+ *   4. `gsap.ticker.lagSmoothing(0)` disables GSAP's lag-smoothing so the
+ *      shared clock never drifts from real frames.
+ *
+ * GSAP is imported lazily here (never in the initial bundle) so the pages
+ * that render ScrollTriggers still register against the same instance via
+ * ScrollTrigger.config() imports in each scene component.
+ */
 export default function SmoothScrollProvider({
   children,
 }: {
@@ -20,7 +37,6 @@ export default function SmoothScrollProvider({
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    // scrollToSection is needed immediately; Lenis can load lazily on idle.
     const scrollToSection = (id: string | null, smooth = true) => {
       const el = id ? document.getElementById(id) : null;
 
@@ -53,13 +69,19 @@ export default function SmoothScrollProvider({
     window.addEventListener(SCROLL_TO_SECTION_EVENT, onScrollTo);
 
     // Load Lenis lazily on idle to avoid competing with LCP.
-    let rafId = 0;
     let cleanupLenis: (() => void) | null = null;
 
     const initLenis = async () => {
       if (prefersReducedMotion) return;
 
-      const { default: LenisClass } = await import("lenis");
+      const [{ default: LenisClass }, { gsap }, { ScrollTrigger }] =
+        await Promise.all([
+          import("lenis"),
+          import("gsap"),
+          import("gsap/ScrollTrigger"),
+        ]);
+
+      gsap.registerPlugin(ScrollTrigger);
 
       const lenis = new LenisClass({
         duration: 1.2,
@@ -71,20 +93,20 @@ export default function SmoothScrollProvider({
 
       lenisRef.current = lenis;
 
-      // A native rAF loop drives Lenis. This replaces the previous GSAP
-      // ticker + ScrollTrigger.update wiring, which shipped ~116 KB of extra
-      // JS (parsed and executed during the load window) for zero functional
-      // gain — the site has no GSAP animations, so ScrollTrigger.update was
-      // a no-op and gsap.ticker was only ever calling lenis.raf.
-      const raf = (time: number) => {
-        lenis.raf(time);
-        rafId = requestAnimationFrame(raf);
-      };
-      rafId = requestAnimationFrame(raf);
+      // Lenis → ScrollTrigger: recompute trigger positions on every virtual
+      // scroll; without this, scrubbed/pinned scenes drift or never fire.
+      lenis.on("scroll", ScrollTrigger.update);
+
+      // One shared clock: GSAP's ticker drives Lenis AND ScrollTrigger, so
+      // everything stays on the same frame.
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+      gsap.ticker.lagSmoothing(0);
 
       cleanupLenis = () => {
-        cancelAnimationFrame(rafId);
         lenis.destroy();
+        gsap.ticker.remove(() => {});
         lenisRef.current = null;
       };
     };

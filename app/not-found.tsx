@@ -11,59 +11,29 @@ export default function NotFound() {
   return (
     <section
       style={{
-        padding: "160px 0 140px",
-        minHeight: "70vh",
+        padding: "170px 0 140px",
+        minHeight: "75vh",
         display: "flex",
         alignItems: "center",
       }}
     >
       <div className="container">
-        <p
-          className="mono"
-          style={{ fontSize: 13, color: "var(--signal)", marginBottom: 16 }}
-        >
-          error 404
+        <p className="page-eyebrow mono" style={{ marginBottom: 22 }}>
+          error 404 — misprint
         </p>
-        <h1
-          style={{
-            fontSize: "clamp(2.6rem, 6.5vw, 5.4rem)",
-            color: "var(--ink)",
-            maxWidth: 900,
-            marginBottom: 24,
-          }}
-        >
-          This route leads nowhere.
+        <h1 className="page-h1">
+          This route leads <em className="accent-over">nowhere.</em>
         </h1>
-        <p
-          style={{
-            color: "var(--ink-dim)",
-            fontSize: 16,
-            lineHeight: 1.7,
-            maxWidth: 560,
-            marginBottom: 48,
-          }}
-        >
+        <p className="lead">
           The page you&rsquo;re after was moved, renamed, or never existed.
-          Browse the sections below or head back to the homepage — one click
-          away.
+          Somewhere between the plate and the press, this sheet got lost.
+          Head back to the front of the form — one click away.
         </p>
-
-        <Link
-          href="/"
-          data-cursor-hover
-          className="mono"
-          style={{
-            display: "inline-block",
-            padding: "16px 32px",
-            background: "var(--signal)",
-            color: "var(--bg)",
-            borderRadius: 8,
-            fontSize: 14,
-            fontWeight: 500,
-          }}
-        >
-          back to the portfolio
-        </Link>
+        <div style={{ marginTop: 40 }}>
+          <Link href="/" data-cursor-hover className="cta-press" style={{ display: "inline-block" }}>
+            back to the portfolio
+          </Link>
+        </div>
       </div>
     </section>
   );

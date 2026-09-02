@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
-import Reveal from "@/components/Reveal";
+import PressNav from "@/components/PressNav";
+import PressFooter from "@/components/PressFooter";
+import CurtainReveal from "@/components/CurtainReveal";
+import { FLAGSHIP, EVIDENCE, PERSON } from "@/lib/content";
 import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  // Rendered title = this + " — Sehaj Varma" template = 58 chars (target 50–60).
   title: "AI, Python & Backend Projects — Case Studies",
   description:
-    // 139 chars (target 100–140).
     "The full Amai Yuki case study — Python/Flask backend, Flutter frontend, LLM features — plus the automation and RAG work behind the numbers.",
   alternates: { canonical: `${SITE_URL}work` },
   openGraph: {
@@ -29,418 +28,160 @@ export const metadata: Metadata = {
   },
 };
 
-// Same factual project markup as the homepage — consistent on every page
-// where the project is described.
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareSourceCode",
   name: "Amai Yuki",
   description:
     "Cross-platform real-time messaging application with a Python/Flask backend and Flutter frontend, including direct/group chats and a custom in-app camera module.",
-  codeRepository: "https://github.com/mrsehajofficial/Amai-Yuki",
+  codeRepository: PERSON.githubRepo,
   programmingLanguage: ["Dart", "Python", "TypeScript"],
-  author: {
-    "@type": "Person",
-    name: "Sehaj Varma",
-    url: SITE_URL,
-  },
+  author: { "@type": "Person", name: PERSON.name, url: SITE_URL },
 };
 
 const BUILD_BLOCKS: { label: string; body: string }[] = [
   {
     label: "flask rest backend on sqlite",
-    body: "A modular Python/Flask REST API with SQLite persistence and input validation on every route — codebases documented thoroughly enough that future collaborators can read them without asking questions.",
+    body: "A modular Python/Flask REST API with SQLite persistence and input validation on every route. The first version skipped validation — one bad payload taught me that lesson permanently. Documentation thorough enough that future collaborators never have to ask.",
   },
   {
     label: "direct & group chat flows",
-    body: "Real-time messaging with direct and group chats running over the project's own protocol layer, instead of a third-party messaging backend that would cap control over data flow and latency.",
+    body: "Real-time messaging over the project's own protocol layer instead of someone else's. That's the load-bearing decision: it's the reason latency and data flow stay mine to control.",
   },
   {
     label: "custom in-app camera module",
-    body: "A capture module built directly into the Flutter frontend — the custom capture features that off-the-shelf messaging backends can't expose.",
+    body: "A capture module built directly into the Flutter frontend — the kind of feature off-the-shelf messaging backends simply don't expose, and the reason the app had to own the frontend too.",
   },
   {
     label: "provider-based state architecture",
-    body: "A clean Provider-based architecture across the Flutter frontend, keeping chat, camera, and LLM feature state predictable as the app grows.",
+    body: "Clean Provider-based state across the frontend so chat, camera, and LLM-feature state stay predictable as the app grows. Boring on purpose; boring is what survives.",
   },
   {
     label: "llm integrations in chat",
-    body: "OpenAI & Gemini API integrations layered into the chat workflows, driven by prompt orchestration so LLM-assisted features stay reliable.",
-  },
-];
-
-const EVIDENCE: { title: string; body: string }[] = [
-  {
-    title: "Automation scripts",
-    body: "10+ private Python tools across scheduled jobs, file-processing pipelines, and API-to-API integrations. Every one exists to turn a repeated manual step into a repeatable process — the work behind the numbers on the homepage.",
-  },
-  {
-    title: "AI / RAG experiments",
-    body: "OpenAI & Gemini API integrations, prompt orchestration systems, and RAG (Retrieval-Augmented Generation) architecture studies — the experiments feeding Amai Yuki's LLM-assisted features. The goal: agents that connect LLMs to external APIs so they retrieve real-world data instead of guessing.",
-  },
-  {
-    title: "This portfolio itself",
-    body: "A static Next.js build with truthful server-rendered counters, structured data (ProfilePage, Person, WebSite, FAQPage), direct verified contact channels, and a fully client-side retrieval assistant — zero external calls.",
+    body: "OpenAI & Gemini wired into chat workflows via prompt orchestration. The goal isn't a flashy demo — it's an LLM feature that behaves the same on a Tuesday afternoon as it did on launch day.",
   },
 ];
 
 export default function WorkPage() {
   return (
     <>
-      <Nav />
+      <PressNav />
 
-      <section style={{ padding: "180px 0 80px" }}>
+      <section className="page-head">
         <div className="container">
-          <Reveal>
-            <p
-              className="mono"
-              style={{ fontSize: 13, color: "var(--signal)", marginBottom: 16 }}
-            >
-              selected work
-            </p>
-            <h1
-              style={{
-                fontSize: "clamp(2.4rem, 5.5vw, 4.6rem)",
-                color: "var(--ink)",
-                maxWidth: 820,
-                marginBottom: 24,
-              }}
-            >
-              A project built from scratch, end-to-end.
+          <CurtainReveal>
+            <p className="page-eyebrow mono">Form 02 — case study</p>
+            <h1 className="page-h1">
+              {FLAGSHIP.title} — from zero to{" "}
+              <em className="accent-over">shipped.</em>
             </h1>
-            <p
-              style={{
-                color: "var(--ink-dim)",
-                fontSize: 16,
-                lineHeight: 1.8,
-                maxWidth: 640,
-              }}
-            >
-              Proof over promises. This is the long version: what was built, why
-              it exists, and what it runs on — followed by the automation and AI
-              work behind the numbers.
+            <p className="lead">
+              The full story of {FLAGSHIP.title}: a cross-platform real-time
+              messaging app. This is the engineering narrative with the
+              decisions, the tradeoffs, and the parts that didn&rsquo;t work
+              the first time.
             </p>
-          </Reveal>
+          </CurtainReveal>
         </div>
       </section>
 
-      <section style={{ padding: "40px 0 140px" }}>
+      <section className="page-body">
         <div className="container">
-          <Reveal>
-            <article
-              style={{
-                borderTop: "1px solid var(--hairline)",
-                borderBottom: "1px solid var(--hairline)",
-                padding: "56px 0",
-              }}
+          <CurtainReveal>
+            <p className="form-eyebrow mono" style={{ color: "var(--ink-50)" }}>
+              the problem
+            </p>
+            <h2 className="group-h2" style={{ marginTop: 16 }}>
+              Why build your own messaging backend?
+            </h2>
+            <p className="section-body" style={{ marginTop: 18 }}>
+              {FLAGSHIP.problem}
+            </p>
+          </CurtainReveal>
+
+          <CurtainReveal delay={0.05}>
+            <p
+              className="form-eyebrow mono"
+              style={{ color: "var(--ink-50)", marginTop: 56 }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "baseline",
-                  flexWrap: "wrap",
-                  gap: 16,
-                  marginBottom: 28,
-                }}
-              >
-                <span
-                  className="mono"
-                  style={{ fontSize: 13, color: "var(--ink-faint)" }}
-                >
-                  project-01
-                </span>
-                <span
-                  className="mono"
-                  style={{ fontSize: 12, color: "var(--ink-faint)" }}
-                >
-                  2026
-                </span>
-              </div>
-
-              <h2
-                style={{
-                  fontSize: "clamp(1.8rem, 3.2vw, 2.8rem)",
-                  color: "var(--ink)",
-                  marginBottom: 20,
-                }}
-              >
-                Amai Yuki — Real-Time Messaging App
-              </h2>
-              <p
-                style={{
-                  color: "var(--ink-dim)",
-                  fontSize: 16,
-                  lineHeight: 1.8,
-                  maxWidth: 720,
-                  marginBottom: 40,
-                }}
-              >
-                A cross-platform real-time messaging application with direct and
-                group chats, a custom in-app camera module, and a clean
-                Provider-based architecture — designed and shipped end-to-end
-                across a Python/Flask backend and a Flutter frontend.
-              </p>
-
-              <div
-                style={{
-                  borderLeft: "2px solid var(--hairline-strong)",
-                  paddingLeft: 24,
-                  marginBottom: 44,
-                }}
-              >
-                <p
-                  className="mono"
-                  style={{
-                    fontSize: 11,
-                    letterSpacing: "0.08em",
-                    color: "var(--ink-faint)",
-                    marginBottom: 10,
-                  }}
-                >
-                  the problem
-                </p>
-                <p
-                  style={{
-                    color: "var(--ink-dim)",
-                    fontSize: 15,
-                    lineHeight: 1.75,
-                    maxWidth: 680,
-                  }}
-                >
-                  Third-party messaging backends cap control over data flow,
-                  latency, and custom capture features — so the product needed
-                  its own protocol layer.
+              the build blocks
+            </p>
+            {BUILD_BLOCKS.map((block) => (
+              <div className="group-row" key={block.label}>
+                <h3 className="group-h2">{block.label}</h3>
+                <p className="section-body" style={{ marginTop: 12 }}>
+                  {block.body}
                 </p>
               </div>
+            ))}
+          </CurtainReveal>
 
-              <p
-                className="mono"
-                style={{
-                  fontSize: 11,
-                  letterSpacing: "0.08em",
-                  color: "var(--ink-faint)",
-                  marginBottom: 18,
-                }}
-              >
-                what i built
-              </p>
-              <div
-                className="build-grid"
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(2, 1fr)",
-                  gap: 16,
-                  marginBottom: 44,
-                }}
-              >
-                {BUILD_BLOCKS.map((block) => (
-                  <div
-                    key={block.label}
-                    style={{
-                      border: "1px solid var(--hairline)",
-                      borderRadius: 12,
-                      padding: "24px 22px",
-                    }}
-                  >
-                    <h3
-                      className="mono"
-                      style={{
-                        fontSize: 12,
-                        color: "var(--signal)",
-                        fontWeight: 500,
-                        marginBottom: 12,
-                      }}
-                    >
-                      {block.label}
-                    </h3>
-                    <p
-                      style={{
-                        fontSize: 14,
-                        color: "var(--ink-dim)",
-                        lineHeight: 1.75,
-                      }}
-                    >
-                      {block.body}
-                    </p>
-                  </div>
+          <CurtainReveal delay={0.05}>
+            <p
+              className="form-eyebrow mono"
+              style={{ color: "var(--ink-50)", marginTop: 44 }}
+            >
+              the result
+            </p>
+            <div className="plate-card crop" style={{ marginTop: 16 }}>
+              <h3>{FLAGSHIP.title}</h3>
+              <p>{FLAGSHIP.result}</p>
+              <div className="tag-row" style={{ marginTop: 18 }}>
+                {FLAGSHIP.tags.map((t) => (
+                  <span className="pill" key={t}>
+                    {t}
+                  </span>
                 ))}
               </div>
-
-              <div
-                style={{
-                  borderLeft: "2px solid var(--signal)",
-                  paddingLeft: 24,
-                  marginBottom: 44,
-                }}
+              <a
+                href={FLAGSHIP.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cursor-hover
+                className="source-link"
+                style={{ display: "inline-block", marginTop: 22 }}
               >
-                <p
-                  className="mono"
-                  style={{
-                    fontSize: 11,
-                    letterSpacing: "0.08em",
-                    color: "var(--ink-faint)",
-                    marginBottom: 10,
-                  }}
-                >
-                  the result
-                </p>
-                <p
-                  style={{
-                    color: "var(--ink-dim)",
-                    fontSize: 15,
-                    lineHeight: 1.75,
-                    maxWidth: 680,
-                  }}
-                >
-                  Fully functional product: the frontend is open-source and
-                  testable today; the backend stays private but documented.
-                  Frontend polish was accelerated with AI tooling under my
-                  prompt-engineering direction.
-                </p>
-              </div>
+                view source ↗
+              </a>
+            </div>
+          </CurtainReveal>
 
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  flexWrap: "wrap",
-                  gap: 20,
-                }}
-              >
-                <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                  {["Python", "Flask", "Provider", "LLM", "Flutter"].map(
-                    (tag) => (
-                      <span
-                        key={tag}
-                        className="mono"
-                        style={{
-                          fontSize: 12,
-                          color: "var(--ink-faint)",
-                          border: "1px solid var(--hairline-strong)",
-                          padding: "5px 12px",
-                          borderRadius: 100,
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    ),
-                  )}
-                </div>
-                <a
-                  href="https://github.com/mrsehajofficial/Amai-Yuki"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-cursor-hover
-                  className="mono"
-                  style={{ fontSize: 14, color: "var(--signal)" }}
-                >
-                  view source ↗
-                </a>
-              </div>
-            </article>
-          </Reveal>
-
-          <Reveal delay={0.05}>
+          <CurtainReveal delay={0.1}>
             <p
-              className="mono"
-              style={{
-                fontSize: 13,
-                color: "var(--signal)",
-                marginTop: 88,
-                marginBottom: 28,
-              }}
+              className="eyebrow-late mono"
+              style={{ color: "var(--ink-30)", marginTop: 64 }}
             >
-              more evidence
+              appendix — more evidence
             </p>
-            <div
-              className="ev-grid"
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(3, 1fr)",
-                gap: 16,
-              }}
-            >
+            <div className="cards-3" style={{ marginTop: 20 }}>
               {EVIDENCE.map((card) => (
-                <div
-                  key={card.title}
-                  style={{
-                    border: "1px solid var(--hairline)",
-                    borderRadius: 12,
-                    padding: "24px 22px",
-                  }}
-                >
-                  <h3
-                    style={{
-                      fontSize: 16,
-                      color: "var(--ink)",
-                      fontWeight: 500,
-                      marginBottom: 12,
-                    }}
-                  >
-                    {card.title}
-                  </h3>
-                  <p
-                    style={{
-                      fontSize: 13,
-                      color: "var(--ink-faint)",
-                      lineHeight: 1.75,
-                    }}
-                  >
-                    {card.body}
-                  </p>
+                <div className="plate-card" key={card.id}>
+                  <h3>{card.title}</h3>
+                  <p>{card.body}</p>
                 </div>
               ))}
             </div>
-          </Reveal>
+          </CurtainReveal>
 
-          <Reveal delay={0.1}>
-            <div
-              style={{
-                display: "flex",
-                gap: 32,
-                flexWrap: "wrap",
-                marginTop: 64,
-              }}
-            >
-              <Link
-                href="/stack"
-                data-cursor-hover
-                className="mono"
-                style={{ fontSize: 13, color: "var(--signal)" }}
-              >
+          <CurtainReveal delay={0.1}>
+            <div className="link-row">
+              <Link href="/stack" data-cursor-hover className="text-link">
                 see the full stack page →
               </Link>
-              <Link
-                href="/#contact"
-                data-cursor-hover
-                className="mono"
-                style={{ fontSize: 13, color: "var(--ink-dim)" }}
-              >
+              <Link href="/#contact" data-cursor-hover className="text-link dim">
                 get in touch →
               </Link>
             </div>
-          </Reveal>
+          </CurtainReveal>
         </div>
       </section>
 
-      {/* Structured data so search engines can attribute the repo properly. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <style>{`
-        @media (max-width: 860px) {
-          .build-grid,
-          .ev-grid {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
-
-      <Footer />
+      <PressFooter />
     </>
   );
 }

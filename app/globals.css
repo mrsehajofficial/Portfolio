@@ -1,56 +1,62 @@
-/* Fonts are self-hosted via `next/font` (see app/layout.tsx), which sets the
-   --font-display / --font-body / --font-mono custom properties on <html>. No
-   render-blocking @import or third-party font request is needed. */
+/* ═══════════════════════════════════════════════════════════════════════════
+   PAPER PRESS — design system
+   A working letterpress print shop. Warm paper stock, warm-black ink, one
+   vermilion signal. Crop marks, registration, form numbers, ink-density
+   scenes that flip paper↔ink. No gradients, no blur, no glow anywhere.
+   Motion: GSAP ScrollTrigger (pin/scrub scenes) + Motion (entrance/micro),
+   transform & opacity only — every animation runs on the compositor.
+   Fonts are self-hosted via next/font (app/layout.tsx): Anton (display),
+   Archivo (body), IBM Plex Mono (printer's notes).
+   ═══════════════════════════════════════════════════════════════════════════ */
 
 :root {
-  --bg: #0a0a0b;
-  --bg-elevated: #131315;
-  --bg-card: #17171a;
-  --ink: #edebe6;
-  --ink-dim: #a8a59d;
-  /* #8e8b82 passes WCAG AA (>= 4.5:1) on every background in this palette. */
-  --ink-faint: #8e8b82;
-  --signal: #3ecf8e;
-  --signal-dim: rgba(62, 207, 142, 0.14);
-  --signal-error: #e2544a;
-  --hairline: rgba(237, 235, 230, 0.09);
-  --hairline-strong: rgba(237, 235, 230, 0.16);
+  --paper: #f2efe8;
+  --paper-shade: #e9e4d7;
+  --paper-press: #ded8c8;
+  --ink: #17130d;
+  --ink-70: rgba(23, 19, 13, 0.7);
+  --ink-50: rgba(23, 19, 13, 0.5);
+  --ink-30: rgba(23, 19, 13, 0.3);
+  --ink-14: rgba(23, 19, 13, 0.14);
+  --ink-08: rgba(23, 19, 13, 0.08);
+  /* Overprint vermilion — the single accent, like the second pass of ink. */
+  --vermilion: #d6401f;
+  --vermilion-press: #b53417;
 
-  --ease-cinema: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-power: cubic-bezier(0.65, 0, 0.35, 1);
+  /* Ink-density scene: sections that flip the sheet */
+  --plate-bg: #17130d;
+  --plate-fg: #f2efe8;
+  --plate-dim: rgba(242, 239, 232, 0.62);
+  --plate-faint: rgba(242, 239, 232, 0.4);
+  --plate-rule: rgba(242, 239, 232, 0.16);
+
+  --ease-press: cubic-bezier(0.85, 0, 0.15, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --container: min(1280px, calc(100% - clamp(40px, 8vw, 128px)));
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 html {
   scroll-behavior: auto;
-  background: var(--bg);
+  background: var(--paper);
 }
 
 body {
-  background: var(--bg);
+  background: var(--paper);
   color: var(--ink);
   font-family: var(--font-body);
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-::selection {
-  background: var(--signal);
-  color: var(--bg);
-}
+::selection { background: var(--vermilion); color: var(--paper); }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+a { color: inherit; text-decoration: none; }
 
 button {
   font-family: inherit;
@@ -60,103 +66,1134 @@ button {
   color: inherit;
 }
 
-img, video {
-  display: block;
-  max-width: 100%;
+img, video { display: block; max-width: 100%; }
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.005em;
+  line-height: 0.98;
+  text-transform: uppercase;
 }
 
-h1, h2, h3, h4 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
-}
+/* Overprint emphasis inside headlines — the second pass of ink. */
+.accent-over { color: var(--vermilion); }
 
 .mono {
   font-family: var(--font-mono);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
-.container {
-  width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 clamp(24px, 6vw, 80px);
+.container { width: var(--container); margin-inline: auto; }
+
+:focus-visible {
+  outline: 2px solid var(--vermilion);
+  outline-offset: 3px;
 }
 
-/* Visually hidden but accessible */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* Skip link */
 .skip-link {
-  position: absolute;
+  position: fixed;
   top: -100px;
-  left: 24px;
-  background: var(--signal);
-  color: var(--bg);
-  padding: 12px 20px;
-  border-radius: 6px;
+  left: 16px;
+  z-index: 300;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 10px 18px;
   font-family: var(--font-mono);
   font-size: 13px;
-  z-index: 9999;
-  transition: top 0.2s var(--ease-power);
+}
+.skip-link:focus { top: 16px; }
+
+/* ── Crop marks — print-registration corners for key blocks ────────────── */
+.crop { position: relative; }
+.crop::before,
+.crop::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+.crop::before {
+  top: -1px; left: -1px;
+  border-top: 1px solid currentColor;
+  border-left: 1px solid currentColor;
+}
+.crop::after {
+  bottom: -1px; right: -1px;
+  border-bottom: 1px solid currentColor;
+  border-right: 1px solid currentColor;
 }
 
-.skip-link:focus {
-  top: 24px;
+/* ═══════════════════════════════════════════════════════════════════════
+   PRESS NAV — masthead with a rule under it
+   ═══════════════════════════════════════════════════════════════════════ */
+.press-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(242, 239, 232, 0.92);
+  border-bottom: 1px solid var(--ink-14);
+  transition: transform 0.45s var(--ease-press);
+}
+.press-nav.hidden { transform: translate3d(0, -101%, 0); }
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  gap: 24px;
 }
 
-/* Visible keyboard focus everywhere */
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid var(--signal);
-  outline-offset: 4px;
-  border-radius: 2px;
+/* The brand as an embossed stamp */
+.brand-stamp {
+  font-family: var(--font-display);
+  font-size: 19px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  padding: 6px 10px 5px;
+  border: 1px solid var(--ink);
+  transition: background 0.25s var(--ease-press), color 0.25s var(--ease-press);
+}
+.brand-stamp:hover { background: var(--ink); color: var(--paper); }
+
+.nav-links { display: flex; gap: 30px; align-items: center; }
+
+/* Links as printer's marks; the active one sits on an ink chip */
+.nav-mark {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-70);
+  padding: 7px 12px 6px;
+  transition: color 0.2s var(--ease-press), background 0.2s var(--ease-press);
+}
+.nav-mark:hover { color: var(--ink); }
+.nav-mark.active { background: var(--ink); color: var(--paper); }
+
+.nav-cta {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: var(--vermilion);
+  padding: 10px 20px 9px;
+  transition: background 0.25s var(--ease-press), transform 0.25s var(--ease-press);
+}
+.nav-cta:hover {
+  background: var(--vermilion-press);
+  transform: translate3d(0, -1px, 0);
 }
 
-/* Custom scrollbar — subtle, not decorative */
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--hairline-strong);
-  border-radius: 5px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--ink-faint);
+.nav-menu-button {
+  display: none;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--ink);
+  padding: 9px 14px 8px;
 }
 
-/* Reduced motion — respected globally */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+.mobile-drawer {
+  display: flex;
+  position: fixed;
+  inset: 72px 0 0 0;
+  background: var(--paper);
+  flex-direction: column;
+  padding: 40px 0;
+  z-index: 99;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  pointer-events: none;
+}
+.mobile-drawer.open { opacity: 1; visibility: visible; pointer-events: auto; }
+.drawer-link {
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: 34px;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding: 14px 0;
+  border-bottom: 1px solid var(--ink-14);
+}
+.drawer-link.active { color: var(--vermilion); }
+
+@media (max-width: 820px) {
+  .nav-links, .nav-cta { display: none !important; }
+  .nav-menu-button { display: block !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FRONT PAGE — the specimen sheet (hero)
+   GSAP pins this section and stamps each headline line down through its
+   overflow mask. Without JS the lines simply sit on the paper (SSR-safe):
+   the held-up state is applied by JS only (see FrontPage.tsx).
+   ═══════════════════════════════════════════════════════════════════════ */
+.front {
+  position: relative;
+  min-height: 100svh; /* matches viewport; GSAP pin adds the scroll duration automatically */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: clamp(100px, 12vh, 140px) 0 40px;
+  overflow: hidden;
+}
+
+/* Faint baseline grid across the sheet — the print shop's workbench */
+.front::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--ink-08) 0,
+    var(--ink-08) 1px,
+    transparent 1px,
+    transparent 56px
+  );
+  pointer-events: none;
+}
+
+.front-stage {
+  position: relative;
+  z-index: 1;
+  /* Asymmetrical framing — the PAPER PRESS aesthetic.
+     Pinned to the left, but not strictly touching the edge. */
+  max-width: 800px;
+  margin-left: clamp(20px, 8vw, 160px);
+  margin-right: auto;
+}
+
+.front-slug {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  align-items: baseline;
+  font-size: 13px;
+  color: var(--ink-70);
+  margin-bottom: clamp(16px, 3vh, 32px);
+}
+.front-slug strong { font-weight: 500; color: var(--vermilion); }
+.front-slug .sep { color: var(--ink-30); }
+
+.front-title {
+  font-size: clamp(2.4rem, 6.5vw, 6.8rem);
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+
+.front-line { display: block; overflow: hidden; }
+.front-line-inner { display: block; }
+
+/* ── Press-in entrance: PURE CSS (no JS, no ScrollTrigger, no pin). ──────
+   The stamp-in uses keyframe animations: the headline is always visible in
+   the server HTML, and the animation reveals it over ~1s on load. If the
+   browser can't animate or the user prefers reduced motion, the keyframes
+   simply don't apply and the text stays fully visible. Content can never be
+   stranded hidden. */
+@keyframes press-stamp {
+  from { transform: translate3d(0, 112%, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
+@keyframes press-fade {
+  from { opacity: 0; transform: translate3d(0, 16px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .front-line-inner {
+    animation: press-stamp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    transform-origin: bottom;
+  }
+  .front-line:nth-child(2) .front-line-inner { animation-delay: 0.08s; }
+  .front-line:nth-child(3) .front-line-inner { animation-delay: 0.16s; }
+  .front-sub {
+    animation: press-fade 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.36s both;
+  }
+  .front-cta {
+    animation: press-fade 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.46s both;
   }
 }
 
-.lenis.lenis-smooth {
-  scroll-behavior: auto;
+.front-sub {
+  max-width: 560px;
+  font-size: clamp(15px, 1.4vw, 18px);
+  color: var(--ink-70);
+  margin-top: clamp(20px, 2.5vh, 28px);
 }
 
-.lenis.lenis-stopped {
+.front-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: clamp(20px, 2.8vh, 32px);
+}
+
+.cta-press {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--paper);
+  background: var(--ink);
+  padding: 15px 30px 13px;
+  box-shadow: 4px 4px 0 var(--vermilion);
+  transition: transform 0.2s var(--ease-press), box-shadow 0.2s var(--ease-press);
+}
+.cta-press:hover {
+  transform: translate3d(-2px, -2px, 0);
+  box-shadow: 6px 6px 0 var(--vermilion);
+}
+.cta-press:active {
+  transform: translate3d(0, 0, 0);
+  box-shadow: 2px 2px 0 var(--vermilion);
+}
+
+.cta-plate {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  padding: 15px 30px 13px;
+  transition: background 0.2s var(--ease-press), color 0.2s var(--ease-press);
+}
+.cta-plate:hover { background: var(--ink); color: var(--paper); }
+
+/* Ghost marginalia on the sheet edge */
+.front-edge {
+  position: absolute;
+  right: clamp(24px, 3vw, 40px);
+  top: 8vh;
+  transform: rotate(90deg);
+  transform-origin: right top;
+  font-size: 12px;
+  color: var(--ink-30);
+  white-space: nowrap;
+}
+
+.front-foot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 28px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 68ch;
+  margin-left: clamp(100px, 14vw, 200px);
+  margin-right: auto;
+  font-size: 12px;
+  color: var(--ink-50);
+}
+
+/* Scroll progress bar — fixed to the bottom of the viewport during the
+   hero pin, so visitors always see how far the sheet has scrolled.
+   The fill animates via scaleX (transform only → compositor). */
+.front-progress {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: var(--ink-14);
+  transform: scaleX(1);
+  transform-origin: left center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.front-progress-fill {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: var(--vermilion);
+  transform-origin: left center;
+  scale-x: 0; /* GSAP overwrites via gsap.set — starts empty */
+}
+
+@media (max-width: 820px) {
+  .front-edge { display: none; }
+  .front-progress { display: none; } /* progress bar is desktop-only */
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   INK TICKER — a vermilion roller strip riding across the sheet
+   ═══════════════════════════════════════════════════════════════════════ */
+.ticker {
+  position: relative;
+  z-index: 2;
+  background: var(--vermilion);
+  transform: rotate(-1.2deg) scale(1.02);
+  border-block: 1px solid var(--vermilion-press);
   overflow: hidden;
+}
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker-roll 30s linear infinite;
+}
+.ticker:hover .ticker-track { animation-play-state: paused; }
+.ticker-group { display: flex; align-items: center; flex-shrink: 0; }
+.ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  padding: 13px 0 11px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  text-transform: uppercase;
+  color: var(--paper);
+  white-space: nowrap;
+}
+.ticker-item i {
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: rgba(242, 239, 232, 0.65);
+}
+@keyframes ticker-roll {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PRESS WORK — the ink-density scene (flipped sheet)
+   GSAP pins the spread and stamps the build log in on scrub.
+   ═══════════════════════════════════════════════════════════════════════ */
+.presswork {
+  background: var(--plate-bg);
+  color: var(--plate-fg);
+  padding: clamp(90px, 12vh, 150px) 0;
+  position: relative;
+  /* Skip rendering work for sections below the fold until they scroll near;
+     the intrinsic size hint stops CLS. Big rasterization win for LCP. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 100rem;
+  contain: layout paint;
+}
+
+.form-eyebrow {
+  font-size: 13px;
+  color: var(--plate-faint);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.form-eyebrow::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--plate-rule);
+}
+
+.section-title {
+  font-size: clamp(2.2rem, 5vw, 4.6rem);
+  margin-top: 22px;
+  max-width: 22ch;
+}
+
+.section-note {
+  max-width: 440px;
+  color: var(--plate-dim);
+  font-size: 15px;
+  margin-top: 20px;
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: clamp(48px, 8vh, 90px);
+}
+
+/* The 2-up spread: ghost form number + case study */
+.spread {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(32px, 5vw, 80px);
+  align-items: start;
+}
+@media (max-width: 980px) {
+  .spread { grid-template-columns: 1fr; }
+}
+
+.form-no {
+  font-family: var(--font-display);
+  font-size: clamp(7rem, 16vw, 15rem);
+  line-height: 0.85;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--plate-rule);
+  user-select: none;
+}
+
+.case-title { font-size: clamp(2.4rem, 4.6vw, 4.2rem); }
+.case-sub {
+  font-size: 15px;
+  color: var(--plate-dim);
+  margin-top: 12px;
+}
+
+.case-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--vermilion);
+  margin: 34px 0 12px;
+}
+.case-body {
+  color: var(--plate-dim);
+  font-size: 16px;
+  line-height: 1.75;
+  max-width: 56ch;
+}
+
+/* Build log — numbered press blocks */
+.buildlog { margin-top: 8px; }
+.buildlog-item {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 18px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--plate-rule);
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--plate-dim);
+}
+.buildlog-num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--plate-faint);
+  padding-top: 3px;
+}
+
+/* The ink bar — fills on scroll scrub */
+.ink-bar {
+  height: 3px;
+  background: var(--plate-rule);
+  margin-top: 56px;
+  overflow: hidden;
+}
+.ink-bar-fill {
+  height: 100%;
+  background: var(--vermilion);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.plate-actions {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  flex-wrap: wrap;
+  margin-top: 26px;
+}
+.plate-source {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--plate-fg);
+  border: 1px solid var(--plate-rule);
+  padding: 13px 24px 11px;
+  transition: background 0.2s var(--ease-press), color 0.2s var(--ease-press),
+    border-color 0.2s var(--ease-press);
+}
+.plate-source:hover {
+  background: var(--vermilion);
+  border-color: var(--vermilion);
+  color: var(--paper);
+}
+.plate-year {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--plate-faint);
+}
+
+.tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+.tag {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--plate-dim);
+  border: 1px solid var(--plate-rule);
+  padding: 6px 12px 5px;
+}
+
+/* Appendix evidence cards */
+.ev-wrap { margin-top: clamp(70px, 10vh, 110px); }
+.eyebrow-late {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--plate-faint);
+  margin-bottom: 26px;
+}
+.ev-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+@media (max-width: 900px) { .ev-grid { grid-template-columns: 1fr; } }
+.ev-card {
+  border: 1px solid var(--plate-rule);
+  padding: 28px 26px 30px;
+  transition: transform 0.25s var(--ease-press), border-color 0.25s var(--ease-press);
+}
+.ev-card:hover {
+  transform: translate3d(0, -4px, 0);
+  border-color: var(--vermilion);
+}
+.ev-card h3 { font-size: 22px; margin-bottom: 12px; }
+.ev-card p { font-size: 14.5px; line-height: 1.7; color: var(--plate-dim); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   COLOPHON — the about scene
+   ═══════════════════════════════════════════════════════════════════════ */
+.colophon { padding: clamp(90px, 13vh, 160px) 0; position: relative; content-visibility: auto; contain-intrinsic-size: auto 90rem; contain: layout paint; }
+
+.about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  gap: clamp(40px, 6vw, 100px);
+  align-items: start;
+}
+@media (max-width: 980px) { .about-grid { grid-template-columns: 1fr; } }
+
+.colophon .form-eyebrow { color: var(--ink-50); }
+.colophon .form-eyebrow::after { background: var(--ink-14); }
+
+.about-title {
+  font-size: clamp(2.2rem, 5vw, 4.4rem);
+  margin-top: 22px;
+  max-width: 18ch;
+}
+
+.press-prose { margin-top: 34px; display: grid; gap: 22px; }
+.press-prose p {
+  font-size: 16.5px;
+  line-height: 1.75;
+  color: var(--ink-70);
+  max-width: 58ch;
+}
+
+.pill-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 34px; }
+.pill {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border: 1px solid var(--ink-30);
+  padding: 8px 14px 7px;
+  transition: background 0.2s var(--ease-press), color 0.2s var(--ease-press);
+}
+.pill:hover { background: var(--ink); color: var(--paper); }
+
+/* Letterpress digits — the counters, on a shaded plate with a hard shadow */
+.press-digits {
+  border: 1px solid var(--ink);
+  background: var(--paper-shade);
+  padding: 34px 30px 30px;
+  box-shadow: 6px 6px 0 var(--ink);
+  display: grid;
+  gap: 26px;
+}
+.stat-row { border-bottom: 1px solid var(--ink-14); padding-bottom: 24px; }
+.stat-row:last-child { border-bottom: none; padding-bottom: 0; }
+.stat-line {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 5vw, 4.6rem);
+  line-height: 1;
+}
+.stat-suffix { color: var(--vermilion); font-size: 0.55em; }
+.stat-cap {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+  margin-top: 8px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   SPECIMEN SHEET — the stack scene
+   ═══════════════════════════════════════════════════════════════════════ */
+.specimen { padding: clamp(80px, 11vh, 140px) 0; content-visibility: auto; contain-intrinsic-size: auto 100rem; contain: layout paint; }
+
+.specimen .section-title { color: var(--ink); }
+.specimen .section-head .section-note { color: var(--ink-70); }
+.specimen .form-eyebrow { color: var(--ink-50); }
+.specimen .form-eyebrow::after { background: var(--ink-14); }
+
+.ledger { border-top: 1px solid var(--ink); margin-top: clamp(44px, 7vh, 70px); }
+.ledger-row {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 3fr) minmax(0, 6fr);
+  gap: clamp(18px, 3vw, 48px);
+  align-items: baseline;
+  padding: 30px 0;
+  border-bottom: 1px solid var(--ink-14);
+  transition: background 0.25s var(--ease-press);
+}
+@media (max-width: 820px) {
+  .ledger-row { grid-template-columns: 1fr; gap: 10px; padding: 26px 0; }
+}
+.ledger-row:hover { background: var(--ink); }
+.ledger-row:hover .ledger-num,
+.ledger-row:hover .ledger-items { color: var(--plate-dim); }
+.ledger-row:hover .ledger-name { color: var(--vermilion); }
+
+.ledger-num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-30);
+  letter-spacing: 0.08em;
+  transition: color 0.25s var(--ease-press);
+}
+.ledger-name {
+  font-size: clamp(1.8rem, 3.4vw, 3rem);
+  text-transform: uppercase;
+  transition: color 0.25s var(--ease-press);
+}
+.ledger-items {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ink-70);
+  transition: color 0.25s var(--ease-press);
+}
+.ledger-items .sep { color: var(--vermilion); margin: 0 10px; }
+
+.spec-where {
+  margin-top: 14px;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--ink-50);
+  max-width: 62ch;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ASK THE PRESS — the retrieval widget, restyled as a job ticket
+   ═══════════════════════════════════════════════════════════════════════ */
+.ask-section {
+  padding: clamp(70px, 10vh, 120px) 0;
+  background: var(--paper-shade);
+  border-block: 1px solid var(--ink-14);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 60rem;
+  contain: layout paint;
+}
+.ask-title { font-size: clamp(1.9rem, 3.6vw, 3.2rem); margin-top: 14px; }
+.ask-note {
+  max-width: 520px;
+  color: var(--ink-70);
+  font-size: 15px;
+  margin-top: 14px;
+}
+.ask-form { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 34px; }
+.ask-input {
+  flex: 1 1 280px;
+  max-width: 440px;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  padding: 14px 16px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--ink);
+  outline: none;
+  transition: box-shadow 0.2s var(--ease-press);
+}
+.ask-input:focus { box-shadow: 4px 4px 0 var(--vermilion); }
+.ask-submit {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 14px 28px 12px;
+  transition: background 0.2s var(--ease-press);
+}
+.ask-submit:hover { background: var(--vermilion); }
+.ask-suggestions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.ask-chip {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--ink-30);
+  padding: 7px 12px 6px;
+  color: var(--ink-70);
+  transition: border-color 0.2s var(--ease-press), color 0.2s var(--ease-press);
+}
+.ask-chip:hover { border-color: var(--vermilion); color: var(--ink); }
+.ask-result {
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  box-shadow: 6px 6px 0 var(--ink);
+  padding: 28px 26px;
+  max-width: 680px;
+  margin-top: 30px;
+}
+.ask-result-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--vermilion);
+  margin-bottom: 10px;
+}
+.ask-result h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  text-transform: none;
+}
+.ask-result p { color: var(--ink-70); font-size: 15px; line-height: 1.7; }
+.ask-miss { margin-top: 28px; color: var(--ink-50); font-size: 14.5px; max-width: 520px; }
+.ask-footnote {
+  margin-top: 40px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-30);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FIELD QUERIES — FAQ proof slips (expandable)
+   ═══════════════════════════════════════════════════════════════════════ */
+.slips-section { padding: clamp(80px, 11vh, 140px) 0; content-visibility: auto; contain-intrinsic-size: auto 100rem; contain: layout paint; }
+.slips-section .form-eyebrow { color: var(--ink-50); }
+.slips-section .form-eyebrow::after { background: var(--ink-14); }
+
+.slips { border-top: 1px solid var(--ink); margin-top: clamp(40px, 6vh, 64px); }
+.slip { border-bottom: 1px solid var(--ink-14); }
+.slip-head {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 84px 1fr 40px;
+  gap: 20px;
+  align-items: baseline;
+  text-align: left;
+  padding: 26px 0;
+}
+.slip-num {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--ink-30);
+}
+.slip-q {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: clamp(17px, 2vw, 21px);
+  line-height: 1.4;
+  text-transform: none;
+  letter-spacing: 0;
+  transition: color 0.2s var(--ease-press);
+}
+.slip-head:hover .slip-q { color: var(--vermilion); }
+.slip-mark {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  color: var(--vermilion);
+  justify-self: end;
+  transition: transform 0.3s var(--ease-press);
+}
+.slip-head[aria-expanded="true"] .slip-mark { transform: rotate(45deg); }
+.slip-body { overflow: hidden; }
+.slip-a {
+  padding: 0 0 26px calc(84px + 20px);
+  color: var(--ink-70);
+  font-size: 15.5px;
+  line-height: 1.75;
+  max-width: 62ch;
+}
+@media (max-width: 700px) {
+  .slip-a { padding-left: 0; }
+  .slip-head { grid-template-columns: 1fr 32px; }
+  .slip-num { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   IMPRINT — the contact scene, printed in solid vermilion
+   ═══════════════════════════════════════════════════════════════════════ */
+.imprint {
+  background: var(--ink);
+  color: var(--paper);
+  padding: clamp(100px, 14vh, 170px) 0 clamp(80px, 10vh, 120px);
+  position: relative;
+}
+.imprint .form-eyebrow { color: rgba(242, 239, 232, 0.75); }
+.imprint .form-eyebrow::after { background: rgba(242, 239, 232, 0.35); }
+
+.imprint-title {
+  font-size: clamp(2.6rem, 6.4vw, 6rem);
+  margin-top: 26px;
+  max-width: 16ch;
+}
+.imprint-sub {
+  max-width: 540px;
+  font-size: 16.5px;
+  line-height: 1.75;
+  color: rgba(242, 239, 232, 0.88);
+  margin-top: 26px;
+}
+
+/* The email as the largest mono on the page */
+.imprint-email {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: clamp(1.15rem, 3.4vw, 2.6rem);
+  letter-spacing: 0.01em;
+  text-transform: none;
+  margin-top: 44px;
+  border-bottom: 2px solid var(--paper);
+  padding-bottom: 6px;
+  transition: opacity 0.2s var(--ease-press);
+}
+.imprint-email:hover { opacity: 0.75; }
+
+.imprint-actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 26px; }
+.copy-btn {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--paper);
+  color: var(--paper);
+  padding: 12px 22px 10px;
+  transition: background 0.2s var(--ease-press), color 0.2s var(--ease-press);
+}
+.copy-btn:hover, .copy-btn.copied { background: var(--paper); color: var(--ink); }
+
+.avail-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-top: 56px;
+}
+.avail-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(242, 239, 232, 0.7);
+  margin-right: 6px;
+}
+.avail-pill {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 1px solid rgba(242, 239, 232, 0.5);
+  color: var(--paper);
+  padding: 7px 13px 6px;
+}
+
+.imprint-status {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  border-top: 1px solid rgba(242, 239, 232, 0.35);
+  margin-top: clamp(60px, 9vh, 100px);
+  padding-top: 24px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(242, 239, 232, 0.75);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   PRESS FOOTER — thin ink bar with a calibration strip
+   ═══════════════════════════════════════════════════════════════════════ */
+.press-footer { background: var(--plate-bg); color: var(--plate-dim); padding: 26px 0 30px; }
+.calib-bar { display: flex; height: 8px; margin-bottom: 24px; }
+.calib-chip { flex: 1; }
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.end-mark { color: var(--plate-faint); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   REGISTRATION CURSOR — dot follows instantly, crosshair ring lags
+   ═══════════════════════════════════════════════════════════════════════ */
+.reg-cursor { position: fixed; inset: 0; pointer-events: none; z-index: 9998; }
+.reg-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 5px; height: 5px;
+  background: var(--vermilion);
+  will-change: transform;
+}
+.reg-ring {
+  position: fixed;
+  top: 0; left: 0;
+  width: 34px; height: 34px;
+  margin: -15px 0 0 -15px;
+  border: 1px solid var(--ink-50);
+  will-change: transform;
+  transition: width 0.25s var(--ease-press), height 0.25s var(--ease-press),
+    margin 0.25s var(--ease-press), border-color 0.25s var(--ease-press);
+}
+.reg-ring.hovering {
+  width: 52px; height: 52px;
+  margin: -24px 0 0 -24px;
+  border-color: var(--vermilion);
+}
+
+/* Back to top — "return to top of form" */
+.back-to-top {
+  position: fixed;
+  right: clamp(16px, 4vw, 40px);
+  bottom: 32px;
+  z-index: 95;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 12px 18px 10px;
+  box-shadow: 4px 4px 0 var(--vermilion);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 12px, 0);
+  transition: opacity 0.3s var(--ease-press), visibility 0.3s var(--ease-press),
+    transform 0.3s var(--ease-press), background 0.2s var(--ease-press);
+}
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, 0, 0);
+}
+.back-to-top:hover { background: var(--vermilion); }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   DETAIL PAGES (/work, /about, /stack, /faq)
+   ═══════════════════════════════════════════════════════════════════════ */
+.page-head { padding: 170px 0 60px; }
+.page-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--vermilion);
+}
+.page-h1 {
+  font-size: clamp(2.6rem, 6vw, 5.6rem);
+  margin-top: 22px;
+  max-width: 18ch;
+}
+.lead {
+  max-width: 580px;
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--ink-70);
+  margin-top: 26px;
+}
+.page-body { padding: 20px 0 110px; }
+.group-row { border-top: 1px solid var(--ink); padding: 40px 0; }
+.group-row + .group-row { border-top: 1px solid var(--ink-14); }
+.group-h2 { font-size: clamp(1.8rem, 3.4vw, 3rem); }
+.group-row .pill-row { margin: 18px 0 20px; }
+.section-body {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--ink-70);
+  max-width: 62ch;
+}
+.prose { display: grid; gap: 20px; max-width: 62ch; }
+.prose h2 { font-size: clamp(1.7rem, 3vw, 2.6rem); margin-top: 20px; }
+.prose p { color: var(--ink-70); font-size: 16px; line-height: 1.75; }
+.plate-card {
+  border: 1px solid var(--ink);
+  background: var(--paper-shade);
+  box-shadow: 6px 6px 0 var(--ink);
+  padding: 26px 26px 28px;
+}
+.plate-card h3 { font-size: 24px; margin-bottom: 10px; }
+.plate-card p { color: var(--ink-70); font-size: 15px; line-height: 1.7; }
+.cards-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 900px) { .cards-3 { grid-template-columns: 1fr; } }
+.stats-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 900px) { .stats-grid { grid-template-columns: 1fr; } }
+.stat-value {
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 4vw, 3.6rem);
+  line-height: 1;
+}
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-50);
+  margin-top: 8px;
+}
+.link-row { display: flex; gap: 26px; flex-wrap: wrap; margin-top: 60px; }
+.text-link {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 3px;
+  transition: color 0.2s var(--ease-press), border-color 0.2s var(--ease-press);
+}
+.text-link:hover { color: var(--vermilion); border-color: var(--vermilion); }
+.text-link.dim { color: var(--ink-50); border-color: var(--ink-30); }
+.source-link {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--vermilion);
+}
+.mini-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-50);
+  margin-top: 18px;
+}
+
+/* Reduced motion: strip every animation to its final state */
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+  .ticker-group[aria-hidden] { display: none; }
+  .front-line-inner, .front-sub, .front-cta { animation: none; }
+  .press-nav, .cta-press, .cta-plate, .ev-card, .back-to-top, .slip-mark {
+    transition: none;
+  }
 }
