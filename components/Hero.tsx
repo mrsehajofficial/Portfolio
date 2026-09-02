@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
 import { scrollToSection } from "@/lib/scrollToSection";
 
 const PIPELINE_NODES = [
@@ -25,99 +23,8 @@ function getNode(id: string) {
 }
 
 export default function Hero() {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        defaults: { ease: "power3.out" },
-      });
-
-      if (prefersReducedMotion) {
-        gsap.set(
-          [".hero-line", ".hero-sub", ".hero-cta", ".hero-scroll-hint"],
-          { opacity: 1, y: 0 }
-        );
-        gsap.set(".pipeline-edge", { strokeDashoffset: 0 });
-        gsap.set(".pipeline-node", { opacity: 1, scale: 1 });
-        return;
-      }
-
-      gsap.set(".hero-line span", { yPercent: 110 });
-      gsap.set([".hero-sub", ".hero-cta", ".hero-scroll-hint"], {
-        opacity: 0,
-        y: 16,
-      });
-      gsap.set(".pipeline-edge", { strokeDashoffset: 1 });
-      gsap.set(".pipeline-node", { opacity: 0, scale: 0.6 });
-
-      tl.to(".hero-line span", {
-        yPercent: 0,
-        duration: 1.1,
-        stagger: 0.1,
-        ease: "power4.out",
-      })
-        .to(".hero-sub", { opacity: 1, y: 0, duration: 0.8 }, "-=0.5")
-        .to(".hero-cta", { opacity: 1, y: 0, duration: 0.8 }, "-=0.6")
-        .to(
-          ".pipeline-node",
-          {
-            opacity: 1,
-            scale: 1,
-            duration: 0.5,
-            stagger: 0.08,
-            ease: "back.out(2)",
-          },
-          "-=0.5"
-        )
-        .to(
-          ".pipeline-edge",
-          {
-            strokeDashoffset: 0,
-            duration: 0.6,
-            stagger: 0.06,
-          },
-          "-=0.6"
-        )
-        .to(".hero-scroll-hint", { opacity: 1, y: 0, duration: 0.6 }, "-=0.2");
-
-      const pulseTl = gsap.timeline({ repeat: -1, delay: 2.6 });
-      const waypoints = [
-        getNode("ingest"),
-        getNode("parse"),
-        getNode("validate"),
-        getNode("deploy"),
-      ];
-      gsap.set(".pipeline-pulse", {
-        attr: { cx: waypoints[0].x, cy: waypoints[0].y },
-        opacity: 0,
-      });
-      waypoints.forEach((point, i) => {
-        if (i === 0) {
-          pulseTl.to(".pipeline-pulse", { opacity: 1, duration: 0.2 });
-          return;
-        }
-        pulseTl.to(".pipeline-pulse", {
-          attr: { cx: point.x, cy: point.y },
-          duration: 0.7,
-          ease: "power1.inOut",
-        });
-      });
-      pulseTl.to(".pipeline-pulse", { opacity: 0, duration: 0.3 });
-    }, rootRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
     <section
-      ref={rootRef}
       style={{
         position: "relative",
         minHeight: "100svh",
@@ -130,8 +37,6 @@ export default function Hero() {
       }}
     >
       <div className="container">
-        
-
         <h1
           style={{
             fontSize: "clamp(2.6rem, 7vw, 6.2rem)",
@@ -140,20 +45,18 @@ export default function Hero() {
           }}
         >
           <span
-            className="hero-line"
-            style={{ display: "block", overflow: "hidden" }}
+            className="hero-line hero-line-1"
+            style={{ display: "block" }}
           >
-            <span style={{ display: "inline-block" }}>
-              {/* Trailing {' '} keeps copy-paste/extraction punctuation
-                  correct even though CSS makes these spans block-level. */}
+            <span>
               I automate the boring{" "}
             </span>
           </span>
           <span
-            className="hero-line"
-            style={{ display: "block", overflow: "hidden" }}
+            className="hero-line hero-line-2"
+            style={{ display: "block" }}
           >
-            <span style={{ display: "inline-block" }}>
+            <span>
               stuff, orchestrate{" "}
               <em style={{ fontStyle: "italic", color: "var(--signal)" }}>
                 LLM agents
@@ -162,10 +65,10 @@ export default function Hero() {
             </span>
           </span>
           <span
-            className="hero-line"
-            style={{ display: "block", overflow: "hidden" }}
+            className="hero-line hero-line-3"
+            style={{ display: "block" }}
           >
-            <span style={{ display: "inline-block" }}>
+            <span>
               &amp; ship clean{" "}
               <em style={{ fontStyle: "italic", color: "var(--signal)" }}>
                 backends
@@ -192,26 +95,7 @@ export default function Hero() {
             filter: "blur(40px)",
           }}
         />
-        <style>{`
-          .cta-primary {
-            transition: transform 0.25s var(--ease-power),
-              box-shadow 0.25s var(--ease-power);
-            box-shadow: 0 8px 28px rgba(62, 207, 142, 0.22);
-          }
-          .cta-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 14px 40px rgba(62, 207, 142, 0.34);
-          }
-          .cta-secondary {
-            color: var(--ink-dim);
-            transition: color 0.25s var(--ease-power),
-              border-color 0.25s var(--ease-power);
-          }
-          .cta-secondary:hover {
-            color: var(--ink);
-            border-color: var(--signal);
-          }
-        `}</style>
+
         <p
           className="hero-sub"
           style={{
@@ -268,12 +152,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div
-        style={{
-          marginTop: 72,
-          opacity: mounted ? 1 : 0,
-        }}
-      >
+      <div style={{ marginTop: 72 }}>
         <div className="container">
           <svg
             viewBox="0 0 440 130"
@@ -281,6 +160,7 @@ export default function Hero() {
             style={{ maxWidth: 620, height: "auto", overflow: "visible" }}
             role="img"
             aria-label="Diagram of an automation pipeline: ingest, parse, LLM inference, validate, deploy"
+            className="hero-diagram"
           >
             <title>Automation pipeline flow</title>
 
@@ -297,18 +177,14 @@ export default function Hero() {
                   y2={to.y}
                   stroke="var(--hairline-strong)"
                   strokeWidth={1}
-                  strokeDasharray={1}
-                  style={{ strokeDashoffset: 1 }}
-                  pathLength={1}
                 />
               );
             })}
 
             <circle
-              className="pipeline-pulse"
-              r="2.5"
+              className="pipeline-pulse-dot"
+              r="3"
               fill="var(--signal)"
-              opacity={0.9}
             />
 
             {PIPELINE_NODES.map((node) => (
@@ -361,6 +237,71 @@ export default function Hero() {
       >
         scroll
       </div>
+
+      <style>{`
+        @keyframes heroIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes pulseMove {
+          0% { cx: 40px; cy: 60px; opacity: 0; }
+          10% { opacity: 1; }
+          35% { cx: 160px; cy: 24px; opacity: 1; }
+          70% { cx: 280px; cy: 60px; opacity: 1; }
+          90% { cx: 400px; cy: 60px; opacity: 1; }
+          100% { cx: 400px; cy: 60px; opacity: 0; }
+        }
+
+        .hero-line-1 { animation: heroIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        .hero-line-2 { animation: heroIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both; }
+        .hero-line-3 { animation: heroIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.16s both; }
+        .hero-sub { animation: heroIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.24s both; }
+        .hero-cta { animation: heroIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.32s both; }
+        .hero-diagram { animation: heroIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both; }
+        .hero-scroll-hint { animation: heroIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.48s both; }
+
+        .pipeline-pulse-dot {
+          animation: pulseMove 3.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        .cta-primary {
+          transition: transform 0.25s var(--ease-power),
+            box-shadow 0.25s var(--ease-power);
+          box-shadow: 0 8px 28px rgba(62, 207, 142, 0.22);
+        }
+        .cta-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 14px 40px rgba(62, 207, 142, 0.34);
+        }
+        .cta-secondary {
+          color: var(--ink-dim);
+          transition: color 0.25s var(--ease-power),
+            border-color 0.25s var(--ease-power);
+        }
+        .cta-secondary:hover {
+          color: var(--ink);
+          border-color: var(--signal);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .hero-line-1, .hero-line-2, .hero-line-3, .hero-sub, .hero-cta, .hero-diagram, .hero-scroll-hint {
+            animation: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+          }
+          .pipeline-pulse-dot {
+            display: none !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
+

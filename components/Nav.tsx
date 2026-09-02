@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { gsap } from "gsap";
 import { scrollToSection } from "@/lib/scrollToSection";
 
 // Every nav target, with the route it lives on. On the homepage these
@@ -27,15 +26,13 @@ export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const lastScrollY = useRef(0);
 
+  const [navHidden, setNavHidden] = useState(false);
   const pathname = usePathname();
   // Homepage = section scroll. Every other route = one of these detail pages.
   const isHome = pathname === "/";
   const activePath = isHome ? null : pathname;
 
   useEffect(() => {
-    const nav = navRef.current;
-    if (!nav) return;
-
     let ticking = false;
 
     const handleScroll = () => {
@@ -48,9 +45,9 @@ export default function Nav() {
         const pastThreshold = currentY > 120;
 
         if (goingDown && pastThreshold && !menuOpen) {
-          gsap.to(nav, { yPercent: -100, duration: 0.5, ease: "power3.out" });
+          setNavHidden(true);
         } else {
-          gsap.to(nav, { yPercent: 0, duration: 0.5, ease: "power3.out" });
+          setNavHidden(false);
         }
 
         lastScrollY.current = currentY;
@@ -63,53 +60,11 @@ export default function Nav() {
   }, [menuOpen]);
 
   useEffect(() => {
-    const drawer = drawerRef.current;
-    if (!drawer) return;
-
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
     if (menuOpen) {
       document.body.style.overflow = "hidden";
-      gsap.set(drawer, { display: "flex" });
-      if (prefersReducedMotion) {
-        gsap.set(drawer, { opacity: 1 });
-      } else {
-        gsap.fromTo(
-          drawer,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.3, ease: "power2.out" }
-        );
-        gsap.fromTo(
-          ".drawer-link",
-          { opacity: 0, y: 20 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.5,
-            stagger: 0.06,
-            delay: 0.1,
-            ease: "power3.out",
-          }
-        );
-      }
     } else {
       document.body.style.overflow = "";
-      if (prefersReducedMotion) {
-        gsap.set(drawer, { display: "none", opacity: 0 });
-      } else {
-        gsap.to(drawer, {
-          opacity: 0,
-          duration: 0.25,
-          ease: "power2.in",
-         onComplete: () => {
-  gsap.set(drawer, { display: "none" });
-},
-        });
-      }
     }
-
     return () => {
       document.body.style.overflow = "";
     };
@@ -129,7 +84,8 @@ export default function Nav() {
           backdropFilter: "blur(12px)",
           WebkitBackdropFilter: "blur(12px)",
           borderBottom: "1px solid var(--hairline)",
-          transition: "background 0.3s ease, backdrop-filter 0.3s ease",
+          transform: navHidden ? "translateY(-100%)" : "translateY(0)",
+          transition: "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       >
       <div
@@ -247,13 +203,17 @@ export default function Nav() {
       ref={drawerRef}
       id="mobile-menu"
       style={{
-        display: "none",
+        display: "flex",
         position: "fixed",
         inset: "84px 0 0 0",
         background: "var(--bg)",
         flexDirection: "column",
         padding: "48px 0",
         zIndex: 99,
+        opacity: menuOpen ? 1 : 0,
+        visibility: menuOpen ? "visible" : "hidden",
+        transition: "opacity 0.25s ease, visibility 0.25s ease",
+        pointerEvents: menuOpen ? "auto" : "none",
       }}
     >
       <div

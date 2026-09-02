@@ -1,14 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 import Reveal from "./Reveal";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 const STATS = [
   { value: 10, suffix: "+", label: "Private automation scripts built" },
@@ -25,43 +19,47 @@ export default function About() {
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+    if (prefersReducedMotion || typeof IntersectionObserver === "undefined") return;
 
-    // SSR already ships the final value in these elements. Counting from 0
-    // would regress crawlers/no-JS readers to "0+", so the animation ONLY
-    // rewrites text after ScrollTrigger proves a real visitor is looking.
-    if (prefersReducedMotion) return;
+    const statEls = sectionRef.current?.querySelectorAll<HTMLElement>(".stat-value");
+    if (!statEls?.length) return;
 
-    const ctx = gsap.context(() => {
-      gsap.utils.toArray<HTMLElement>(".stat-value").forEach((el) => {
-        const target = parseFloat(el.dataset.value || "0");
-        const isDecimal = target % 1 !== 0;
-        const counter = { val: 0 };
+    // Animate counters up from 0 when they enter the viewport.
+    // SSR already renders the final value so crawlers always read the real number.
+    const observers: IntersectionObserver[] = [];
+    statEls.forEach((el) => {
+      const target = parseFloat(el.dataset.value || "0");
+      const isDecimal = target % 1 !== 0;
 
-        ScrollTrigger.create({
-          trigger: el,
-          start: "top 85%",
-          once: true,
-          onEnter: () => {
-            // Human is watching: start the visual at zero, then count up to
-            // the value that was already in the HTML all along.
-            counter.val = 0;
-            el.textContent = "0";
-            gsap.to(counter, {
-              val: target,
-              duration: 1.8,
-              ease: "power2.out",
-              onUpdate: () => {
-                el.textContent = isDecimal
-                  ? counter.val.toFixed(1)
-                  : Math.round(counter.val).toString();
-              },
-            });
-          },
-        });
-      });
-    }, sectionRef);
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          observer.disconnect();
 
-    return () => ctx.revert();
+          const start = performance.now();
+          const duration = 1600;
+          el.textContent = "0";
+
+          const tick = (now: number) => {
+            const progress = Math.min((now - start) / duration, 1);
+            // ease-out quad
+            const eased = 1 - (1 - progress) ** 2;
+            const current = eased * target;
+            el.textContent = isDecimal
+              ? current.toFixed(1)
+              : Math.round(current).toString();
+            if (progress < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        },
+        { threshold: 0.5 }
+      );
+
+      observer.observe(el);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((o) => o.disconnect());
   }, []);
 
   return (

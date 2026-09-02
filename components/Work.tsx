@@ -1,15 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "./Reveal";
 import Link from "next/link";
 import { SITE_URL } from "@/lib/site";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 type Project = {
   id: string;
@@ -57,26 +51,30 @@ export default function Work() {
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion || typeof IntersectionObserver === "undefined") return;
 
-    const ctx = gsap.context(() => {
-      gsap.utils.toArray<HTMLElement>(".project-row").forEach((row) => {
-        const bar = row.querySelector(".project-progress");
-        gsap.set(bar, { scaleX: 0 });
-        gsap.to(bar, {
-          scaleX: 1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: row,
-            start: "top 75%",
-            end: "bottom 40%",
-            scrub: 0.6,
-          },
-        });
-      });
-    }, sectionRef);
+    const rows = sectionRef.current?.querySelectorAll<HTMLElement>(".project-row");
+    if (!rows) return;
 
-    return () => ctx.revert();
+    const observers: IntersectionObserver[] = [];
+    rows.forEach((row) => {
+      const bar = row.querySelector<HTMLElement>(".project-progress");
+      if (!bar) return;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            bar.style.transform = "scaleX(1)";
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.3 }
+      );
+      observer.observe(row);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((o) => o.disconnect());
   }, []);
 
   return (
@@ -307,6 +305,8 @@ export default function Work() {
                     width: "100%",
                     background: "var(--signal)",
                     transformOrigin: "left",
+                    transform: "scaleX(0)",
+                    transition: "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)",
                   }}
                 />
               </article>

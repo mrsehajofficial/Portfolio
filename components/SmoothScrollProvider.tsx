@@ -1,9 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Lenis from "lenis";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import type Lenis from "lenis";
 import { SCROLL_TO_SECTION_EVENT } from "@/lib/scrollToSection";
 
 // Height of the fixed navbar, used as a scroll offset so section headings
@@ -18,34 +16,11 @@ export default function SmoothScrollProvider({
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    let tickerFn: ((time: number) => void) | null = null;
-
-    if (!prefersReducedMotion) {
-      const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        orientation: "vertical",
-        smoothWheel: true,
-        touchMultiplier: 2,
-      });
-
-      lenisRef.current = lenis;
-      lenis.on("scroll", ScrollTrigger.update);
-
-      tickerFn = (time: number) => lenis.raf(time * 1000);
-      gsap.ticker.add(tickerFn);
-      gsap.ticker.lagSmoothing(0);
-    }
-
-    // Smooth-scroll to a section (or the very top when id is null), then
-    // rewrite the URL to the clean root path — the browser always shows
-    // https://sehaj.wasmer.app/, never "/work", "/about" or "#work".
+    // scrollToSection is needed immediately; Lenis/GSAP can load lazily on idle.
     const scrollToSection = (id: string | null, smooth = true) => {
       const el = id ? document.getElementById(id) : null;
 
@@ -70,8 +45,6 @@ export default function SmoothScrollProvider({
       history.replaceState(null, "", "/");
     };
 
-    // Nav buttons / CTAs dispatch SCROLL_TO_SECTION_EVENT via the
-    // scrollToSection() helper in lib/scrollToSection.ts.
     const onScrollTo = (event: Event) => {
       const detail = (event as CustomEvent<{ id: string | null }>).detail;
       scrollToSection(detail?.id ?? null);
@@ -79,14 +52,60 @@ export default function SmoothScrollProvider({
 
     window.addEventListener(SCROLL_TO_SECTION_EVENT, onScrollTo);
 
-    return () => {
-      window.removeEventListener(SCROLL_TO_SECTION_EVENT, onScrollTo);
-      if (tickerFn) gsap.ticker.remove(tickerFn);
-      if (lenisRef.current) {
-        lenisRef.current.destroy();
+    // Load Lenis + GSAP ScrollTrigger lazily on idle to avoid blocking LCP.
+    let tickerFn: ((time: number) => void) | null = null;
+    let cleanupLenis: (() => void) | null = null;
+
+    const initLenis = async () => {
+      if (prefersReducedMotion) return;
+
+      const [{ default: LenisClass }, { gsap }, { ScrollTrigger }] =
+        await Promise.all([
+          import("lenis"),
+          import("gsap"),
+          import("gsap/ScrollTrigger"),
+        ]);
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      const lenis = new LenisClass({
+        duration: 1.2,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: "vertical",
+        smoothWheel: true,
+        touchMultiplier: 2,
+      });
+
+      lenisRef.current = lenis;
+      lenis.on("scroll", ScrollTrigger.update);
+
+      tickerFn = (time: number) => lenis.raf(time * 1000);
+      gsap.ticker.add(tickerFn);
+      gsap.ticker.lagSmoothing(0);
+
+      cleanupLenis = () => {
+        if (tickerFn) gsap.ticker.remove(tickerFn);
+        lenis.destroy();
         lenisRef.current = null;
-      }
+      };
     };
+
+    // Use requestIdleCallback when available, otherwise defer via setTimeout.
+    if (typeof requestIdleCallback !== "undefined") {
+      const id = requestIdleCallback(initLenis, { timeout: 2000 });
+      return () => {
+        cancelIdleCallback(id);
+        window.removeEventListener(SCROLL_TO_SECTION_EVENT, onScrollTo);
+        cleanupLenis?.();
+      };
+    } else {
+      const id = setTimeout(initLenis, 200);
+      return () => {
+        clearTimeout(id);
+        window.removeEventListener(SCROLL_TO_SECTION_EVENT, onScrollTo);
+        cleanupLenis?.();
+      };
+    }
   }, []);
 
   return <>{children}</>;

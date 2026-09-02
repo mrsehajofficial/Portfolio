@@ -1,12 +1,23 @@
+"use client";
+
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
-import Work from "@/components/Work";
-import About from "@/components/About";
-import Stack from "@/components/Stack";
-import AskPortfolioLazy from "@/components/AskPortfolioLazy";
-import Faq from "@/components/Faq";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
+import dynamic from "next/dynamic";
+import LazyMount from "@/components/LazyMount";
+
+// Only Nav + Hero are in the critical initial payload. Everything below the
+// fold is dynamically imported so the browser fetches it AFTER the hero has
+// already painted — this is the primary lever for fixing the 5s LCP.
+const Work = dynamic(() => import("@/components/Work"), { ssr: false });
+const About = dynamic(() => import("@/components/About"), { ssr: false });
+const Stack = dynamic(() => import("@/components/Stack"), { ssr: false });
+const AskPortfolioLazy = dynamic(
+  () => import("@/components/AskPortfolioLazy"),
+  { ssr: false }
+);
+const Faq = dynamic(() => import("@/components/Faq"), { ssr: false });
+const Contact = dynamic(() => import("@/components/Contact"), { ssr: false });
+const Footer = dynamic(() => import("@/components/Footer"), { ssr: false });
 
 /**
  * The full single-page layout, used by every route.
@@ -14,23 +25,35 @@ import Footer from "@/components/Footer";
  * the exact same sections; SmoothScrollProvider then scrolls to whichever
  * section matches the current URL.
  *
- * AskPortfolio is deliberately optional garnish between Stack and Contact:
- * every essential section remains reachable through plain navigation without
- * touching the assistant. Faq carries the FAQPage structured data that answer
- * engines (Google AI Overviews, AI Mode) cite most easily.
+ * Only Nav + Hero are in the critical render path. Work, About, Stack,
+ * AskPortfolio, Faq, Contact and Footer are deferred behind IntersectionObserver
+ * so the hero LCP is not gated on their JS chunks.
  */
 export default function PortfolioSections() {
   return (
     <>
       <Nav />
       <Hero />
-      <Work />
-      <About />
-      <Stack />
+      {/* below-the-fold: load when scrolled near (600 px pre-fetch margin) */}
+      <LazyMount rootMargin="600px 0px">
+        <Work />
+      </LazyMount>
+      <LazyMount rootMargin="600px 0px">
+        <About />
+      </LazyMount>
+      <LazyMount rootMargin="600px 0px">
+        <Stack />
+      </LazyMount>
       <AskPortfolioLazy />
-      <Faq />
-      <Contact />
-      <Footer />
+      <LazyMount rootMargin="600px 0px">
+        <Faq />
+      </LazyMount>
+      <LazyMount rootMargin="600px 0px">
+        <Contact />
+      </LazyMount>
+      <LazyMount rootMargin="600px 0px">
+        <Footer />
+      </LazyMount>
     </>
   );
 }

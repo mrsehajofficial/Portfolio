@@ -1,12 +1,6 @@
 "use client";
 
-import { useEffect, useRef, ReactNode } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { useEffect, useRef, useState, ReactNode } from "react";
 
 type RevealProps = {
   children: ReactNode;
@@ -21,13 +15,13 @@ type RevealProps = {
 export default function Reveal({
   children,
   delay = 0,
-  y = 40,
-  duration = 1.1,
+  y = 30,
+  duration = 0.8,
   as = "div",
   className = "",
-  start = "top 85%",
 }: RevealProps) {
   const ref = useRef<HTMLDivElement & HTMLSpanElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
@@ -37,35 +31,43 @@ export default function Reveal({
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    if (prefersReducedMotion) {
-      gsap.set(el, { opacity: 1, y: 0 });
+    if (prefersReducedMotion || typeof IntersectionObserver === "undefined") {
+      setIsVisible(true);
       return;
     }
 
-    gsap.set(el, { opacity: 0, y });
-
-    const trigger = ScrollTrigger.create({
-      trigger: el,
-      start,
-      once: true,
-      onEnter: () => {
-        gsap.to(el, {
-          opacity: 1,
-          y: 0,
-          duration,
-          delay,
-          ease: "power3.out",
-        });
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
       },
-    });
+      {
+        rootMargin: "0px 0px -10% 0px",
+        threshold: 0.1,
+      }
+    );
 
-    return () => trigger.kill();
-  }, [delay, y, duration, start]);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const Tag = as;
+
   return (
-    <Tag ref={ref} className={className}>
+    <Tag
+      ref={ref}
+      className={className}
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? "translateY(0)" : `translateY(${y}px)`,
+        transition: `opacity ${duration}s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s, transform ${duration}s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s`,
+        willChange: isVisible ? "auto" : "opacity, transform",
+      }}
+    >
       {children}
     </Tag>
   );
 }
+
