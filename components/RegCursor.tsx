@@ -69,5 +69,5 @@ export default function RegCursor() {
       <div ref={dotRef} className="reg-dot" />
       <div ref={ringRef} className={`reg-ring${hovering ? " hovering" : ""}`} />
     </div>
-  );
-}
+   );
+}   
