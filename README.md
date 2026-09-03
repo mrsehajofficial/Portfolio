@@ -1,69 +1,46 @@
-# Sehaj Varma — Portfolio
+# Sehaj Varma — AI Automation Engineer & Backend Developer
 
-The personal portfolio of **Sehaj Varma — AI Automation Engineer & Backend Developer**.
-A cinematic Next.js portfolio: server-rendered for SEO, Lenis for
-scroll-driven motion, zero external UI kit — every component is hand-built.
+Next.js portfolio site (Wasmer) built for **AI Automation Engineering**.  
+Server-rendered for perfect SEO, Lenis for scroll-driven motion, zero external UI kits — every component is hand-built.
 
 Live at **https://sehaj.wasmer.app/**
 
-## Stack
+## Who I Am
+I build **LLM agents**, **RAG pipelines**, **Python/Flask backends**, and real-time messaging applications.  
+Specializing in AI automation, prompt orchestration, and scalable distributed systems.
 
-- **Next.js** (App Router) — server-rendered HTML for SEO, file-based routing
-- **Lenis** — smooth scroll (driven by a native rAF loop)
-- **TypeScript**, strict mode
-- No component library, no Tailwind — plain CSS variables + inline styles
+## Core Skills
+- **AI Automation Engineering** — LLM agents, RAG pipelines, prompt orchestration
+- **Backend Development** — Python, Flask, REST APIs, distributed event streaming
+- **Real-time Systems** — fault code alerting, scheduled maintenance workflows, vehicle tracking pipelines
+- **Frontend** — Flutter/Dart (real-time messaging app: Amai Yuki)
+- **Infrastructure** — AWS (DynamoDB, PostgreSQL, Kafka), serverless
 
-## Run it locally
+## Selected Open-Source Work
 
-```bash
-npm install
-npm run dev
-```
+### Amai Yuki
+Real-time messaging app with custom protocol layer, LLM prompt orchestration, and Flutter/Dart frontend.  
+- Frontend repository: https://github.com/mrsehajofficial/Amai-Yuki  
+- Backend: private (production use only)  
+- Tech stack: Python/Flask + Flutter
 
-Open `http://localhost:3000`.
+## Tech Stack
+- **Next.js** (App Router) — server-rendered HTML for SEO
+- **Lenis** — smooth scroll (native rAF loop, no UI kits)
+- **TypeScript** — strict mode
+- **Python / Flask** — backend services & automation scripts
+- **Flutter / Dart** — real-time messaging frontend
+- **AWS** — DynamoDB, PostgreSQL, Kafka
 
-## Structure
+## Live Portfolio
+**https://sehaj.wasmer.app/**
 
-- `app/layout.tsx` — metadata, Open Graph, JSON-LD (`Person` schema), meta robots
-- `app/robots.ts` — search-engine **and** AI-bot-friendly rules (GPTBot, ClaudeBot,
-  PerplexityBot, Google-Extended, etc.)
-- `app/sitemap.ts` — sitemap with all on-page sections
-- `app/api/contact/route.ts` — validates the form server-side, then forwards to
-  FormSubmit which emails `mr.sehaj.official@gmail.com`
-- `components/` — Nav, Hero, Work, About, Stack, Contact, Footer + effect helpers
+## Get in touch
+- Email: mr.sehaj.official@gmail.com
+- GitHub: https://github.com/mrsehajofficial
 
-## Content
-
-The site uses **real, honest content only**:
-
-- **Hero / About / Stack** — from the Portfolio-main build that scored 100% in
-  PageSpeed Insights & SEO
-- **Stats** — `10+ automation scripts`, `4+ AI prototypes`, `100% focus` (no
-  invented numbers)
-- **Selected work** — one real, open-source project: **Amai Yuki**
-  (real-time messaging app, Flutter) → `https://github.com/mrsehajofficial/Amai-Yuki`
-- **No fabricated metrics** — no fake latency/throughput/uptime claims
-
-## SEO checklist (done)
-
-- [x] Server-rendered HTML
-- [x] `sitemap.xml` auto-generated at `/sitemap.xml`
-- [x] `robots.txt` auto-generated at `/robots.txt` — allows all major crawlers
-      and AI bots
-- [x] JSON-LD structured data (`Person` schema)
-- [x] Open Graph + Twitter Card meta tags (uses `public/og-image.svg`)
-- [x] `google1088e161c042d899.html` verification file in `public/`
-- [x] Semantic HTML, one `<h1>` per page, alt/ARIA labels on the hero SVG
-
-## Contact
-- Direct Email: `mr.sehaj.official@gmail.com`
-- GitHub: `https://github.com/mrsehajofficial`
-
-## Accessibility notes
-
-- `prefers-reduced-motion` respected globally — every animation has a
-  reduced-motion branch
-- Custom cursor and film-grain overlay disabled on touch devices and under
-  reduced-motion
-- Visible focus rings on all interactive elements
-- Skip-to-content link for keyboard/screen-reader users
+## SEO & AI Bot Friendly
+- Server-rendered HTML
+- JSON-LD `Person` schema
+- Full `sitemap.xml` + `robots.txt` (allows GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc.)
+- Zero external dependencies for UI
