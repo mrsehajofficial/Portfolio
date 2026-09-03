@@ -1,11 +1,7 @@
-"use client";
-
 /**
- * Motion feature bundle — loaded lazily by LazyMotion (see app/layout.tsx).
- * Exported as its own chunk so the domAnimation feature set (+15 KB) never
- * enters the initial bundle: it is fetched only after first render, when the
- * first `m` component actually needs features.
+ * MotionFeatures — previously exported domAnimation for LazyMotion.
+ * motion/react has been removed from the project.
+ * This file is kept as a stub to avoid any residual import errors during
+ * the Turbopack cache warm-up. It can be deleted after the next clean build.
  */
-import { domAnimation } from "motion/react";
-
-export default domAnimation;
+export default {};
