@@ -1,9 +1,23 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { scrollToSection } from "@/lib/scrollToSection";
 import { onIdleAsync, loadGsap } from "@/lib/idle";
 import { HERO, PERSON } from "@/lib/content";
+
+// The GSAP ScrollTrigger below uses `pin: true`, which wraps the <section> in
+// a pin-spacer div — i.e. it REPARENTS a React-managed node. If React deletes
+// that node (client-side navigation away from the home page) while it is still
+// inside the pin-spacer, removeChild throws:
+//   "Failed to execute 'removeChild' on 'Node': The node to be removed is not
+//    a child of this node."
+// A passive useEffect cleanup runs AFTER React has already removed the DOM
+// nodes on unmount — too late to revert the pin. A LAYOUT effect's cleanup
+// runs synchronously BEFORE the DOM deletion, so mm.revert() can unwrap the
+// pin-spacer in time. (useEffect fallback on the server avoids the SSR
+// useLayoutEffect warning; this component never schedules anything there.)
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 /**
  * FrontPage — the specimen sheet. This is the hero "press" scene.
@@ -23,7 +37,7 @@ export default function FrontPage() {
   const sectionRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     let teardown: (() => void) | undefined;
 
     const cancel = onIdleAsync(async () => {

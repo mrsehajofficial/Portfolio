@@ -14,10 +14,10 @@ type CurtainRevealProps = {
 /**
  * CurtainReveal — ink-press entrance reveal.
  *
- * Implemented with plain CSS transitions + IntersectionObserver instead of
- * motion/react `m.*` components. The previous `m[as]` dynamic component type
- * caused React to unmount + remount the DOM node mid-animation during page
- * transitions, producing the "removeChild" reconciliation error.
+ * Implemented with plain CSS transitions + IntersectionObserver. The previous
+ * animation-library `m[as]` dynamic component type caused React to unmount +
+ * remount the DOM node mid-animation during page transitions, producing the
+ * "removeChild" reconciliation error.
  *
  * Strategy:
  *  - SSR: renders fully visible plain HTML → crawlers and no-JS users see

@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Anton, Archivo, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
-import MotionProvider from "@/components/MotionProvider";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import RegCursor from "@/components/RegCursor";
 import BackToTop from "@/components/BackToTop";
@@ -170,11 +169,9 @@ export default function RootLayout({
         <a href="#main-content" className="skip-link">
           Skip to content
         </a>
-        <MotionProvider>
-          <SmoothScrollProvider>
-            <main id="main-content">{children}</main>
-          </SmoothScrollProvider>
-        </MotionProvider>
+        <SmoothScrollProvider>
+          <main id="main-content">{children}</main>
+        </SmoothScrollProvider>
         <RegCursor />
         <BackToTop />
       </body>

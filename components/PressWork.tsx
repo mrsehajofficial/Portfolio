@@ -1,10 +1,18 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import CurtainReveal from "./CurtainReveal";
 import { FLAGSHIP, EVIDENCE, PERSON } from "@/lib/content";
 import { onIdleAsync, loadGsap } from "@/lib/idle";
 import { SITE_URL } from "@/lib/site";
+
+// Same rationale as FrontPage: gsap.matchMedia() cleanup must run before
+// React removes the DOM on unmount (layout-effect cleanup) so ScrollTrigger
+// state is reverted before the section node is deleted. This component does
+// not pin today, but keeping the same effect type prevents the classic
+// "removeChild" reconciliation error if a pin is ever added here.
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 /**
  * PressWork — the flagship case study on the inverted ink-density sheet.
@@ -16,7 +24,7 @@ import { SITE_URL } from "@/lib/site";
 export default function PressWork() {
   const sectionRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     let teardown: (() => void) | undefined;
 
     const cancel = onIdleAsync(async () => {
