@@ -1,20 +1,27 @@
 "use client";
 
-/**
- * Fires a "scroll to section" request that SmoothScrollProvider listens for.
- *
- * The scroll itself is performed with Lenis (falling back to native smooth
- * scrolling) and the URL is rewritten to the clean root path afterwards, so
- * the browser always shows https://sehaj.wasmer.app/ — no "/work",
- * no "/about", and no "#about"-style fragments.
- */
 export const SCROLL_TO_SECTION_EVENT = "portfolio:scroll-to";
+
+const NAV_OFFSET = 76;
 
 export function scrollToSection(id: string | null) {
   if (typeof window === "undefined") return;
+
+  // Dispatch custom event for SmoothScrollProvider / Lenis instance
   window.dispatchEvent(
     new CustomEvent(SCROLL_TO_SECTION_EVENT, { detail: { id } })
   );
+
+  // Fallback native scroll in case Lenis is not active
+  if (!id) {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return;
+  }
+  const el = document.getElementById(id);
+  if (el) {
+    const top = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
+    window.scrollTo({ top, behavior: "smooth" });
+  }
 }
 
 export default scrollToSection;

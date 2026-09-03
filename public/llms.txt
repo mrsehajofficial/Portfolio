@@ -10,6 +10,8 @@ Sehaj Varma is an AI Automation Engineer and Backend Developer based in India, o
 - Location: India — open to remote work worldwide
 - Email: mr.sehaj.official@gmail.com
 - GitHub: github.com/mrsehajofficial
+- LinkedIn: https://www.linkedin.com/in/mrsehajofficial/
+- Instagram: https://www.instagram.com/sehaj.varma.official/
 - Flagship open-source project: https://github.com/mrsehajofficial/Amai-Yuki
 - Canonical origin: https://sehaj.wasmer.app/
 

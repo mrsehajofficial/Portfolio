@@ -13,7 +13,7 @@ const nextConfig = {
   // Allow the dev server to serve JS chunks / HMR to devices on your local
   // network (e.g. testing the site on your phone). Update this with your
   // device's IP if it changes, or add more (e.g. '192.168.1.6').
-  allowedDevOrigins: ["192.168.1.5"],
+  allowedDevOrigins: ["192.168.1.5", "192.168.1.7", "192.168.1.*", "localhost:3000"],
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
@@ -50,12 +50,10 @@ const nextConfig = {
           },
         ],
       },
-      // Content-addressable static assets: cache hard for repeat visits so the
-      // browser never re-validates them. (Next.js already emits immutable
-      // caching for the hashed /_next/static build output; this extends the
-      // same guarantee to versioned files served from /public.)
+      // Static media & fonts in /public: cache for repeat visits.
+      // JS/CSS assets are hashed and cached automatically by Next.js in production.
       {
-        source: "/:path*.(svg|png|jpg|jpeg|gif|webp|avif|ico|woff2|woff|ttf|otf|css|js|pdf|map)",
+        source: "/:path*.(svg|png|jpg|jpeg|gif|webp|avif|ico|woff2|woff|ttf|otf|pdf)",
         headers: [
           { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
         ],

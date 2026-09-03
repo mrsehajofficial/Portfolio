@@ -6,10 +6,6 @@ import { usePathname } from "next/navigation";
 import { scrollToSection } from "@/lib/scrollToSection";
 import { PERSON } from "@/lib/content";
 
-// Every nav target, with the route it lives on. On the homepage these
-// buttons smooth-scroll to the matching <section id="...">; on the detail
-// pages (/work, /about, /stack, /faq) they become real page links with an
-// active state. Contact always resolves to the homepage's #contact section.
 const LINKS = [
   { id: "work", label: "work", href: "/work" },
   { id: "about", label: "about", href: "/about" },
@@ -18,13 +14,6 @@ const LINKS = [
   { id: "contact", label: "contact", href: "/#contact" },
 ];
 
-const DETAIL_PATHS = new Set(["/work", "/about", "/stack", "/faq"]);
-
-/**
- * PressNav — the masthead of the print shop. Name as an embossed stamp,
- * links as printer's marks (the active one sits on a solid ink chip), and a
- * vermilion "let's talk" button as the shop's job-request stamp.
- */
 export default function PressNav() {
   const navRef = useRef<HTMLElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
@@ -44,8 +33,11 @@ export default function PressNav() {
       requestAnimationFrame(() => {
         const currentY = window.scrollY;
         const goingDown = currentY > lastScrollY.current;
-        if (goingDown && currentY > 120 && !menuOpen) setNavHidden(true);
-        else setNavHidden(false);
+        if (goingDown && currentY > 150 && !menuOpen) {
+          setNavHidden(true);
+        } else {
+          setNavHidden(false);
+        }
         lastScrollY.current = currentY;
         ticking = false;
       });
@@ -65,30 +57,29 @@ export default function PressNav() {
     };
   }, [menuOpen]);
 
-  const renderDesktopLink = (link: (typeof LINKS)[number]) => {
-    const isActive = activePath === link.href;
+  const handleLinkClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    link: (typeof LINKS)[number]
+  ) => {
     if (isHome) {
-      return (
-        <button
-          key={link.id}
-          onClick={() => scrollToSection(link.id)}
-          data-cursor-hover
-          className="nav-mark"
-        >
-          {link.label}
-        </button>
-      );
+      e.preventDefault();
+      setNavHidden(false);
+      scrollToSection(link.id);
     }
-    return (
-      <Link
-        key={link.id}
-        href={link.href}
-        data-cursor-hover
-        className={`nav-mark${isActive ? " active" : ""}`}
-      >
-        {link.label}
-      </Link>
-    );
+  };
+
+  const handleMobileClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    link: (typeof LINKS)[number]
+  ) => {
+    setMenuOpen(false);
+    if (isHome) {
+      e.preventDefault();
+      setNavHidden(false);
+      setTimeout(() => {
+        scrollToSection(link.id);
+      }, 50);
+    }
   };
 
   return (
@@ -98,29 +89,55 @@ export default function PressNav() {
         className={navHidden ? "press-nav hidden" : "press-nav"}
       >
         <div className="container nav-inner">
-          <a href="/" data-cursor-hover className="brand-stamp">
+          <Link
+            href="/"
+            onClick={(e) => {
+              if (isHome) {
+                e.preventDefault();
+                setNavHidden(false);
+                scrollToSection(null);
+              }
+            }}
+            data-cursor-hover
+            className="brand-stamp"
+          >
             {PERSON.shortName}.varma
-          </a>
+          </Link>
 
           <div className="nav-links">
-            {LINKS.map(renderDesktopLink)}
+            {LINKS.map((link) => {
+              const isActive = activePath === link.href;
+              return (
+                <Link
+                  key={link.id}
+                  href={isHome ? `/#${link.id}` : link.href}
+                  onClick={(e) => handleLinkClick(e, link)}
+                  data-cursor-hover
+                  className={`nav-mark${isActive ? " active" : ""}`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </div>
 
-          {isHome ? (
-            <button
-              onClick={() => scrollToSection("contact")}
-              data-cursor-hover
-              className="nav-cta"
-            >
-              lets talk
-            </button>
-          ) : (
-            <Link href="/#contact" data-cursor-hover className="nav-cta">
-              lets talk
-            </Link>
-          )}
+          <Link
+            href="/#contact"
+            onClick={(e) => {
+              if (isHome) {
+                e.preventDefault();
+                setNavHidden(false);
+                scrollToSection("contact");
+              }
+            }}
+            data-cursor-hover
+            className="nav-cta"
+          >
+            lets talk
+          </Link>
 
           <button
+            type="button"
             onClick={() => setMenuOpen((v) => !v)}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
@@ -137,32 +154,22 @@ export default function PressNav() {
         id="mobile-menu"
         className={menuOpen ? "mobile-drawer open" : "mobile-drawer"}
       >
-        <div className="container" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {LINKS.map((link) =>
-            isHome ? (
-              <button
-                key={link.id}
-                onClick={() => {
-                  setMenuOpen(false);
-                  window.setTimeout(() => scrollToSection(link.id), 60);
-                }}
-                className="drawer-link"
-              >
-                {link.label}
-              </button>
-            ) : (
-              <Link
-                key={link.id}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className={`drawer-link${
-                  activePath === link.href ? " active" : ""
-                }`}
-              >
-                {link.label}
-              </Link>
-            )
-          )}
+        <div
+          className="container"
+          style={{ display: "flex", flexDirection: "column", gap: 8 }}
+        >
+          {LINKS.map((link) => (
+            <Link
+              key={link.id}
+              href={isHome ? `/#${link.id}` : link.href}
+              onClick={(e) => handleMobileClick(e, link)}
+              className={`drawer-link${
+                activePath === link.href ? " active" : ""
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
         </div>
       </div>
     </>

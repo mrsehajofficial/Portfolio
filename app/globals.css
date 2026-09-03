@@ -474,11 +474,6 @@ h1, h2, h3 {
   color: var(--plate-fg);
   padding: clamp(90px, 12vh, 150px) 0;
   position: relative;
-  /* Skip rendering work for sections below the fold until they scroll near;
-     the intrinsic size hint stops CLS. Big rasterization win for LCP. */
-  content-visibility: auto;
-  contain-intrinsic-size: auto 100rem;
-  contain: layout paint;
 }
 
 .form-eyebrow {
@@ -665,7 +660,7 @@ h1, h2, h3 {
 /* ═══════════════════════════════════════════════════════════════════════
    COLOPHON — the about scene
    ═══════════════════════════════════════════════════════════════════════ */
-.colophon { padding: clamp(90px, 13vh, 160px) 0; position: relative; content-visibility: auto; contain-intrinsic-size: auto 90rem; contain: layout paint; }
+.colophon { padding: clamp(90px, 13vh, 160px) 0; position: relative; }
 
 .about-grid {
   display: grid;
@@ -737,7 +732,7 @@ h1, h2, h3 {
 /* ═══════════════════════════════════════════════════════════════════════
    SPECIMEN SHEET — the stack scene
    ═══════════════════════════════════════════════════════════════════════ */
-.specimen { padding: clamp(80px, 11vh, 140px) 0; content-visibility: auto; contain-intrinsic-size: auto 100rem; contain: layout paint; }
+.specimen { padding: clamp(80px, 11vh, 140px) 0; }
 
 .specimen .section-title { color: var(--ink); }
 .specimen .section-head .section-note { color: var(--ink-70); }
@@ -797,9 +792,6 @@ h1, h2, h3 {
   padding: clamp(70px, 10vh, 120px) 0;
   background: var(--paper-shade);
   border-block: 1px solid var(--ink-14);
-  content-visibility: auto;
-  contain-intrinsic-size: auto 60rem;
-  contain: layout paint;
 }
 .ask-title { font-size: clamp(1.9rem, 3.6vw, 3.2rem); margin-top: 14px; }
 .ask-note {
@@ -880,7 +872,7 @@ h1, h2, h3 {
 /* ═══════════════════════════════════════════════════════════════════════
    FIELD QUERIES — FAQ proof slips (expandable)
    ═══════════════════════════════════════════════════════════════════════ */
-.slips-section { padding: clamp(80px, 11vh, 140px) 0; content-visibility: auto; contain-intrinsic-size: auto 100rem; contain: layout paint; }
+.slips-section { padding: clamp(80px, 11vh, 140px) 0; }
 .slips-section .form-eyebrow { color: var(--ink-50); }
 .slips-section .form-eyebrow::after { background: var(--ink-14); }
 

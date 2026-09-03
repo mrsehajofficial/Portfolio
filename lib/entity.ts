@@ -13,7 +13,12 @@ import { SITE_URL } from "./site";
 
 export const PERSON_ID = `${SITE_URL}#sehaj-varma`;
 
-export const SAME_AS = [PERSON.github];
+export const SAME_AS = [
+  PERSON.github,
+  PERSON.linkedin,
+  PERSON.instagram,
+  PERSON.githubRepo,
+];
 
 /** The shared Person node — spread into any page's @graph. */
 export const personEntity = (overrides: Record<string, unknown> = {}) => ({

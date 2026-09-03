@@ -21,6 +21,8 @@ export const PERSON = {
   email: "mr.sehaj.official@gmail.com",
   github: "https://github.com/mrsehajofficial",
   githubRepo: "https://github.com/mrsehajofficial/Amai-Yuki",
+  linkedin: "https://www.linkedin.com/in/mrsehajofficial/",
+  instagram: "https://www.instagram.com/sehaj.varma.official/",
   location: "India",
   locationLine: "India — open to remote work worldwide",
 } as const;

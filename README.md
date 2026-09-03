@@ -38,9 +38,11 @@ Real-time messaging app with custom protocol layer, LLM prompt orchestration, an
 ## Get in touch
 - Email: mr.sehaj.official@gmail.com
 - GitHub: https://github.com/mrsehajofficial
+- LinkedIn: https://www.linkedin.com/in/mrsehajofficial/
+- Instagram: https://www.instagram.com/sehaj.varma.official/
 
 ## SEO & AI Bot Friendly
 - Server-rendered HTML
-- JSON-LD `Person` schema
+- JSON-LD `Person` + `ProfilePage` + `Speakable` schema
 - Full `sitemap.xml` + `robots.txt` (allows GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc.)
 - Zero external dependencies for UI

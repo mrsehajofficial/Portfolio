@@ -55,6 +55,24 @@ export default function Imprint() {
             >
               github.com/mrsehajofficial ↗
             </a>
+            <a
+              href={PERSON.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor-hover
+              className="copy-btn"
+            >
+              linkedin.com/in/mrsehajofficial ↗
+            </a>
+            <a
+              href={PERSON.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor-hover
+              className="copy-btn"
+            >
+              instagram.com/sehaj.varma.official ↗
+            </a>
           </div>
 
           <div className="avail-row">

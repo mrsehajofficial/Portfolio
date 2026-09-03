@@ -6,8 +6,7 @@ import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import RegCursor from "@/components/RegCursor";
 import BackToTop from "@/components/BackToTop";
 // Single canonical-origin source of truth shared with robots.ts / sitemap.ts.
-import { SITE_HOST, SITE_NAME, SITE_URL } from "@/lib/site";
-import { personEntity, PERSON_ID } from "@/lib/entity";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { PERSON } from "@/lib/content";
 
 // ── Fonts ────────────────────────────────────────────────────────────────
@@ -111,50 +110,44 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-// ── JSON-LD — one shared Person node (lib/entity.ts) + the page's own nodes ─
+// ── JSON-LD — Speakable + ProfilePage + Person structured data ──────────────
 const jsonLd = {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "ProfilePage",
-      "@id": `${SITE_URL}#profilepage`,
-      url: SITE_URL,
-      inLanguage: "en",
-      mainEntity: { "@id": PERSON_ID },
+  "@type": ["ProfilePage", "Person"],
+  mainEntity: {
+    "@type": "Person",
+    name: "Sehaj Varma",
+    jobTitle: "AI Automation Engineer & Backend Developer",
+    url: "https://sehaj.wasmer.app/",
+    description:
+      "AI Automation Engineer & Backend Developer from India. Builds LLM agents, RAG pipelines, Python/Flask backends, and real-time messaging apps (Amai Yuki). Specializing in prompt orchestration, workflow automation, and scalable systems.",
+    image: "https://sehaj.wasmer.app/og-image.svg",
+    email: "mr.sehaj.official@gmail.com",
+    sameAs: [
+      "https://github.com/mrsehajofficial",
+      "https://github.com/mrsehajofficial/Amai-Yuki",
+      "https://www.linkedin.com/in/mrsehajofficial/",
+      "https://www.instagram.com/sehaj.varma.official/",
+    ],
+    knowsAbout: [
+      "LLM agents",
+      "RAG pipelines",
+      "prompt orchestration",
+      "Python automation",
+      "Flask REST APIs",
+      "real-time messaging systems",
+      "distributed event streaming",
+      "workflow automation",
+    ],
+    speakable: {
+      "@type": "Speakable",
+      cssSelector: "h1, .hero h1, .about h2",
     },
-    personEntity({
-      interactionStatistic: [
-        {
-          "@type": "InteractionCounter",
-          interactionType: "https://schema.org/FollowAction",
-          userInteractionCount: 1, // GitHub followers — true as of Aug 2026
-        },
-      ],
-      description: SITE_DESCRIPTION,
-      knowsAbout: [
-        "Python",
-        "Flask",
-        "AI Automation",
-        "Prompt Engineering",
-        "LLM Integration",
-        "RAG Pipelines",
-        "Backend Development",
-        "Workflow Automation",
-        "Flutter",
-        "REST APIs",
-      ],
-    }),
-    {
-      "@type": "WebSite",
-      "@id": `${SITE_URL}#website`,
-      url: SITE_URL,
-      name: SITE_NAME,
-      alternateName: [PERSON.name, "Sehaj", SITE_HOST],
-      description: SITE_DESCRIPTION,
-      inLanguage: "en",
-      publisher: { "@id": PERSON_ID },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": "https://sehaj.wasmer.app/",
     },
-  ],
+  },
 };
 
 export default function RootLayout({
