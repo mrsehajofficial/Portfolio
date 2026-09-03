@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode, type CSSProperties } from "react";
-import { m } from "motion/react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 type CurtainRevealProps = {
   children: ReactNode;
@@ -14,88 +13,90 @@ type CurtainRevealProps = {
 
 /**
  * CurtainReveal — ink-press entrance reveal.
- * Server HTML starts fully visible (crawlers + no-JS read everything); JS
- * then hides only offscreen elements and "presses" them in when they enter
- * the viewport, using Motion's `m` component (WAAPI = compositor thread).
- * Reduced-motion users keep the fully-visible static state.
+ *
+ * Implemented with plain CSS transitions + IntersectionObserver instead of
+ * motion/react `m.*` components. The previous `m[as]` dynamic component type
+ * caused React to unmount + remount the DOM node mid-animation during page
+ * transitions, producing the "removeChild" reconciliation error.
+ *
+ * Strategy:
+ *  - SSR: renders fully visible plain HTML → crawlers and no-JS users see
+ *    everything immediately, no hydration mismatch possible.
+ *  - Client: useEffect hides below-fold elements via inline style, then
+ *    IntersectionObserver triggers a CSS transition when they enter view.
+ *  - Reduced-motion / no-IO: element stays fully visible, no flicker.
+ *  - Cleanup: inline styles are fully reset on unmount so navigating away
+ *    during an animation never leaves orphaned transform/opacity values.
  */
 export default function CurtainReveal({
   children,
   delay = 0,
   y = 26,
   className = "",
-  as = "div",
+  as: Tag = "div",
   once = true,
 }: CurtainRevealProps) {
   const ref = useRef<HTMLDivElement & HTMLSpanElement>(null);
-  const [shouldAnimate, setShouldAnimate] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
-    // HARD FAILSAFE: if the below-fold "hidden until in view" state is ever
-    // left in place (lazy Motion features stall, IntersectionObserver fails,
-    // script error after mount), force everything visible after 2.5s so the
-    // page can never be blank. 2.5s is comfortably past the entrance window.
-    const failsafe = window.setTimeout(() => {
-      setShouldAnimate(false);
-    }, 2500);
-
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
-    if (prefersReducedMotion || typeof IntersectionObserver === "undefined") {
-      return () => window.clearTimeout(failsafe);
-    }
 
-    // Only re-animate content that's below the fold at load; above-the-fold
-    // content stays fully visible (no flash), just like the old Reveal.
-    if (el.getBoundingClientRect().top < window.innerHeight * 0.9) {
-      window.clearTimeout(failsafe);
+    // Reduced-motion or no IntersectionObserver support → stay fully visible.
+    if (prefersReducedMotion || typeof IntersectionObserver === "undefined") {
       return;
     }
 
-    setShouldAnimate(true);
+    // Above-the-fold content stays visible on first paint (no FOUT).
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.9) {
+      return;
+    }
+
+    // Hide the element before the user can see it.
+    el.style.opacity = "0";
+    el.style.transform = `translateY(${y}px)`;
+    el.style.transition = `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}s, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}s`;
+    el.style.willChange = "opacity, transform";
+
+    // Hard failsafe: force visible after 2.5s so the page can never stay
+    // blank if the observer fires late or the tab is backgrounded.
+    const failsafe = window.setTimeout(() => {
+      el.style.opacity = "1";
+      el.style.transform = "translateY(0)";
+    }, 2500);
 
     const io = new IntersectionObserver(
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) {
-          setShouldAnimate(false);
-          io.disconnect();
           window.clearTimeout(failsafe);
+          el.style.opacity = "1";
+          el.style.transform = "translateY(0)";
+          if (once) io.disconnect();
         }
       },
       { rootMargin: "0px 0px -8% 0px", threshold: 0.1 }
     );
+
     io.observe(el);
+
     return () => {
       io.disconnect();
       window.clearTimeout(failsafe);
+      // Reset all inline styles so navigating away mid-animation leaves no
+      // ghost opacity/transform values on the recycled DOM node.
+      el.style.opacity = "";
+      el.style.transform = "";
+      el.style.transition = "";
+      el.style.willChange = "";
     };
-  }, []);
-
-  const Tag = m[as];
-
-  const style = {
-    "--reveal-y": `${y}px`,
-    "--reveal-delay": `${delay}s`,
-  } as CSSProperties;
+  }, [delay, y, once]);
 
   return (
-    <Tag
-      ref={ref}
-      className={className || undefined}
-      style={style}
-      initial={shouldAnimate ? { opacity: 0, y } : false}
-      whileInView={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
-      viewport={{ once, margin: "0px 0px -8% 0px" }}
-      transition={{
-        duration: 0.7,
-        delay,
-        ease: [0.16, 1, 0.3, 1],
-      }}
-    >
+    <Tag ref={ref} className={className || undefined}>
       {children}
     </Tag>
   );

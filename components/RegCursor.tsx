@@ -62,7 +62,7 @@ export default function RegCursor() {
       window.removeEventListener("mouseover", onOver);
       cancelAnimationFrame(rafId);
     };
-  }, [isVisible]);
+  }, []);
 
   return (
     <div aria-hidden="true" className="reg-cursor" style={{ opacity: isVisible ? 1 : 0 }}>
